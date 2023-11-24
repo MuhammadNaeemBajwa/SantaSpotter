@@ -31,7 +31,7 @@
             android:fontFamily="@font/poppins_bold"
             android:text="@string/santa_claus_is_ncoming_to_town"
             android:textColor="@color/black"
-            android:textSize="@dimen/rco_trucks_xxx_large_text_size"
+            android:textSize="@dimen/xXLargeTextSize"
             app:layout_constraintBottom_toTopOf="@+id/text_title_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
             android:fontFamily="@font/poppins_regular"
             android:text="@string/now_you_can_spot_him_in_action"
             android:textColor="@color/black"
-            android:textSize="@dimen/rco_trucks_medium_text_size"
+            android:textSize="@dimen/mediumTextSize"
             app:layout_constraintBottom_toTopOf="@+id/button_spot_him"
             app:layout_constraintStart_toStartOf="@+id/text_title"
             tools:ignore="MissingConstraints" />
@@ -59,7 +59,7 @@
             android:fontFamily="@font/poppins_regular"
             android:text="@string/spot_him_now"
             android:textColor="@color/white"
-            android:textSize="@dimen/rco_trucks_small_text_size"
+            android:textSize="@dimen/smallTextSize"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/url_textView"
             app:layout_constraintStart_toStartOf="@+id/text_title_1" />
@@ -73,7 +73,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="@string/https_www_copperfield_com"
             android:textColor="#FC2F48"
-            android:textSize="@dimen/rco_trucks_x_small_text_size"
+            android:textSize="@dimen/xSmallTextSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/button_spot_him" />
 
@@ -85,7 +85,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="@string/privacy_policy"
             android:textColor="#FC2F48"
-            android:textSize="@dimen/rco_trucks_x_small_text_size"
+            android:textSize="@dimen/smallTextSize"
             app:layout_constraintBottom_toBottomOf="@+id/url_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/url_textView"

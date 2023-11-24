@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">SantaSpotter</string>
+    <string name="app_name">Santa</string>
+    <string name="powered_by">Powered by</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="upload_a_photo">Upload a photo</string>
+    <string name="background">Background</string>
+    <string name="santa">Santa</string>
+    <string name="santa_claus_is_ncoming_to_town">Santa Claus is\ncoming to town...</string>
+    <string name="now_you_can_spot_him_in_action">Now you can spot him in action!</string>
+    <string name="spot_him_now">Spot Him Now!</string>
+    <string name="https_www_copperfield_com">https://www.copperfield.com</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>
