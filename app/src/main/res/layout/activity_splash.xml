@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Splash">
+
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_230sdp"
+        android:src="@drawable/splash_logo"
+        app:layout_constraintBottom_toTopOf="@+id/textView_poweredBy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_poweredBy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/powered_by"
+        android:textColor="#7E7E7E"
+        android:gravity="center"
+        android:textSize="@dimen/rco_trucks_small_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/imageView_poweredBy"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_poweredBy"
+        app:layout_constraintStart_toStartOf="@+id/imageView_poweredBy"
+        tools:ignore="MissingConstraints,SmallSp" />
+
+    <ImageView
+        android:id="@+id/imageView_poweredBy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_18sdp"
+        android:src="@drawable/image_powered_by"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

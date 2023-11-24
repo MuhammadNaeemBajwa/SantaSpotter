@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".UploadPhoto">
+
+    <include
+        android:id="@+id/include_camera_upload"
+        layout="@layout/include_upload_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_400sdp" />
+
+    <TextView
+        android:id="@+id/textView_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/background"
+        android:textColor="#C5C5C5"
+        android:textSize="@dimen/rco_trucks_big_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/textView_santa"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include_camera_upload"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView_santa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/santa"
+        android:textColor="#C5C5C5"
+        android:textSize="@dimen/rco_trucks_big_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_background"
+        app:layout_constraintTop_toTopOf="@+id/textView_background"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/camera_background_button"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:drawableStart="@drawable/camera_icon_1"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:background="@drawable/started_button_backgorund"
+        app:layout_constraintStart_toStartOf="@+id/textView_background"
+        app:layout_constraintTop_toBottomOf="@+id/textView_background"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/upload_background_button"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:background="@drawable/started_button_backgorund"
+        android:drawableStart="@drawable/upload_1"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/camera_background_button"
+        app:layout_constraintEnd_toEndOf="@+id/textView_background"
+        app:layout_constraintStart_toEndOf="@+id/camera_background_button"
+        app:layout_constraintTop_toTopOf="@+id/camera_background_button"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/santa_cap_button"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:background="@drawable/started_button_backgorund"
+        android:drawableStart="@drawable/santa_cap"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@+id/textView_santa"
+        app:layout_constraintStart_toStartOf="@+id/textView_santa"
+        app:layout_constraintTop_toBottomOf="@+id/textView_santa"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
