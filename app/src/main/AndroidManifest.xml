@@ -12,13 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SantaSpotter"
         tools:targetApi="31">
-<activity android:name=".AddSantaActivity"
-    android:exported="false"/>
+        <activity
+            android:name=".AddSantaActivity"
+            android:exported="false" />
         <activity
             android:name=".SelectSanta"
             android:exported="true">
-
         </activity>
+<!--        Nov 25, 2023-->
         <activity
             android:name=".UploadPhoto"
             android:exported="false" />
@@ -27,8 +28,7 @@
             android:exported="false" />
         <activity
             android:name=".Splash"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
