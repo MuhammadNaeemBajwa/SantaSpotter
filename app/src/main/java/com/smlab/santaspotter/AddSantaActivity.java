@@ -6,25 +6,30 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 
 public class AddSantaActivity extends AppCompatActivity {
 
-    ImageView imgReceivedFromUploadPhoto;
-    Button btnCaptureImage, btnGalleryImage,btnSantaCap;
+    ImageView imgReceivedFromUploadPhoto, share;
+    TextView backgroundTitle;
+    Button btnCaptureImage, btnGalleryImage, btnSantaCap;
+    StickerView stickerView;
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
 
 
     Uri uri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,9 @@ public class AddSantaActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCapturedImage);
         btnGalleryImage = findViewById(R.id.btnUploadImageGallery);
         btnSantaCap = findViewById(R.id.santa_cap_button);
+        share = findViewById(R.id.shareIcon);
+        backgroundTitle = findViewById(R.id.textView_background);
+        stickerView = findViewById(R.id.stickerView);
     }
 
     private void imageSet() {
@@ -53,7 +61,7 @@ public class AddSantaActivity extends AppCompatActivity {
             // Perform additional actions specific to images from the gallery
             // For example, update UI or show a message
 //            Toast.makeText(this, "Image selected from the gallery", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
 
         }
 
@@ -65,7 +73,7 @@ public class AddSantaActivity extends AppCompatActivity {
 
         }
 
-        btnSantaCap.setOnClickListener(view -> startActivity(new Intent(AddSantaActivity.this,SelectSanta.class)));
+        btnSantaCap.setOnClickListener(view -> startActivity(new Intent(AddSantaActivity.this, SelectSanta.class)));
     }
 
     private void setListener() {
@@ -80,7 +88,24 @@ public class AddSantaActivity extends AppCompatActivity {
             startActivityForResult(galleryIntent, PICK_REQUEST);
         });
 
+        share.setOnClickListener(view -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
+            startActivity(Intent.createChooser(shareIntent, "Share Link"));
+        });
+
+        backgroundTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stickerView.setVisibility(View.VISIBLE);
+                // Add a sample sticker (you need to implement sticker adding logic)
+                Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_1);
+                stickerView.addSticker(stickerDrawable);
+            }
+        });
     }
+
     private boolean isImageFromGallery(Intent intent) {
         // Check if the intent has extra information indicating that the image is from the gallery
         return intent.hasExtra("fromGallery") && intent.getBooleanExtra("fromGallery", false);
@@ -94,4 +119,5 @@ public class AddSantaActivity extends AppCompatActivity {
             return null;
         }
     }
+
 }
