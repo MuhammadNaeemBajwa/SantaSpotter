@@ -8,14 +8,23 @@
     <string name="santa_claus_is_ncoming_to_town">Santa Claus is\ncoming to town...</string>
     <string name="now_you_can_spot_him_in_action">Now you can spot him in action!</string>
     <string name="spot_him_now">Spot Him Now!</string>
-    <string name="https_www_copperfield_com">https://www.copperfield.com</string>
-    <string name="privacy_policy">Privacy Policy</string>
+    <string name="https_www_copperfield_com">
+        <u>https://www.copperfield.com</u>
+    </string>
+    <string name="privacy_policy">
+        <u>Privacy Policy</u>
+    </string>
     <string name="brought_to_your_by_copperfield_nthe_nation_s_leading_supplier_of_nchimney_and_hearth_products">Brought to your by Copperfield.\nThe Nation’s Leading Supplier of\nChimney and Hearth Products.</string>
     <string name="enter_code">Enter Code</string>
     <string name="don_t_have_a_code">Don’t have a code?</string>
     <string name="submit">Submit</string>
     <string name="instant_access_code">instant access code.</string>
     <string name="for_an">for an</string>
-    <string name="santa_copperfield_com">santa@copperfield.com</string>
+    <string name="santa_copperfield_com">
+        <u>santa@copperfield.com</u>
+    </string>
     <string name="if_you_don_t_have_a_code_you_can_nunlock_all_the_stickers_by_emailing">If you don\'t have a code you can\nunlock all the stickers by emailing</string>
+    <string name="classic_santa">Classic Santa</string>
+    <string name="he_will_always_finish_nhis_milk_and_cookies">He will always finish\n his milk and cookies.</string>
+    <string name="pick_me">Pick Me</string>
 </resources>
