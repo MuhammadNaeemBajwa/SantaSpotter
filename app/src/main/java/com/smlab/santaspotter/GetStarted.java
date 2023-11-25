@@ -27,6 +27,7 @@ public class GetStarted extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_started);
+        getSupportActionBar().hide();
 
         img_santa = findViewById(R.id.getStarted_logo);
         button_spot_him = findViewById(R.id.button_spot_him);
