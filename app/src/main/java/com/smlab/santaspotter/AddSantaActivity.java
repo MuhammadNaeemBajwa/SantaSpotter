@@ -3,6 +3,7 @@ package com.smlab.santaspotter;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -96,7 +97,7 @@ public class AddSantaActivity extends AppCompatActivity {
         backgroundTitle.setOnClickListener(view -> {
             stickerView.setVisibility(View.VISIBLE);
             // Add a sample sticker (you need to implement sticker adding logic)
-            Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_1);
+            Drawable stickerDrawable = ResourcesCompat.getDrawable(getResources(),R.drawable.santa_sticker_1,null);
             stickerView.addSticker(stickerDrawable);
         });
     }
