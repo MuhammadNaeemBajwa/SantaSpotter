@@ -29,6 +29,8 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
     @Override
     public void onBindViewHolder(@NonNull SelectSantaAdapter.viewholder holder, int position) {
 
+        SelectSantaModel item = selectSantaModelArrayList.get(position);
+        holder.santaSticker.setImageResource(item.getSantaSticker());
     }
 
     @Override
@@ -41,8 +43,8 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
         public viewholder(@NonNull View itemView) {
             super(itemView);
             santaSticker = itemView.findViewById(R.id.firstSantaSticker);
-            santaSticker = itemView.findViewById(R.id.secondSantaSticker);
-            santaSticker = itemView.findViewById(R.id.thirdSantaSticker);
+//            santaSticker = itemView.findViewById(R.id.secondSantaSticker);
+//            santaSticker = itemView.findViewById(R.id.thirdSantaSticker);
         }
     }
 }

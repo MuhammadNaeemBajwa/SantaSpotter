@@ -2,6 +2,7 @@ package com.smlab.santaspotter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,13 @@ public class SelectSanta extends AppCompatActivity {
         setContentView(R.layout.activity_select_santa);
         getSupportActionBar().hide();
 
+        includePickMe = findViewById(R.id.pick_me_include);
+        recyclerView = findViewById(R.id.recyclerView2);
+
+        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
+
+        includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
+
         selectSantaList = new ArrayList<>();
 
         selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
@@ -37,16 +45,11 @@ public class SelectSanta extends AppCompatActivity {
         selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_1));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList);
         recyclerView.setAdapter(adapter);
 
-        includePickMe = findViewById(R.id.pick_me_include);
-        recyclerView = findViewById(R.id.recyclerView2);
 
-        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
-
-        includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
     }
     Dialog dialogCode;
     private void showCodeDialog(){
