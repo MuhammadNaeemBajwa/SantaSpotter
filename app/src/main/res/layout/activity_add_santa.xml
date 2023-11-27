@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AddSantaActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
@@ -129,6 +128,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:padding="@dimen/_8sdp"
+
         android:src="@drawable/baseline_share_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
