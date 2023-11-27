@@ -64,7 +64,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/smallTextSize"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/url_textView"
             app:layout_constraintStart_toStartOf="@+id/text_title_1"
             app:layout_constraintTop_toBottomOf="@+id/text_title_1" />
 
@@ -72,14 +71,15 @@
             android:id="@+id/url_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_medium"
             android:padding="@dimen/_4sdp"
             android:text="@string/https_www_copperfield_com"
             android:textColor="#FC2F48"
             android:textSize="@dimen/xSmallTextSize"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/button_spot_him" />
+            app:layout_constraintStart_toStartOf="@+id/button_spot_him"
+            app:layout_constraintTop_toBottomOf="@+id/button_spot_him" />
 
         <TextView
             android:id="@+id/policy_textView"
