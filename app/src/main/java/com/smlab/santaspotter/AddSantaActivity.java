@@ -29,6 +29,7 @@ public class AddSantaActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
     Uri uri;
+    String scannedResult ="";
 
     private ActivityAddSantaBinding binding;
 
@@ -101,7 +102,7 @@ public class AddSantaActivity extends AppCompatActivity {
 //        share.setOnClickListener(view -> {
         binding.constraintShare.setOnClickListener(view -> {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
+            shareIntent.setType("image/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
             startActivity(Intent.createChooser(shareIntent, "Share Link"));
         });

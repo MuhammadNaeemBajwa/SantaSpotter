@@ -5,16 +5,15 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardViewSanta"
         android:layout_width="@dimen/_80sdp"
         android:layout_height="@dimen/_130sdp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#F5F4F7"
-        app:cardCornerRadius="@dimen/_20sdp"
+        android:background="@drawable/background_round_santa_sticker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +25,12 @@
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_gravity="center"
-            android:src="@drawable/select_santa" />
+            android:src="@drawable/select_santa"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

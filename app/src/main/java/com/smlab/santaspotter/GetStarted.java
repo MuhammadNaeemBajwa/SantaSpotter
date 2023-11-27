@@ -35,7 +35,7 @@ public class GetStarted extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_started);
-        getSupportActionBar().hide();
+
 
         img_santa = findViewById(R.id.getStarted_logo);
         button_spot_him = findViewById(R.id.button_spot_him);
@@ -61,13 +61,10 @@ public class GetStarted extends AppCompatActivity {
         // Set the link text color
         urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
 
-        button_spot_him.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GetStarted.this, UploadPhoto.class);
-                startActivity(intent);
-                finish();
-            }
+        button_spot_him.setOnClickListener(view -> {
+            Intent intent = new Intent(GetStarted.this, UploadPhoto.class);
+            startActivity(intent);
+            finish();
         });
 
         zoom_in = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
