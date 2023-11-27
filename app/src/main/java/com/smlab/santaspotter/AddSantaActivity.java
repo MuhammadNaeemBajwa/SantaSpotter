@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -101,10 +102,12 @@ public class AddSantaActivity extends AppCompatActivity {
         });
 //        share.setOnClickListener(view -> {
         binding.constraintShare.setOnClickListener(view -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
-            startActivity(Intent.createChooser(shareIntent, "Share Link"));
+//            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//            shareIntent.setType("image/plain");
+//            shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
+//            startActivity(Intent.createChooser(shareIntent, "Share Link"));
+
+            shareImage();
         });
 //        backgroundTitle.setOnClickListener(view -> {
         binding.textViewBackground.setOnClickListener(view -> {
@@ -116,6 +119,8 @@ public class AddSantaActivity extends AppCompatActivity {
             binding.stickerView.addSticker(stickerDrawable);
         });
     }
+
+
 
     private boolean isImageFromGallery(Intent intent) {
         // Check if the intent has extra information indicating that the image is from the gallery
@@ -142,6 +147,7 @@ public class AddSantaActivity extends AppCompatActivity {
         }
     }
 
+
     private void saveImageToGallery(Bitmap bitmap) {
         String savedImageURL = MediaStore.Images.Media.insertImage(
                 getContentResolver(),
@@ -156,6 +162,31 @@ public class AddSantaActivity extends AppCompatActivity {
         }
     }
 
+    private void shareImage(){
+        // Create an intent with ACTION_SEND
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+
+        // Set the type of data to be sent (image in this case)
+        shareIntent.setType("image/*");
+
+        // Get the bitmap from the ImageView
+        BitmapDrawable drawable = (BitmapDrawable) binding.imgReceived.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+
+        // Save the bitmap to a temporary file
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image", null);
+        Uri imageUri = Uri.parse(path);
+
+        // Set the image URI as the content of the intent
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+        // Add a text message to the intent (optional)
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
+        // Specify the package name of the target app (optional, in this case, for WhatsApp)
+//        shareIntent.setPackage("com.whatsapp"); // Use "com.skype" for Skype
+        // Start the activity with the share intent
+        startActivity(Intent.createChooser(shareIntent, "Share Image"));
+    }
     private void saveImageToGallery(Uri imageUri) {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
