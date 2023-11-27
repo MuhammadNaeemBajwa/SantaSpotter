@@ -2,6 +2,8 @@ package com.smlab.santaspotter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -11,8 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class SelectSanta extends AppCompatActivity {
     ConstraintLayout includePickMe;
+    RecyclerView recyclerView;
+    SelectSantaAdapter adapter;
+    ArrayList<SelectSantaModel> selectSantaList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,17 +27,24 @@ public class SelectSanta extends AppCompatActivity {
         setContentView(R.layout.activity_select_santa);
         getSupportActionBar().hide();
 
+        selectSantaList = new ArrayList<>();
+
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_img));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.select_santa));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList);
+        recyclerView.setAdapter(adapter);
+
         includePickMe = findViewById(R.id.pick_me_include);
+        recyclerView = findViewById(R.id.recyclerView2);
 
         includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
-
-//        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(SelectSanta.this, Unlock_popup_dialog.class);
-//                startActivity(intent);
-//            }
-//        });
 
         includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
     }

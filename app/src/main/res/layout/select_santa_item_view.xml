@@ -20,6 +20,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
+            android:id="@+id/firstSantaSticker"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_gravity="center"
@@ -40,6 +41,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
+            android:id="@+id/secondSantaSticker"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_gravity="center"
@@ -59,6 +61,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
+            android:id="@+id/thirdSantaSticker"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_gravity="center"
