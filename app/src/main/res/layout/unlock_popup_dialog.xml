@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/_212sdp"
@@ -96,14 +96,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/don_t_have_a_code"
-        android:layout_marginBottom="@dimen/_6sdp"
         android:textColor="@color/red_text_color"
         android:textSize="@dimen/mediumTextSize"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/submit_button"
         app:layout_constraintStart_toStartOf="@+id/submit_button"
         app:layout_constraintTop_toBottomOf="@+id/submit_button" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
