@@ -72,30 +72,6 @@ public class GetStarted extends AppCompatActivity {
 
         constraintLayout2.setAnimation(bottomAnim);
 
-//        zoom_in.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//                img_santa.setScaleX(1.0f); // Set the desired final X scale
-//                img_santa.setScaleY(1.0f); // Set the desired final Y scale
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                // Animation ended, set the final scale on ImageView
-//                img_santa.setScaleX(3.0f); // Set the desired final X scale
-//                img_santa.setScaleY(3.0f); // Set the desired final Y scale
-//                animation.cancel();
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-////animation.cancel();
-//
-//            }
-//        });
-//        img_santa.setAnimation(zoom_in);
-
-
         // Define the scale animation
         ScaleAnimation scaleAnimation = new ScaleAnimation(
                 1.0f, // From X scale
