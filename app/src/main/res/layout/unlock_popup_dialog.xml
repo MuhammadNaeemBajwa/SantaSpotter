@@ -99,6 +99,7 @@
         android:layout_marginTop="@dimen/_12sdp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/don_t_have_a_code"
+        android:layout_marginBottom="@dimen/_6sdp"
         android:textColor="@color/red_text_color"
         android:textSize="@dimen/mediumTextSize"
         app:layout_constraintEnd_toEndOf="@+id/submit_button"
