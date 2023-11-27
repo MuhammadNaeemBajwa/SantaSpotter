@@ -34,6 +34,7 @@ public class AddSantaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_santa);
+
         getSupportActionBar().hide();
 
         setIds();
@@ -88,13 +89,13 @@ public class AddSantaActivity extends AppCompatActivity {
             startActivityForResult(galleryIntent, PICK_REQUEST);
         });
 
-        share.setOnClickListener(view -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
-            startActivity(Intent.createChooser(shareIntent, "Share Link"));
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle the share button click
+                shareImage();
+            }
         });
-
         backgroundTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +105,19 @@ public class AddSantaActivity extends AppCompatActivity {
                 stickerView.addSticker(stickerDrawable);
             }
         });
+    }
+
+
+    private void shareImage() {
+        // Replace "Your image content URI" with the actual URI of your image
+        Uri imageUri = Uri.parse("Your image content URI");
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }
 
     private boolean isImageFromGallery(Intent intent) {
