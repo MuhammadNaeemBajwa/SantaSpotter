@@ -1,9 +1,7 @@
 package com.smlab.santaspotter;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -21,18 +19,22 @@ import android.widget.Toast;
 import java.io.IOException;
 
 public class AddSantaActivity extends AppCompatActivity {
+
     ImageView imgReceivedFromUploadPhoto, share;
     TextView backgroundTitle;
     Button btnCaptureImage, btnGalleryImage, btnSantaCap;
     StickerView stickerView;
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
+
+
     Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_santa);
+
         getSupportActionBar().hide();
 
         setIds();
@@ -55,7 +57,7 @@ public class AddSantaActivity extends AppCompatActivity {
         uri = intent.getParcelableExtra("img");
         imgReceivedFromUploadPhoto.setImageURI(uri);
 
-
+        // Check if the image is received from the gallery
         if (isImageFromGallery(intent)) {
             // Perform additional actions specific to images from the gallery
             // For example, update UI or show a message
@@ -87,19 +89,35 @@ public class AddSantaActivity extends AppCompatActivity {
             startActivityForResult(galleryIntent, PICK_REQUEST);
         });
 
-        share.setOnClickListener(view -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
-            startActivity(Intent.createChooser(shareIntent, "Share Link"));
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle the share button click
+                shareImage();
+            }
         });
+        backgroundTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stickerView.setVisibility(View.VISIBLE);
+                // Add a sample sticker (you need to implement sticker adding logic)
+                Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_1);
+                stickerView.addSticker(stickerDrawable);
+            }
+        });
+    }
 
-        backgroundTitle.setOnClickListener(view -> {
-            stickerView.setVisibility(View.VISIBLE);
-            // Add a sample sticker (you need to implement sticker adding logic)
-            Drawable stickerDrawable = ResourcesCompat.getDrawable(getResources(),R.drawable.santa_sticker_1,null);
-            stickerView.addSticker(stickerDrawable);
-        });
+
+    private void shareImage() {
+        // Replace "Your image content URI" with the actual URI of your image
+        Uri imageUri = Uri.parse("Your image content URI");
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }
 
     private boolean isImageFromGallery(Intent intent) {
@@ -107,46 +125,12 @@ public class AddSantaActivity extends AppCompatActivity {
         return intent.hasExtra("fromGallery") && intent.getBooleanExtra("fromGallery", false);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_REQUEST) {
-                // Image captured from the camera
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                imgReceivedFromUploadPhoto.setImageBitmap(photo);
-                saveImageToGallery(photo);
-            } else if (requestCode == PICK_REQUEST) {
-                // Image selected from the gallery
-                Uri selectedImageUri = data.getData();
-                imgReceivedFromUploadPhoto.setImageURI(selectedImageUri);
-                saveImageToGallery(selectedImageUri);
-            }
-        }
-    }
-
-    private void saveImageToGallery(Bitmap bitmap) {
-        String savedImageURL = MediaStore.Images.Media.insertImage(
-                getContentResolver(),
-                bitmap,
-                "Image",
-                "Image saved from Santa App"
-        );
-
-        if (savedImageURL != null) {
-//            Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void saveImageToGallery(Uri imageUri) {
+    private Bitmap getBitmapFromUri(Uri uri) {
         try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-            saveImageToGallery(bitmap);
+            return MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
