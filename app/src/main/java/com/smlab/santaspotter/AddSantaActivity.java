@@ -22,9 +22,7 @@ import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
 import java.io.IOException;
 
 public class AddSantaActivity extends AppCompatActivity {
-    //    ImageView imgReceivedFromUploadPhoto, share;
     TextView backgroundTitle;
-    //    ConstraintLayout btnCaptureImage, btnGalleryImage, btnSantaCap;
     StickerView stickerView;
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
@@ -46,19 +44,12 @@ public class AddSantaActivity extends AppCompatActivity {
     }
 
     private void setIds() {
-//        imgReceivedFromUploadPhoto = findViewById(R.id.imgReceived);
-//        btnCaptureImage = findViewById(R.id.constraintCameraCapture);
-//        btnGalleryImage = findViewById(R.id.constraintUploadGallery);
-//        btnSantaCap = findViewById(R.id.constraintPickSanta);
-//        share = findViewById(R.id.shareIcon);
-//        backgroundTitle = findViewById(R.id.textView_background);
         stickerView = findViewById(R.id.stickerView);
     }
 
     private void imageSet() {
         Intent intent = getIntent();
         uri = intent.getParcelableExtra("img");
-//        imgReceivedFromUploadPhoto.setImageURI(uri);
         binding.imgReceived.setImageURI(uri);
 
         if (isImageFromGallery(intent)) {
@@ -72,13 +63,11 @@ public class AddSantaActivity extends AppCompatActivity {
         // 04/09/2023 Use the receivedBitmap as needed in your CompanyName activity
         Bitmap receivedBitmap = getIntent().getParcelableExtra("imageBitmap");
         if (receivedBitmap != null) {
-//            imgReceivedFromUploadPhoto.setImageBitmap(receivedBitmap);
             binding.imgReceived.setImageBitmap(receivedBitmap);
         } else {
 
         }
 
-//        btnSantaCap.setOnClickListener(view -> startActivity(new Intent(AddSantaActivity.this, SelectSanta.class)));
         binding.constraintPickSanta.setOnClickListener(view -> startActivity(new Intent(AddSantaActivity.this, SelectSanta.class)));
     }
 
@@ -111,7 +100,7 @@ public class AddSantaActivity extends AppCompatActivity {
 //            stickerView.setVisibility(View.VISIBLE);
             binding.stickerView.setVisibility(View.VISIBLE);
             // Add a sample sticker (you need to implement sticker adding logic)
-            Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_1);
+            Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_small_1);
 //            stickerView.addSticker(stickerDrawable);
             binding.stickerView.addSticker(stickerDrawable);
         });
@@ -130,14 +119,10 @@ public class AddSantaActivity extends AppCompatActivity {
             if (requestCode == CAMERA_REQUEST) {
                 // Image captured from the camera
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-//                imgReceivedFromUploadPhoto.setImageBitmap(photo);
                 binding.imgReceived.setImageBitmap(photo);
-//                saveImageToGallery(photo);
             } else if (requestCode == PICK_REQUEST) {
                 Uri selectedImageUri = data.getData();
-//                imgReceivedFromUploadPhoto.setImageURI(selectedImageUri);
                 binding.imgReceived.setImageURI(selectedImageUri);
-//                saveImageToGallery(selectedImageUri);
             }
         }
     }
@@ -150,7 +135,6 @@ public class AddSantaActivity extends AppCompatActivity {
                 "Image saved from Santa App"
         );
         if (savedImageURL != null) {
-//            Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
         }
