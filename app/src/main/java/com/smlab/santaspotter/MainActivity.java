@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         updateBrightnessColorFilter(binding.seekBar.getProgress());
 
-        binding.text.setText(String.valueOf(binding.seekBar.getProgress()));
-
-
         // Set up a listener for the SeekBar changes
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

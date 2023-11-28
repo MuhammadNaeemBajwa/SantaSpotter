@@ -34,7 +34,6 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     private ActivitySelectSantaBinding binding;
     private ImageView selectedSantaSticker;
 
-    private SelectSantaModel selectedSanta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +62,18 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     }
 
     private void setUpRecyclerView() {
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa2));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa1));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa3));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa4));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa5));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa6));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa7));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa8));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_4));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
 
+//        selectSantaList.add(new SelectSantaModel(R.drawable.santa27));
+//        selectSantaList.add(new SelectSantaModel(R.drawable.santa26));
+//        selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
+//        selectSantaList.add(new SelectSantaModel(R.drawable.santa24));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList, this);
