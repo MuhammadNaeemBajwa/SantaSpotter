@@ -80,6 +80,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         Log.d(TAG, "onItemClick: getSantaSticker:" + selectedSanta.getSantaSticker());
     }
     private void showCodeDialog() {
+
         dialogCode = new Dialog(SelectSanta.this, R.style.dialog);
         dialogCode.setContentView(R.layout.unlock_popup_dialog);
         ImageView close;

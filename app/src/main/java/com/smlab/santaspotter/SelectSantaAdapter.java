@@ -24,8 +24,6 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
     public SelectSantaAdapter(SelectSanta selectSanta, ArrayList<SelectSantaModel> selectSantaModelArrayList) {
         this.selectSanta = selectSanta;
         this.selectSantaModelArrayList = selectSantaModelArrayList;
-//        this.onItemClickListener = listener;
-
     }
 
     @NonNull

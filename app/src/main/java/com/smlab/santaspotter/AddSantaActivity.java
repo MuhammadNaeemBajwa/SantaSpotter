@@ -156,37 +156,25 @@ public class AddSantaActivity extends AppCompatActivity {
                 "Image saved from Santa App"
         );
         if (savedImageURL != null) {
-//            Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
         }
     }
 
+//    Nov 27, 2023  -   This share Image function is used for the share the image for any platform.
     private void shareImage(){
-        // Create an intent with ACTION_SEND
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-
-        // Set the type of data to be sent (image in this case)
         shareIntent.setType("image/*");
-
-        // Get the bitmap from the ImageView
         BitmapDrawable drawable = (BitmapDrawable) binding.imgReceived.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
-
-        // Save the bitmap to a temporary file
         String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image", null);
         Uri imageUri = Uri.parse(path);
-
-        // Set the image URI as the content of the intent
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-
-        // Add a text message to the intent (optional)
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
-        // Specify the package name of the target app (optional, in this case, for WhatsApp)
-//        shareIntent.setPackage("com.whatsapp"); // Use "com.skype" for Skype
-        // Start the activity with the share intent
         startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }
+
+//    Nov 27, 2023 - Use below function save the image into a gallery.
     private void saveImageToGallery(Uri imageUri) {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
