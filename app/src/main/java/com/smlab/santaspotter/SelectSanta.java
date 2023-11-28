@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -33,6 +34,8 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     private ActivitySelectSantaBinding binding;
     private ImageView selectedSantaSticker;
 
+    private SelectSantaModel selectedSanta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +51,9 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     private void setIds() {
         includePickMe = findViewById(R.id.pick_me_include);
         recyclerView = findViewById(R.id.recyclerView2);
-        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
+//        Nov 28, 2023  -   For now the dialog isn't be showed on click of pickMeButton
+//        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
         includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
-
         selectedSantaSticker = binding.pickMeInclude.selectSantaSticker;
 
     }
@@ -79,9 +82,16 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     @Override
     public void onItemClick(int position) {
         SelectSantaModel selectedSanta = selectSantaList.get(position);
-        Log.d(TAG, "onItemClick: " + selectedSanta);
         selectedSantaSticker.setImageResource(selectedSanta.getSantaSticker());
-        Log.d(TAG, "onItemClick: getSantaSticker:" + selectedSanta.getSantaSticker());
+
+        binding.pickMeInclude.pickMeButton.setOnClickListener(view -> {
+            int selectedStickerResId = selectedSanta.getSantaSticker();
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("selectedSticker", selectedStickerResId);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        });
+
     }
     private void showCodeDialog() {
 
@@ -121,5 +131,12 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
 
     }
 
-
+    private int findStickerPosition(int selectedStickerResId) {
+        for (int i = 0; i < selectSantaList.size(); i++) {
+            if (selectSantaList.get(i).getSantaSticker() == selectedStickerResId) {
+                return i;
+            }
+        }
+        return -1; // Return -1 if the sticker is not found in the list
+    }
 }
