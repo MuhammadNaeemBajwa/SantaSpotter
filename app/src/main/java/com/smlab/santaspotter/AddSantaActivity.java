@@ -95,11 +95,11 @@ public class AddSantaActivity extends AppCompatActivity {
         binding.constraintShare.setOnClickListener(view -> {
             shareImage();
         });
-        binding.textViewBackground.setOnClickListener(view -> {
-            binding.stickerView.setVisibility(View.VISIBLE);
-            Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_small_1);
-            binding.stickerView.addSticker(stickerDrawable);
-        });
+//        binding.textViewBackground.setOnClickListener(view -> {
+//            binding.stickerView.setVisibility(View.VISIBLE);
+//            Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa2);
+//            binding.stickerView.addSticker(stickerDrawable);
+//        });
     }
 
     private boolean isImageFromGallery(Intent intent) {
@@ -115,6 +115,7 @@ public class AddSantaActivity extends AppCompatActivity {
             if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
+
                 // Get the existing image from the binding
                 Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
 
@@ -126,6 +127,7 @@ public class AddSantaActivity extends AppCompatActivity {
 
                     // Create a canvas to overlay the sticker on the existing image
                     Bitmap combinedBitmap = Bitmap.createBitmap(existingImage.getWidth(), existingImage.getHeight(), existingImage.getConfig());
+//                    Bitmap combinedBitmap = Bitmap.createScaledBitmap(existingImage, 800, 500, true);
                     Canvas canvas = new Canvas(combinedBitmap);
                     canvas.drawBitmap(existingImage, new Matrix(), null);
 //                    canvas.drawBitmap(BitmapUtils.drawableToBitmap(selectedStickerDrawable), new Matrix(), null);

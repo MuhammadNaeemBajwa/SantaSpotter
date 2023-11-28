@@ -78,7 +78,7 @@
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_250sdp"
             android:layout_marginEnd="@dimen/_12sdp"
-            android:src="@drawable/santa_sticker_large_1"
+            android:src="@drawable/santa2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

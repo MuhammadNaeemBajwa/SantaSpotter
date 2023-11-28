@@ -381,7 +381,7 @@ public class StickerView extends View {
             });
             brightnessPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
 
-            canvas.drawBitmap(sticker, stickerMatrix, brightnessPaint);
+            canvas.drawBitmap(sticker, stickerMatrix, null); // if sticker brightness is high so type paint null and sticker correctly display
 
             // ...
         }
