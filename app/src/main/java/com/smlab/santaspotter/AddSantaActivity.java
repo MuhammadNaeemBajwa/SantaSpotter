@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -93,10 +94,7 @@ public class AddSantaActivity extends AppCompatActivity {
         });
 //        share.setOnClickListener(view -> {
         binding.constraintShare.setOnClickListener(view -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "scannedResult");
-            startActivity(Intent.createChooser(shareIntent, "Share Link"));
+           shareImage();
         });
 //        backgroundTitle.setOnClickListener(view -> {
         binding.textViewBackground.setOnClickListener(view -> {
@@ -107,6 +105,18 @@ public class AddSantaActivity extends AppCompatActivity {
 //            stickerView.addSticker(stickerDrawable);
             binding.stickerView.addSticker(stickerDrawable);
         });
+    }
+
+    private void shareImage() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        BitmapDrawable drawable = (BitmapDrawable) binding.imgReceived.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Image", null);
+        Uri imageUri = Uri.parse(path);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
+        startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }
 
     private boolean isImageFromGallery(Intent intent) {
