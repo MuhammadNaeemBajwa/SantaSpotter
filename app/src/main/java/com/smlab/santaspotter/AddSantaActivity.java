@@ -114,8 +114,6 @@ public class AddSantaActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-
                 // Get the existing image from the binding
                 Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
 

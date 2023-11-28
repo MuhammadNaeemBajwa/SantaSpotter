@@ -56,100 +56,21 @@ public class EditSantaActivity extends AppCompatActivity {
             updateBrightnessColorFilter(binding.includeSantaStickers.seekBarBrightness.getProgress());
 
             binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-            // Set up a listener for the SeekBar changes
-            binding.includeSantaStickers.seekBarBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
+            seekBarBrightnessListener();
 
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-//                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
-                    brightnessProgress = progress;
-                    updateBrightnessColorFilter(progress);
-                    int updateProgress = progress - 100;
-                    binding.includeSantaStickers.imgBrightness.setVisibility(View.GONE);
-                    binding.includeSantaStickers.textBrightnessValue.setText("" + updateProgress + "%");
-                    binding.includeSantaStickers.contraintBrightnessValue.setVisibility(View.VISIBLE);
-
-                    binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
-
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                    binding.includeSantaStickers.seekBarBrightness.setVisibility(View.VISIBLE);
-                    binding.includeSantaStickers.textBrightnessValue.setVisibility(View.VISIBLE);
-                    binding.includeSantaStickers.imgBrightness.setVisibility(View.GONE);
-
-                    binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    binding.includeSantaStickers.seekBarBrightness.setVisibility(View.GONE);
-                    binding.includeSantaStickers.textBrightnessValue.setVisibility(View.GONE);
-                    binding.includeSantaStickers.contraintBrightnessValue.setVisibility(View.GONE);
-                    binding.includeSantaStickers.imgBrightness.setVisibility(View.VISIBLE);
-
-                    binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
-
-
-                }
-            });
         });
 
         binding.includeSantaStickers.constraintImageTemprature.setOnClickListener(view -> {
+
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.GONE);
             updateTemperatureColorFilter(binding.includeSantaStickers.seekBarTemperature.getProgress());
 
             binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
 
-            // Set up a listener for the SeekBar changes
-            binding.includeSantaStickers.seekBarTemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            seekBarTemperatureListener();
 
-
-
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-//                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
-                    temperatureProgress = progress;
-                    updateTemperatureColorFilter(progress);
-
-                    int updateProgress = progress - 100;
-                    binding.includeSantaStickers.imgTemperature.setVisibility(View.GONE);
-                    binding.includeSantaStickers.textTemperatureValue.setText("" + updateProgress + "%");
-                    binding.includeSantaStickers.constraintTemperatureValue.setVisibility(View.VISIBLE);
-
-                    binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    binding.includeSantaStickers.seekBarTemperature.setVisibility(View.VISIBLE);
-                    binding.includeSantaStickers.textTemperatureValue.setVisibility(View.VISIBLE);
-                    binding.includeSantaStickers.imgTemperature.setVisibility(View.GONE);
-
-                    binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
-                    binding.includeSantaStickers.textTemperatureValue.setVisibility(View.GONE);
-                    binding.includeSantaStickers.constraintTemperatureValue.setVisibility(View.GONE);
-                    binding.includeSantaStickers.imgTemperature.setVisibility(View.VISIBLE);
-
-                    binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
-
-                }
-            });
         });
     }
 
@@ -190,4 +111,92 @@ public class EditSantaActivity extends AppCompatActivity {
     }
 
 
+    private void seekBarBrightnessListener(){
+        binding.includeSantaStickers.seekBarBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+//                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
+                brightnessProgress = progress;
+                updateBrightnessColorFilter(progress);
+                int updateProgress = progress - 100;
+                binding.includeSantaStickers.imgBrightness.setVisibility(View.GONE);
+                binding.includeSantaStickers.textBrightnessValue.setText("" + updateProgress + "%");
+                binding.includeSantaStickers.contraintBrightnessValue.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                binding.includeSantaStickers.seekBarBrightness.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.textBrightnessValue.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.imgBrightness.setVisibility(View.GONE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                binding.includeSantaStickers.seekBarBrightness.setVisibility(View.GONE);
+                binding.includeSantaStickers.textBrightnessValue.setVisibility(View.GONE);
+                binding.includeSantaStickers.contraintBrightnessValue.setVisibility(View.GONE);
+                binding.includeSantaStickers.imgBrightness.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+    }
+
+    private void seekBarTemperatureListener(){
+        binding.includeSantaStickers.seekBarTemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+//                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
+                temperatureProgress = progress;
+                updateTemperatureColorFilter(progress);
+
+                int updateProgress = progress - 100;
+                binding.includeSantaStickers.imgTemperature.setVisibility(View.GONE);
+                binding.includeSantaStickers.textTemperatureValue.setText("" + updateProgress + "%");
+                binding.includeSantaStickers.constraintTemperatureValue.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                binding.includeSantaStickers.seekBarTemperature.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.textTemperatureValue.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.imgTemperature.setVisibility(View.GONE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
+                binding.includeSantaStickers.textTemperatureValue.setVisibility(View.GONE);
+                binding.includeSantaStickers.constraintTemperatureValue.setVisibility(View.GONE);
+                binding.includeSantaStickers.imgTemperature.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
+
+            }
+        });
+    }
 }
