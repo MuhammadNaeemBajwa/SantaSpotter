@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
         updateBrightnessColorFilter(binding.seekBar.getProgress());
 
-        binding.text.setText(binding.seekBar.getProgress());
+        binding.text.setText(String.valueOf(binding.seekBar.getProgress()));
+
 
         // Set up a listener for the SeekBar changes
         binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
 //                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
-                //                  updateBrightnessColorFilter(progress);
-                updateTemperatureColorFilter(progress);
+                                  updateBrightnessColorFilter(progress);
+//                updateTemperatureColorFilter(progress);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
 //        Nov 27, 2023  -   Brightness functionality is perfectly working.
 
 //
-//        binding.santaSticker.setColorFilter(
-//                ColorFilterGenerator.adjustBrightness(progress)
-//        );
+        binding.santaSticker.setColorFilter(
+                ColorFilterGenerator.adjustBrightness(progress)
+        );
 
     }
 

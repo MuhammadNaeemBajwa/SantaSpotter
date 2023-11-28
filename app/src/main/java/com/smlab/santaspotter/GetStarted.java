@@ -60,7 +60,6 @@ public class GetStarted extends AppCompatActivity {
         urlTextView.setMovementMethod(LinkMovementMethod.getInstance());
         // Set the link text color
         urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
-
         button_spot_him.setOnClickListener(view -> {
             Intent intent = new Intent(GetStarted.this, UploadPhoto.class);
             startActivity(intent);

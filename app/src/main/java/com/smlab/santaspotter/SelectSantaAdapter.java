@@ -48,7 +48,6 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
             holder.santaCardView.setBackground(ContextCompat.getDrawable(selectSanta,R.drawable.background_round_santa_sticker));
         }
 
-        // Set an item click listener
         holder.santaCardView.setOnClickListener(v -> {
             selectedItem = position;
             notifyDataSetChanged();
