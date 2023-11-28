@@ -62,18 +62,31 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     }
 
     private void setUpRecyclerView() {
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_4));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
-
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa27));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa26));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
-//        selectSantaList.add(new SelectSantaModel(R.drawable.santa24));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa2));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa3));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa4));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa5));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa6));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa7));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa8));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa9));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa10));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa11));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa12));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa13));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa14));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa15));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa16));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa17));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa18));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa19));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa20));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa21));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa22));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa23));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa24));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList, this);
