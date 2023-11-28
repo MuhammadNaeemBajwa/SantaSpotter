@@ -60,16 +60,20 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     }
 
     private void setUpRecyclerView() {
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_1));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_img));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.select_santa));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_1));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_4));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_4));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_1));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_3));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa_sticker_small_2));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList);
+        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList, this);
         recyclerView.setAdapter(adapter);
     }
     @Override

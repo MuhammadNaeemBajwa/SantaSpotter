@@ -19,11 +19,14 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
     SelectSanta selectSanta;
     ArrayList<SelectSantaModel> selectSantaModelArrayList;
     private int selectedItem = RecyclerView.NO_POSITION;
+    private OnItemClickListener onItemClickListener;
 
 
-    public SelectSantaAdapter(SelectSanta selectSanta, ArrayList<SelectSantaModel> selectSantaModelArrayList) {
+    public SelectSantaAdapter(SelectSanta selectSanta, ArrayList<SelectSantaModel> selectSantaModelArrayList,  OnItemClickListener listener) {
         this.selectSanta = selectSanta;
         this.selectSantaModelArrayList = selectSantaModelArrayList;
+        this.onItemClickListener = listener;
+
     }
 
     @NonNull
@@ -49,6 +52,7 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
         holder.santaCardView.setOnClickListener(v -> {
             selectedItem = position;
             notifyDataSetChanged();
+            onItemClickListener.onItemClick(position);
         });
     }
 
