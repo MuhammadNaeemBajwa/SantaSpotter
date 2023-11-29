@@ -27,7 +27,7 @@ public class GetStarted extends AppCompatActivity {
     ConstraintLayout constraintLayout2;
     ImageView img_santa;
     Button button_spot_him;
-    TextView urlTextView;
+    TextView urlTextView, policyUrlTextView;
 
 
     @SuppressLint("MissingInflatedId")
@@ -41,6 +41,7 @@ public class GetStarted extends AppCompatActivity {
         button_spot_him = findViewById(R.id.button_spot_him);
         constraintLayout2 = findViewById(R.id.started_constraint_2);
         urlTextView = findViewById(R.id.url_textView);
+        policyUrlTextView = findViewById(R.id.policy_textView);
 
         // for URL to go website
         SpannableString spannableString = new SpannableString("https://www.copperfield.com");
@@ -60,6 +61,28 @@ public class GetStarted extends AppCompatActivity {
         urlTextView.setMovementMethod(LinkMovementMethod.getInstance());
         // Set the link text color
         urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
+
+        // for URL to go website
+        SpannableString spannableString1 = new SpannableString("https://www.copperfield.com/privacy-policy/");
+        ClickableSpan clickableSpan1 = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                // Handle link click action here
+                // For example, open the URL in a browser
+                Uri uri = Uri.parse("https://www.copperfield.com/privacy-policy/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        };
+        spannableString1.setSpan(clickableSpan1, 0, spannableString1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        policyUrlTextView.setText(spannableString1);
+        policyUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        // Set the link text color
+        urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
+
+
+
         button_spot_him.setOnClickListener(view -> {
             Intent intent = new Intent(GetStarted.this, UploadPhoto.class);
             startActivity(intent);

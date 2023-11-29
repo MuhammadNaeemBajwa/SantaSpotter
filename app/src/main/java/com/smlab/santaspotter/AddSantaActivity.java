@@ -1,11 +1,13 @@
 package com.smlab.santaspotter;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -40,6 +42,7 @@ public class AddSantaActivity extends AppCompatActivity {
     private static final int PICK_REQUEST = 53;
     Uri uri;
     private ActivityAddSantaBinding binding;
+    Dialog dialogCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,16 @@ public class AddSantaActivity extends AppCompatActivity {
         } else {
         }
 
+    }
+
+    // This method will show your dialog
+    private void showCustomDialog() {
+        dialogCode = new Dialog(this);
+        dialogCode.setContentView(R.layout.adjust_sticker_dialog);
+
+        // Create and show the dialog
+
+        dialogCode.show();
     }
 
     private void setListener() {
@@ -121,6 +134,7 @@ public class AddSantaActivity extends AppCompatActivity {
 
                 if (selectedStickerResId != -1) {
                     // Set the selected sticker on the image in AddSantaActivity
+                    showCustomDialog();
                     Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
 
                     // Create a canvas to overlay the sticker on the existing image
