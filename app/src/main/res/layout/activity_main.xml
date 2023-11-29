@@ -33,6 +33,16 @@
             android:layout_height="match_parent"
             android:visibility="visible" />
 
+        <ImageView
+            android:id="@+id/changeBrigtnessTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/stickerView"
+            app:layout_constraintEnd_toEndOf="@+id/stickerView"
+            app:layout_constraintStart_toStartOf="@+id/stickerView"
+            app:layout_constraintTop_toTopOf="@+id/stickerView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

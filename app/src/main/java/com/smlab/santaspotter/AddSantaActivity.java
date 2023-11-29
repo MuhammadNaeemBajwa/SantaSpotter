@@ -8,15 +8,20 @@ import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -75,13 +80,11 @@ public class AddSantaActivity extends AppCompatActivity {
 
     }
 
-    // This method will show your dialog
+    //  Nov 29, 2023  -   This method will show your dialog.
     private void showCustomDialog() {
         dialogCode = new Dialog(this);
         dialogCode.setContentView(R.layout.adjust_sticker_dialog);
-
-        // Create and show the dialog
-
+        dialogCode.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogCode.show();
     }
 
@@ -108,11 +111,8 @@ public class AddSantaActivity extends AppCompatActivity {
         binding.constraintShare.setOnClickListener(view -> {
             shareImage();
         });
-//        binding.textViewBackground.setOnClickListener(view -> {
-//            binding.stickerView.setVisibility(View.VISIBLE);
-//            Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa2);
-//            binding.stickerView.addSticker(stickerDrawable);
-//        });
+
+
     }
 
     private boolean isImageFromGallery(Intent intent) {
@@ -120,6 +120,70 @@ public class AddSantaActivity extends AppCompatActivity {
     }
 
     // Nov 28, 2023 -   onActivityResult we overlay the sticker on the capture image/upload image from gallery
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
+//                Bitmap photo = (Bitmap) data.getExtras().get("data");
+//                // Get the existing image from the binding
+//                Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
+//
+//                int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
+//
+//                if (selectedStickerResId != -1) {
+//                    // Set the selected sticker on the image in AddSantaActivity
+////                    showCustomDialog();
+//
+//                    Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
+//
+//                    // Create a canvas to overlay the sticker on the existing image
+////                    Nov 29, 2023  -   For now the , static width and height provided.
+//                    Bitmap combinedBitmap = Bitmap.createBitmap(existingImage.getWidth(), existingImage.getHeight(), existingImage.getConfig());
+////                    Bitmap combinedBitmap = Bitmap.createScaledBitmap(existingImage, 800, 500, true);
+//                    Canvas canvas = new Canvas(combinedBitmap);
+//                    canvas.drawBitmap(existingImage, new Matrix(), null);
+////                    canvas.drawBitmap(BitmapUtils.drawableToBitmap(selectedStickerDrawable), new Matrix(), null);
+//
+//                    // Set the combined image to the ImageView
+//                    binding.imgReceived.setImageBitmap(combinedBitmap);
+//
+//                    // Add the selected sticker to the StickerView
+//                    binding.stickerView.addSticker(selectedStickerDrawable);
+//
+//                        // Pass both the image and sticker to the next activity
+//                        Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
+//                        nextActivityIntent.putExtra("combinedBitmap", combinedBitmap);
+//                        nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
+//                        startActivity(nextActivityIntent);
+//
+//                } else {
+//                    // Handle result from the camera without a sticker
+//                    binding.imgReceived.setImageBitmap(photo);
+//                }
+//            } else if (requestCode == PICK_REQUEST) {
+//                // Handle result from gallery
+//                Uri selectedImageUri = data.getData();
+//
+//                // Set the selected image from the gallery as the background
+//                binding.imgReceived.setImageURI(selectedImageUri);
+//
+//                int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
+//
+//                if (selectedStickerResId != -1) {
+//                    // Add the selected sticker to the StickerView
+//                    Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
+//                    binding.stickerView.addSticker(selectedStickerDrawable);
+//
+//                }
+//            }
+//        }
+//    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -133,30 +197,40 @@ public class AddSantaActivity extends AppCompatActivity {
                 int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
 
                 if (selectedStickerResId != -1) {
-                    // Set the selected sticker on the image in AddSantaActivity
-                    showCustomDialog();
                     Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
-
-                    // Create a canvas to overlay the sticker on the existing image
                     Bitmap combinedBitmap = Bitmap.createBitmap(existingImage.getWidth(), existingImage.getHeight(), existingImage.getConfig());
-//                    Bitmap combinedBitmap = Bitmap.createScaledBitmap(existingImage, 800, 500, true);
                     Canvas canvas = new Canvas(combinedBitmap);
                     canvas.drawBitmap(existingImage, new Matrix(), null);
-//                    canvas.drawBitmap(BitmapUtils.drawableToBitmap(selectedStickerDrawable), new Matrix(), null);
-
-                    // Set the combined image to the ImageView
-                    binding.imgReceived.setImageBitmap(combinedBitmap);
-
                     // Add the selected sticker to the StickerView
                     binding.stickerView.addSticker(selectedStickerDrawable);
 
+//                  Nov 29, 2023    -   On touch of sticker then dialog permission dialog show .
+//                  After dismiss the dialog, 0.5sec delay  the moved towards the edit activity
+
+                    binding.stickerView.setStickerTouchListener(() -> {
+                        showCustomDialog();
+
+                        new Handler().postDelayed(() -> {
+                            Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
+                            String combinedImagePath = saveBitmapToFile(combinedBitmap);
+                            nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
+                            nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
+
+                            startActivity(nextActivityIntent);
+                        }, 500);
+                    });
+
+
                     // Pass both the image and sticker to the next activity
-                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
-                    nextActivityIntent.putExtra("combinedBitmap", combinedBitmap);
-                    nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
-                    startActivity(nextActivityIntent);
-
-
+//                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
+//
+//                    // Save the combined bitmap to a file and pass the file path
+//                    String combinedImagePath = saveBitmapToFile(combinedBitmap);
+//                    nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
+//                    // Pass the selected sticker drawable resource ID
+//                    nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
+//                    startActivity(nextActivityIntent);
+//                    saveImageWithStickers();
                 } else {
                     // Handle result from the camera without a sticker
                     binding.imgReceived.setImageBitmap(photo);
@@ -167,17 +241,100 @@ public class AddSantaActivity extends AppCompatActivity {
 
                 // Set the selected image from the gallery as the background
                 binding.imgReceived.setImageURI(selectedImageUri);
-
                 int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
-
                 if (selectedStickerResId != -1) {
                     // Add the selected sticker to the StickerView
                     Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
                     binding.stickerView.addSticker(selectedStickerDrawable);
-
                 }
             }
         }
+    }
+
+    // Save the bitmap to a file and return the file path
+    private String saveBitmapToFile(Bitmap bitmap) {
+        String filename = "combined_image_" + System.currentTimeMillis() + ".jpg";
+
+        // Create a directory to store images
+        File directory = new File(getFilesDir(), "CombinedImages");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Create the file
+        File file = new File(directory, filename);
+
+        try {
+            // Compress and save the bitmap to the file
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, e.g., show an error message
+            return null;
+        }
+    }
+
+    // Save the bitmap to a file and return the file path
+    private String saveBitmapToFileUpdate(Bitmap bitmap) {
+        String filename = "combined_image_" + System.currentTimeMillis() + ".jpg";
+
+        // Create a directory to store images
+        File directory = new File(getFilesDir(), "CombinedImages");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Create the file
+        File file = new File(directory, filename);
+
+        try {
+            // Compress and save the bitmap to the file
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, e.g., show an error message
+            return null;
+        }
+    }
+
+
+    // Insert the image into the Media Provider (Gallery)
+    private void insertImageIntoGallery(String imagePath) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "SantaImage");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Image with Santa sticker");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.DATA, imagePath);
+
+        ContentResolver resolver = getContentResolver();
+        resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+    }
+
+    // Save the combined bitmap to the gallery
+    private void saveImageToGalleryUpdate(Bitmap bitmap) {
+        String imagePath = saveBitmapToFileUpdate(bitmap);
+        if (imagePath != null) {
+            insertImageIntoGallery(imagePath);
+            Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error saving image", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Call this method when you want to save the image
+    private void saveImageWithStickers() {
+        // Get the combined image from the ImageView
+        Bitmap combinedBitmap = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
+        // Save the image to the gallery
+        saveImageToGalleryUpdate(combinedBitmap);
     }
 
 

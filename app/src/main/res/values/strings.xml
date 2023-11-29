@@ -5,6 +5,11 @@
     <string name="upload_a_photo">Upload a photo</string>
     <string name="background">Background</string>
     <string name="share">Share</string>
+
+    <string name="brightness">Brightness</string>
+    <string name="temperature">Temperature</string>
+    <string name="eraser">Eraser</string>
+
     <string name="please_enter_a_valid_code">Please enter a valid code.</string>
     <string name="santa">Santa</string>
     <string name="santa_claus_is_ncoming_to_town">Santa Claus is\ncoming to town...</string>
