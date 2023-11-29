@@ -127,8 +127,6 @@ public class AddSantaActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-
                 // Get the existing image from the binding
                 Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
 
@@ -151,6 +149,14 @@ public class AddSantaActivity extends AppCompatActivity {
 
                     // Add the selected sticker to the StickerView
                     binding.stickerView.addSticker(selectedStickerDrawable);
+
+                    // Pass both the image and sticker to the next activity
+                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
+                    nextActivityIntent.putExtra("combinedBitmap", combinedBitmap);
+                    nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
+                    startActivity(nextActivityIntent);
+
+
                 } else {
                     // Handle result from the camera without a sticker
                     binding.imgReceived.setImageBitmap(photo);
@@ -168,6 +174,7 @@ public class AddSantaActivity extends AppCompatActivity {
                     // Add the selected sticker to the StickerView
                     Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
                     binding.stickerView.addSticker(selectedStickerDrawable);
+
                 }
             }
         }
