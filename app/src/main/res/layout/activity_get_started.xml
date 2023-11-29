@@ -45,7 +45,6 @@
             android:id="@+id/text_title_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_regular"
             android:text="@string/now_you_can_spot_him_in_action"

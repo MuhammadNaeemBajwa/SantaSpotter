@@ -76,9 +76,11 @@
         <ImageView
             android:id="@+id/select_santa_sticker"
             android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_250sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/_12sdp"
-            android:src="@drawable/santa2"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/santa3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

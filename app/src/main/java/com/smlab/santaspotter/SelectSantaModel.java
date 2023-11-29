@@ -22,6 +22,40 @@ import android.os.Parcelable;
 public class SelectSantaModel implements Parcelable {
     private int santaSticker;
 
+    private int stickerImageResource;
+    private boolean isLocked;
+    private int stickerColor;
+
+    public SelectSantaModel(int stickerImageResource, boolean isLocked, int stickerColor) {
+        this.stickerImageResource = stickerImageResource;
+        this.isLocked = isLocked;
+        this.stickerColor = stickerColor;
+    }
+
+    public int getStickerImageResource() {
+        return stickerImageResource;
+    }
+
+    public void setStickerImageResource(int stickerImageResource) {
+        this.stickerImageResource = stickerImageResource;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public int getStickerColor() {
+        return stickerColor;
+    }
+
+    public void setStickerColor(int stickerColor) {
+        this.stickerColor = stickerColor;
+    }
+
     public SelectSantaModel(int santaSticker) {
         this.santaSticker = santaSticker;
     }

@@ -62,16 +62,16 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     }
 
     private void setUpRecyclerView() {
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa1));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa2));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa3));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa4));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa5));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa6));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa7));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa8));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa9));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa10));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa1, false, R.drawable.background_selected_santa));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa2, false, R.drawable.background_selected_santa));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa3, true, R.color.sticker_color));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa4, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa5,true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa6,true,R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa7,true,R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa8,true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa9,true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa10,true, R.drawable.background_round_santa_sticker));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa11));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa12));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa13));
