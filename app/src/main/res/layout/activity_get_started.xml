@@ -29,13 +29,14 @@
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="44dp"
             android:fontFamily="@font/poppins_regular"
             android:text="@string/santa_claus_is_ncoming_to_town"
             android:textColor="@color/black"
             android:textSize="@dimen/xXLargeTextSize"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/getStarted_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/getStarted_logo"
             tools:ignore="MissingConstraints" />
@@ -79,7 +80,7 @@
             android:padding="@dimen/_4sdp"
             android:text="@string/https_www_copperfield_com"
             android:textColor="#FC2F48"
-            android:textSize="@dimen/xSmallTextSize"
+            android:textSize="@dimen/smallTextSize"
             app:layout_constraintStart_toStartOf="@+id/button_spot_him"
             app:layout_constraintTop_toBottomOf="@+id/button_spot_him" />
 
