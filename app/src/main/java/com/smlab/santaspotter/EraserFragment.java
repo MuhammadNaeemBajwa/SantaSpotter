@@ -35,7 +35,7 @@ public class EraserFragment extends Fragment {
         PaintView eraserView = view.findViewById(R.id.eraserView);
 
         if (bitmap == null)
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.santa_sticker_1);
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.santa1);
         eraserView.addSticker(requireContext(), bitmap);
 
         TextView btnSave = view.findViewById(R.id.btn_save);
