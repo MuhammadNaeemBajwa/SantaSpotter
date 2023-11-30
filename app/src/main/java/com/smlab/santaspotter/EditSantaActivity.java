@@ -1,16 +1,16 @@
 package com.smlab.santaspotter;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.icu.text.CompactDecimalFormat;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.smlab.santaspotter.databinding.ActivityMainBinding;
 import com.smlab.santaspotter.fragments.EraserFragment;
@@ -21,6 +21,11 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
     Bitmap bitmap;
     Bitmap combinedBitmap;
     EraserVM eraserVM;
+
+//    private int currentBrightnessProgress = 50;
+//    private int currentTemperatureProgress = 50;
+//    private int currentEraserSizeProgress = 50;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,16 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
     private void setData() {
         binding.stickerView.addSticker(bitmap);
         binding.imgReceived.setImageBitmap(combinedBitmap);
+
+
+            binding.stickerView.addSticker(bitmap);
+//            binding.stickerView.setStickerBrightness(currentBrightnessProgress - 100);
+//            binding.stickerView.setStickerTemperature(currentTemperatureProgress - 100);
+//            eraserVM.getEraserSize().setValue((float) currentEraserSizeProgress);
+//            binding.includeSantaStickers.seekBarBrightness.setProgress(currentBrightnessProgress);
+//            binding.includeSantaStickers.seekBarTemperature.setProgress(currentTemperatureProgress);
+//            binding.includeSantaStickers.seekBarEraser.setProgress(currentEraserSizeProgress);
+
     }
 
     private void getIntentData() {
@@ -65,35 +80,65 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
         binding.includeSantaStickers.constraintImageBrithness.setOnClickListener(view -> {
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
-            binding.includeSantaStickers.titleEditSanta.setText(R.string.brightness);
-            binding.includeSantaStickers.titleEditSanta.setTextColor(Color.RED);
-            binding.includeSantaStickers.titleEditSanta.setTextSize(12);
+            binding.includeSantaStickers.seekBarEraser.setVisibility(View.GONE);
+
+            binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+            binding.includeSantaStickers.selectedItemTitle.setVisibility(View.VISIBLE);
+
+            binding.includeSantaStickers.selectedItemTitle.setText(R.string.brightness);
+
+
+
             seekBarBrightnessListener();
 //
         });
 
         binding.includeSantaStickers.constraintImageTemprature.setOnClickListener(view -> {
-            binding.includeSantaStickers.titleEditSanta.setText(R.string.brightness);
-            binding.includeSantaStickers.titleEditSanta.setTextColor(Color.RED);
-            binding.includeSantaStickers.titleEditSanta.setTextSize(12);
+            binding.includeSantaStickers.selectedItemTitle.setText(R.string.temperature);
+
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.GONE);
+            binding.includeSantaStickers.seekBarEraser.setVisibility(View.GONE);
+
+            binding.includeSantaStickers.selectedItemTitle.setVisibility(View.VISIBLE);
+            binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+            binding.includeSantaStickers.selectedItemTitle.setText(R.string.temperature);
             seekBarTemperatureListener();
 
         });
 
 
-//        binding.includeSantaStickers.constraintImageSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////             saveImageWithStickers();
-//            }
-//        });
+        binding.includeSantaStickers.constraintImageSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                onSavedButton();
+
+            }
+        });
 
         binding.includeSantaStickers.constriantImageEraser.setOnClickListener(view -> {
+
+            binding.includeSantaStickers.selectedItemTitle.setText(R.string.eraser);
+
+            binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
+            binding.includeSantaStickers.seekBarBrightness.setVisibility(View.GONE);
+            binding.includeSantaStickers.seekBarEraser.setVisibility(View.VISIBLE);
+
             binding.eraserContainer.setVisibility(View.VISIBLE);
             binding.stickerView.setVisibility(View.GONE);
             binding.includeSantaStickers.seekBarEraser.setVisibility(View.VISIBLE);
+
+
+            binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
+            binding.includeSantaStickers.selectedItemTitle.setVisibility(View.VISIBLE);
+            binding.includeSantaStickers.selectedItemTitle.setText(R.string.eraser);
+//            binding.includeSantaStickers.titleEditSanta.setTextColor(Color.RED);
+//            binding.includeSantaStickers.titleEditSanta.setTextSize(14);
+
             seekBarEraserListener();
         });
     }
@@ -135,6 +180,8 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
 
                 binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
 
+                binding.includeSantaStickers.selectedItemTitle.setVisibility(View.GONE);
+
 
             }
         });
@@ -170,11 +217,14 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
+                binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
                 binding.includeSantaStickers.textTemperatureValue.setVisibility(View.GONE);
                 binding.includeSantaStickers.constraintTemperatureValue.setVisibility(View.GONE);
                 binding.includeSantaStickers.imgTemperature.setVisibility(View.VISIBLE);
 
                 binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.selectedItemTitle.setVisibility(View.GONE);
 
             }
         });
@@ -186,16 +236,37 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 eraserVM.getEraserSize().setValue((float) progress);
+
+
+                binding.includeSantaStickers.imgEraser.setVisibility(View.GONE);
+                binding.includeSantaStickers.textEraserValue.setText("" + progress + "%");
+                binding.includeSantaStickers.constraintEraserValue.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                binding.includeSantaStickers.seekBarEraser.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.textEraserValue.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.imgEraser.setVisibility(View.GONE);
 
-
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+//                binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
+                binding.includeSantaStickers.seekBarEraser.setVisibility(View.GONE);
+                binding.includeSantaStickers.textEraserValue.setVisibility(View.GONE);
+                binding.includeSantaStickers.constraintEraserValue.setVisibility(View.GONE);
+                binding.includeSantaStickers.imgEraser.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.titleEditSanta.setVisibility(View.VISIBLE);
+
+                binding.includeSantaStickers.selectedItemTitle.setVisibility(View.GONE);
+
 
             }
         });
@@ -208,6 +279,19 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
         binding.stickerView.addSticker(bitmap);
     }
 
+
+    private void onSavedButton(){
+//        currentBrightnessProgress = binding.includeSantaStickers.seekBarBrightness.getProgress();
+//        currentTemperatureProgress = binding.includeSantaStickers.seekBarTemperature.getProgress();
+//        currentEraserSizeProgress = binding.includeSantaStickers.seekBarEraser.getProgress();
+
+        // Switch back to sticker mode
+        binding.eraserContainer.setVisibility(View.GONE);
+        binding.stickerView.setVisibility(View.VISIBLE);
+        binding.stickerView.addSticker(bitmap);
+
+        setData();
+    }
 //    private void updateBrightnessColorFilter(int progress) {
 //        // Convert progress to a float value in the range [0.0, 2.0]
 //        float brightnessFactor = (float) (progress + 100) / 100.0f;

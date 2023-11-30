@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +18,6 @@ import android.provider.MediaStore;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
 import com.smlab.santaspotter.filter.BaseActivity;

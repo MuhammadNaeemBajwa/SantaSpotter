@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +12,12 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.smlab.santaspotter.filter.AppConstants;
 import com.smlab.santaspotter.filter.BaseActivity;
@@ -21,11 +25,10 @@ import com.smlab.santaspotter.filter.BaseActivity;
 import java.io.IOException;
 
 public class UploadPhoto extends BaseActivity {
-    ConstraintLayout btnCamera;
-    Button btnGallery;
+    ConstraintLayout btnCamera, btnGallery;
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
-
+    private static final int CAMERA_PERMISSION_REQUEST = 123;
     String encodedImageData = "";
     Uri uri;
 
@@ -40,6 +43,15 @@ public class UploadPhoto extends BaseActivity {
     }
 
     private void initialize() {
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+        } else {
+            // Permission already granted, launch camera intent
+            launchCamera();
+        }
+
     }
 
     private void setIds() {
@@ -50,19 +62,8 @@ public class UploadPhoto extends BaseActivity {
 
     private void setListener() {
         btnCamera.setOnClickListener(v -> {
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // setting aspect ratio
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
 
-            // setting maximum bitmap width and height
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
-
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
+            launchCamera();
 //            pickImage(UploadPhoto.this);
 
         });
@@ -80,6 +81,21 @@ public class UploadPhoto extends BaseActivity {
         });
     }
 
+    private void launchCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // setting aspect ratio
+        cameraIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+        cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+        cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+
+        // setting maximum bitmap width and height
+        cameraIntent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
+        cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
+        cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
+
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    }
+
     //    Nov 30, 2023 -    For now avoiding the conflict.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -94,8 +110,7 @@ public class UploadPhoto extends BaseActivity {
 
                 startActivity(iNext);
             }
-        }
-        else if (requestCode == PICK_REQUEST && data != null) {
+        } else if (requestCode == PICK_REQUEST && data != null) {
             // Get the selected image URI from the gallery
             Uri selectedImageUri = data.getData();
 
@@ -108,8 +123,7 @@ public class UploadPhoto extends BaseActivity {
             startActivityForResult(intent, AppConstants.REQUEST_CODE_For_IMAGE);
             intent.putExtra("fromGallery", true);
             startActivity(intent);
-        }
-        else if (requestCode == AppConstants.REQUEST_CODE_For_IMAGE && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == AppConstants.REQUEST_CODE_For_IMAGE && resultCode == Activity.RESULT_OK) {
 //            if (resultCode == Activity.RESULT_OK) {
             uri = data.getParcelableExtra("imagePath");
             if (uri != null) {
@@ -122,6 +136,18 @@ public class UploadPhoto extends BaseActivity {
                 }
             }
 
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == CAMERA_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, launch camera intent
+                launchCamera();
+            } else {
+                // Permission denied, handle accordingly (show a message, etc.)
+            }
         }
     }
 

@@ -75,6 +75,19 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
+
+        <TextView
+            android:id="@+id/selectedItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/red_text_color"
+            android:textSize="@dimen/smallTextSize"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/editSantaConstraintLayout"
             android:layout_width="wrap_content"
@@ -136,10 +149,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="-100%"
+                        android:text="0%"
                         android:textColor="@color/red_text_color"
                         android:textSize="@dimen/xSmallTextSize"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -186,11 +199,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/background_circle_progress_value"
                         android:gravity="center"
-                        android:padding="@dimen/_6sdp"
                         android:text="0%"
                         android:textColor="@color/red_text_color"
                         android:textSize="@dimen/xSmallTextSize"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -221,8 +233,36 @@
                 app:layout_constraintStart_toEndOf="@+id/constraintImageTemprature"
                 app:layout_constraintTop_toTopOf="@+id/constraintImageTemprature">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintEraserValue"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/background_circle_progress_value"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/text_eraser_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_circle_progress_value"
+                        android:gravity="center"
+                        android:text="0%"
+                        android:textColor="@color/red_text_color"
+                        android:textSize="@dimen/xSmallTextSize"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/imgEraser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/eraser"
@@ -249,8 +289,8 @@
             tools:ignore="MissingConstraints">
 
             <ImageView
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp"
                 android:src="@drawable/save"
                 app:layout_constraintBottom_toBottomOf="parent"
