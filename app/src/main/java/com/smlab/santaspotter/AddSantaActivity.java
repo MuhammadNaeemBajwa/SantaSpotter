@@ -1,12 +1,5 @@
 package com.smlab.santaspotter;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.FileProvider;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -20,27 +13,20 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
+import com.smlab.santaspotter.filter.BaseActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
-public class AddSantaActivity extends AppCompatActivity {
+public class AddSantaActivity extends BaseActivity {
     private static final int SELECT_SANTA_REQUEST = 54;
     StickerView stickerView;
     private static final int CAMERA_REQUEST = 52;
@@ -48,6 +34,9 @@ public class AddSantaActivity extends AppCompatActivity {
     Uri uri;
     private ActivityAddSantaBinding binding;
     Dialog dialogCode;
+
+    String encodedImageData = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +64,7 @@ public class AddSantaActivity extends AppCompatActivity {
         Bitmap receivedBitmap = getIntent().getParcelableExtra("imageBitmap");
         if (receivedBitmap != null) {
             binding.imgReceived.setImageBitmap(receivedBitmap);
-        } else {
-        }
-
+        } else {}
     }
 
     //  Nov 29, 2023  -   This method will show your dialog.
@@ -183,7 +170,6 @@ public class AddSantaActivity extends AppCompatActivity {
 //        }
 //    }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -220,17 +206,6 @@ public class AddSantaActivity extends AppCompatActivity {
                         }, 500);
                     });
 
-
-                    // Pass both the image and sticker to the next activity
-//                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
-//
-//                    // Save the combined bitmap to a file and pass the file path
-//                    String combinedImagePath = saveBitmapToFile(combinedBitmap);
-//                    nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
-//                    // Pass the selected sticker drawable resource ID
-//                    nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
-//                    startActivity(nextActivityIntent);
-//                    saveImageWithStickers();
                 } else {
                     // Handle result from the camera without a sticker
                     binding.imgReceived.setImageBitmap(photo);
@@ -250,6 +225,7 @@ public class AddSantaActivity extends AppCompatActivity {
             }
         }
     }
+
 
     // Save the bitmap to a file and return the file path
     private String saveBitmapToFile(Bitmap bitmap) {
@@ -277,7 +253,6 @@ public class AddSantaActivity extends AppCompatActivity {
             return null;
         }
     }
-
     // Save the bitmap to a file and return the file path
     private String saveBitmapToFileUpdate(Bitmap bitmap) {
         String filename = "combined_image_" + System.currentTimeMillis() + ".jpg";
@@ -304,8 +279,6 @@ public class AddSantaActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
     // Insert the image into the Media Provider (Gallery)
     private void insertImageIntoGallery(String imagePath) {
         ContentValues values = new ContentValues();
@@ -328,7 +301,6 @@ public class AddSantaActivity extends AppCompatActivity {
             Toast.makeText(this, "Error saving image", Toast.LENGTH_SHORT).show();
         }
     }
-
     // Call this method when you want to save the image
     private void saveImageWithStickers() {
         // Get the combined image from the ImageView
@@ -367,7 +339,7 @@ public class AddSantaActivity extends AppCompatActivity {
         }
     }
 
-    //    Nov 27, 2023  -   This share Image function is used for the share the image for any platform.
+//    Nov 27, 2023  -   This share Image function is used for the share the image for any platform.
 //      Nov 28, 2023 -  For now the share image got an error and error so I commented
     private void shareImage() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -381,7 +353,7 @@ public class AddSantaActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }
 
-    //    Nov 27, 2023 - Use below function save the image into a gallery.
+//    Nov 27, 2023 - Use below function save the image into a gallery.
 //    private void saveImageToGallery(Uri imageUri) {
 //        try {
 //            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
