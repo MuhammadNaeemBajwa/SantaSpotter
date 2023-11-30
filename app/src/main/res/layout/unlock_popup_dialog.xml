@@ -2,125 +2,135 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_212sdp"
-    android:layout_height="@dimen/_230sdp"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/_10sdp"
-    android:background="@drawable/popup_dialog_background"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-
-
-    <ImageView
-        android:id="@+id/imageView_cross"
-        android:layout_width="@dimen/_24sdp"
-        android:layout_height="@dimen/_24sdp"
-        android:layout_gravity="end"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        android:src="@drawable/baseline_close_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/title_imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:src="@drawable/image_powered_by"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/_212sdp"
+        android:layout_height="@dimen/_230sdp"
+        android:background="@drawable/popup_dialog_background"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_cross"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
-    <TextView
-        android:id="@+id/textView_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="@string/brought_to_your_by_copperfield_nthe_nation_s_leading_supplier_of_nchimney_and_hearth_products"
-        android:textColor="@color/black"
-        android:textSize="@dimen/mediumTextSize"
-        app:layout_constraintEnd_toEndOf="@+id/title_imageView"
-        app:layout_constraintStart_toStartOf="@+id/title_imageView"
-        app:layout_constraintTop_toBottomOf="@+id/title_imageView" />
+        <ImageView
+            android:id="@+id/imageView_cross"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:src="@drawable/baseline_close_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editText_enterCode"
-        android:layout_width="@dimen/_170sdp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/poppins_regular"
-        android:hint="@string/enter_code"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/mediumTextSize"
-        app:layout_constraintEnd_toEndOf="@+id/textView_description"
-        app:layout_constraintStart_toStartOf="@+id/textView_description"
-        app:layout_constraintTop_toBottomOf="@+id/textView_description" />
+        <ImageView
+            android:id="@+id/title_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:src="@drawable/image_powered_by"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_cross"
+            tools:ignore="MissingConstraints" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="@dimen/_170sdp"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:background="@color/dialog_view_color"
-        app:layout_constraintEnd_toEndOf="@+id/editText_enterCode"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editText_enterCode"
-        app:layout_constraintTop_toBottomOf="@+id/editText_enterCode"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/textView_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/brought_to_your_by_copperfield_nthe_nation_s_leading_supplier_of_nchimney_and_hearth_products"
+            android:textColor="@color/black"
+            android:textSize="@dimen/mediumTextSize"
+            app:layout_constraintEnd_toEndOf="@+id/title_imageView"
+            app:layout_constraintStart_toStartOf="@+id/title_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/title_imageView" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submit_button"
-        android:layout_width="@dimen/_84sdp"
-        android:layout_height="@dimen/_27sdp"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button_bg"
-        android:text="@string/submit"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/mediumTextSize"
-        app:layout_constraintBottom_toTopOf="@+id/dont_have_code_textView"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/error_message" />
+        <EditText
+            android:id="@+id/editText_enterCode"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/poppins_regular"
+            android:hint="@string/enter_code"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/mediumTextSize"
+            app:layout_constraintEnd_toEndOf="@+id/textView_description"
+            app:layout_constraintStart_toStartOf="@+id/textView_description"
+            app:layout_constraintTop_toBottomOf="@+id/textView_description" />
 
-    <TextView
-        android:id="@+id/error_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_2sdp"
-        android:drawableLeft="@drawable/baseline_error_24"
-        android:text="@string/please_enter_a_valid_code"
-        android:textColor="@color/red_text_color"
-        android:gravity="center"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/editText_enterCode"
-        app:layout_constraintStart_toStartOf="@+id/editText_enterCode"
-        app:layout_constraintTop_toBottomOf="@+id/editText_enterCode" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:background="@color/dialog_view_color"
+            app:layout_constraintEnd_toEndOf="@+id/editText_enterCode"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/editText_enterCode"
+            app:layout_constraintTop_toBottomOf="@+id/editText_enterCode"
+            tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/dont_have_code_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="@string/don_t_have_a_code"
-        android:textColor="@color/red_text_color"
-        android:textSize="@dimen/mediumTextSize"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/submit_button"
-        app:layout_constraintStart_toStartOf="@+id/submit_button"
-        app:layout_constraintTop_toBottomOf="@+id/submit_button" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submit_button"
+            android:layout_width="@dimen/_84sdp"
+            android:layout_height="@dimen/_27sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/button_bg"
+            android:text="@string/submit"
+            android:fontFamily="@font/poppins_regular"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/mediumTextSize"
+            app:layout_constraintBottom_toTopOf="@+id/dont_have_code_textView"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/error_message" />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_error_24"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="@string/please_enter_a_valid_code"
+            android:textColor="@color/red_text_color"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/editText_enterCode"
+            app:layout_constraintStart_toStartOf="@+id/editText_enterCode"
+            app:layout_constraintTop_toBottomOf="@+id/editText_enterCode" />
+
+        <TextView
+            android:id="@+id/dont_have_code_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/don_t_have_a_code"
+            android:textColor="@color/red_text_color"
+            android:textSize="@dimen/mediumTextSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/submit_button"
+            app:layout_constraintStart_toStartOf="@+id/submit_button"
+            app:layout_constraintTop_toBottomOf="@+id/submit_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
