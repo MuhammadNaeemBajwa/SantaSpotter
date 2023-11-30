@@ -1,6 +1,7 @@
 package com.smlab.santaspotter;
 
-import android.Manifest;
+import static androidx.core.content.FileProvider.getUriForFile;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -16,18 +17,17 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
-
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.smlab.santaspotter.filter.BaseActivity;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.util.List;
 
-import static androidx.core.content.FileProvider.getUriForFile;
 
 public class ImagePickerActivity extends BaseActivity {
 
@@ -55,7 +55,6 @@ public class ImagePickerActivity extends BaseActivity {
         void onChooseGallerySelected();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +80,9 @@ public class ImagePickerActivity extends BaseActivity {
         } else {
             chooseImageFromGallery();
         }
+
     }
+
 
     public static void showImagePickerOptions(Context context, PickerOptionListener listener) {
         // setup the alert builder
@@ -109,17 +110,17 @@ public class ImagePickerActivity extends BaseActivity {
     private void takeCameraImage() {
         Log.d(TAG, "takeCameraImage: ");
         Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withPermissions(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
 //                        if (report.areAllPermissionsGranted()) {
-                            Log.d(TAG, "takeCameraImage: 1:  "+ (report.areAllPermissionsGranted()));
-                            fileName = System.currentTimeMillis() + ".jpg";
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
-                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        Log.d(TAG, "takeCameraImage: 1:  "+ (report.areAllPermissionsGranted()));
+                        fileName = System.currentTimeMillis() + ".jpg";
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 //                            }
                         }
                     }
@@ -133,14 +134,14 @@ public class ImagePickerActivity extends BaseActivity {
 
     private void chooseImageFromGallery() {
         Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withPermissions(android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
 //                        if (report.areAllPermissionsGranted()) {
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(pickPhoto, REQUEST_GALLERY_IMAGE);
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto, REQUEST_GALLERY_IMAGE);
 //                        }
                     }
 
@@ -151,6 +152,7 @@ public class ImagePickerActivity extends BaseActivity {
                 }).check();
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -221,7 +223,7 @@ public class ImagePickerActivity extends BaseActivity {
     }
 
     private void setResultOk(Uri imagePath) {
-        Intent intent = new Intent(ImagePickerActivity.this, AddSantaActivity.class);
+        Intent intent = new Intent(ImagePickerActivity.this, ImagePickerActivity.class);
         intent.putExtra("imagePath", imagePath.toString());
         startActivity(intent);
         finish();
@@ -264,4 +266,5 @@ public class ImagePickerActivity extends BaseActivity {
             }
         }
     }
+
 }
