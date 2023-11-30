@@ -1,12 +1,16 @@
 package com.smlab.santaspotter;
 
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,12 +23,13 @@ import androidx.annotation.Nullable;
 public class StickerView extends View {
 
     private Bitmap backgroundImage;
-    private ObjectAnimator rotationAnimator;
-    private float rotationDegrees = 180;
-
+    private float initialAngle = 180f;
+    private PointF pivotPoint = new PointF();
     private Bitmap sticker;
+    private boolean isStickerFlipped = false; // Flag to track the flip state
     private Bitmap removeIcon; // Cross icon for sticker removal
     private Matrix removeIconMatrix;
+    private int stickerBrightness = 128;
     private Matrix stickerMatrix;
     private Paint paint;
     private float oldDist;
@@ -33,7 +38,7 @@ public class StickerView extends View {
 
     private float lastTouchX;
     private float lastTouchY;
-    private static final int CANCEL_BUTTON_SIZE = 100;
+    private static final int CANCEL_BUTTON_SIZE = 40;
 
     public StickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -82,6 +87,14 @@ public class StickerView extends View {
         return bitmap;
     }
 
+    // Add a method to set brightness
+    public void setStickerBrightness(int brightness) {
+        if (brightness != stickerBrightness) {
+            this.stickerBrightness = brightness;
+            invalidate();
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -89,6 +102,7 @@ public class StickerView extends View {
         if (backgroundImage != null) {
             canvas.drawBitmap(backgroundImage, 0, 0, paint);
         }
+
 
         if (sticker != null) {
             canvas.drawBitmap(sticker, stickerMatrix, paint);
@@ -105,24 +119,65 @@ public class StickerView extends View {
             drawCancelButton(canvas);
         }
 
+        if (sticker != null) {
+            // Apply brightness filter
+            Paint brightnessPaint = new Paint(paint);
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.set(new float[] {
+                    1, 0, 0, 0, stickerBrightness - 55,
+                    0, 1, 0, 0, stickerBrightness - 55,
+                    0, 0, 1, 0, stickerBrightness - 55,
+                    0, 0, 0, 1, 0
+            });
+            brightnessPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+
+            canvas.drawBitmap(sticker, stickerMatrix, brightnessPaint);
+
+            // ...
+        }
+
     }
     private void drawCancelButton(Canvas canvas) {
         if (sticker != null) {
-            float[] points = getStickerTopLeft();
+            float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
             float x = points[0];
             float y = points[1];
 
-
             // Draw cancel button in white color
             Paint cancelButtonPaint = new Paint();
-//            cancelButtonPaint.setColor(Color.WHITE);
-//            cancelButtonPaint.setColor(0xFFFFFFFF);// Set the color to white
-            cancelButtonPaint.setColor(Color.WHITE);// Set the color to white
-//            cancelButtonPaint.setStyle(Paint.Style.FILL);
-            // Draw cancel button
-            // Modify the code below based on the appearance you want for the cancel button
-            canvas.drawCircle(x, y, CANCEL_BUTTON_SIZE / 2, paint);
+            cancelButtonPaint.setColor(Color.RED);
+            cancelButtonPaint.setStyle(Paint.Style.FILL);
+
+            // Reduce the size of the cancel button
+            float cancelButtonSize = CANCEL_BUTTON_SIZE / 2;
+
+            // Draw cancel button as a white circle
+            canvas.drawCircle(x, y, cancelButtonSize, cancelButtonPaint);
+
+            // Reduce the size of the cross icon
+            float crossSize = cancelButtonSize * 0.4f;
+
+            // Draw a black cross inside the white circle
+            Paint crossPaint = new Paint();
+            crossPaint.setColor(Color.WHITE);
+            crossPaint.setStrokeWidth(3); // Adjust the stroke width as needed
+
+            // Calculate cross coordinates
+            float startX = x - crossSize;
+            float startY = y - crossSize;
+            float endX = x + crossSize;
+            float endY = y + crossSize;
+
+            // Draw the cross
+            canvas.drawLine(startX, startY, endX, endY, crossPaint);
+            canvas.drawLine(startX, endY, endX, startY, crossPaint);
         }
+    }
+
+    private float[] getStickerTopRight() {
+        float[] points = {sticker.getWidth(), 0};
+        stickerMatrix.mapPoints(points);
+        return points;
     }
 
 
@@ -148,18 +203,6 @@ public class StickerView extends View {
                     float scale = newDist / oldDist;
                     stickerMatrix.postScale(scale, scale, lastTouchX, lastTouchY);
                     oldDist = newDist;
-
-                    float angle = getRotation(event);
-                    rotationDegrees += angle;
-
-                    // Smooth rotation animation
-                    if (rotationAnimator != null) {
-                        rotationAnimator.cancel();
-                    }
-
-                    rotationAnimator = ObjectAnimator.ofFloat(this, "rotationDegrees", rotationDegrees);
-                    rotationAnimator.setDuration(100); // Adjust the duration as needed
-                    rotationAnimator.start();
 
                     float deltaX = x - lastTouchX;
                     float deltaY = y - lastTouchY;
@@ -205,17 +248,16 @@ public class StickerView extends View {
 
     private boolean isTouchInsideCancelButton(float x, float y) {
         if (sticker != null) {
-            float[] points = getStickerTopLeft();
+            float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
             float stickerX = points[0];
             float stickerY = points[1];
 
             // Check if the touch coordinates are within the cancel button area
-            return x >= stickerX && x <= (stickerX + CANCEL_BUTTON_SIZE) &&
-                    y >= stickerY && y <= (stickerY + CANCEL_BUTTON_SIZE);
+            return x >= (stickerX - CANCEL_BUTTON_SIZE) && x <= (stickerX + CANCEL_BUTTON_SIZE) &&
+                    y >= (stickerY - CANCEL_BUTTON_SIZE) && y <= (stickerY + CANCEL_BUTTON_SIZE);
         }
         return false;
     }
-
 
     private float[] getStickerTopLeft() {
         float[] points = {0, 0};
@@ -232,19 +274,29 @@ public class StickerView extends View {
         clearSticker(); // This method clears the sticker
         invalidate();
     }
+    public void flipSticker() {
+        if (sticker != null) {
+            // Get the current center coordinates of the sticker
+            float[] stickerCenter = getStickerCenter();
 
-    private float getRotation(MotionEvent event) {
-        double deltaX = event.getX(0) - event.getX(1);
-        double deltaY = event.getY(0) - event.getY(1);
-        double radians = Math.atan2(deltaY, deltaX);
-        return (float) Math.toDegrees(radians);
-    }
-    public float getRotationDegrees() {
-        return rotationDegrees;
+            // Flip the sticker horizontally using a matrix
+            Matrix flipMatrix = new Matrix();
+            flipMatrix.postScale(-1, 1, stickerCenter[0], stickerCenter[1]);
+            stickerMatrix.postConcat(flipMatrix);
+
+            // Toggle the flip state
+            isStickerFlipped = !isStickerFlipped;
+
+            invalidate();
+        }
     }
 
-    public void setRotationDegrees(float degrees) {
-        this.rotationDegrees = degrees;
-        invalidate();
+    private float[] getStickerCenter() {
+        float[] points = {sticker.getWidth() / 2f, sticker.getHeight() / 2f};
+        stickerMatrix.mapPoints(points);
+        return points;
     }
+
+
+
 }
