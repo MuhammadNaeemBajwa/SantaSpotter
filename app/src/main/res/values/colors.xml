@@ -7,10 +7,12 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="black_transparent">#30000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dialog_view_color">#FC2F48</color>
     <color name="red_text_color">#FC2F48</color>
     <color name="sticker_color">#50FFFFFF</color>
+    <color name="gray_sticker_color">#80FFFFFF</color>
     <color name="select_santa_background">#FFB2BC</color>
     <color name="unselect_santa_background">#F5F4F7</color>
 </resources>

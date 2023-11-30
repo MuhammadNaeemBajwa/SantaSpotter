@@ -7,8 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -28,8 +26,7 @@ public class EraserView extends View implements View.OnTouchListener {
 
     Path drawPath;
 
-
-    RectF rectF;
+    int width, height;
 
 
     public EraserView(Context context, AttributeSet attrs) {
@@ -41,8 +38,34 @@ public class EraserView extends View implements View.OnTouchListener {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         );
+        width = params.width;
+        height = params.height;
         setLayoutParams(params);
     }
+
+//    public void addSticker(Context context, Bitmap sticker) {
+//        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+//        int screenWidth = metrics.widthPixels;
+//        int screenHeight = metrics.heightPixels;
+//
+//        drawPath = new Path();
+//        paint = new Paint();
+//
+//        transparent = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
+//        bitmap = sticker;
+//        canvas = new Canvas();
+//        canvas.setBitmap(transparent);
+//        canvas.drawBitmap(bitmap, width, height, paint);
+//
+//
+//        paint.setAlpha(0);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeJoin(Paint.Join.ROUND);
+//        paint.setStrokeCap(Paint.Cap.ROUND);
+//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+//        paint.setAntiAlias(true);
+//        paint.setStrokeWidth(40);
+//    }
 
     public void addSticker(Context context, Bitmap sticker) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
@@ -54,11 +77,16 @@ public class EraserView extends View implements View.OnTouchListener {
 
         transparent = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
         bitmap = sticker;
+
+        // Calculate the center coordinates for placing the bitmap
+        int centerX = (screenWidth - bitmap.getWidth()) / 2;
+        int centerY = (screenHeight - bitmap.getHeight()) / 2;
+
         canvas = new Canvas();
         canvas.setBitmap(transparent);
-        rectF = new RectF(0, 0, canvas.getWidth(), canvas.getHeight());
-        canvas.drawBitmap(bitmap, null, rectF, paint);
 
+        // Draw the bitmap at the calculated center coordinates
+        canvas.drawBitmap(bitmap, centerX, centerY, paint);
 
         paint.setAlpha(0);
         paint.setStyle(Paint.Style.STROKE);
@@ -91,7 +119,7 @@ public class EraserView extends View implements View.OnTouchListener {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawBitmap(transparent, null, rectF, null);
+        canvas.drawBitmap(transparent, width, height, null);
     }
 
     @Override
