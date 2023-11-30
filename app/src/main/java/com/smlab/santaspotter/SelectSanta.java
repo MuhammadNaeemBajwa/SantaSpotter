@@ -66,12 +66,12 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectSantaList.add(new SelectSantaModel(R.drawable.santa2, false, R.drawable.background_selected_santa));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa3, true, R.color.sticker_color));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa4, true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa5,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa6,true,R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa7,true,R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa8,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa9,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa10,true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa5, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa6, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa7, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa8, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa9, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa10, true, R.drawable.background_round_santa_sticker));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa11));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa12));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa13));
@@ -89,9 +89,10 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList, this);
+        adapter = new SelectSantaAdapter(this, SelectSanta.this, selectSantaList, this);
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void onItemClick(int position) {
         SelectSantaModel selectedSanta = selectSantaList.get(position);
@@ -106,6 +107,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         });
 
     }
+
     private void showCodeDialog() {
 
         dialogCode = new Dialog(SelectSanta.this, R.style.dialog);
