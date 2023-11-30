@@ -9,10 +9,12 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class UploadPhoto extends AppCompatActivity {
 
-    Button btnCamera, btnGallery;
+    ConstraintLayout btnCamera;
+            Button btnGallery;
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
 

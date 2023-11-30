@@ -585,7 +585,6 @@ public class StickerView extends View {
                 }
                 break;
         }
-
         return true;
     }
 
