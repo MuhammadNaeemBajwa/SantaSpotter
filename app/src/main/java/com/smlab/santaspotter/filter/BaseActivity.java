@@ -14,12 +14,9 @@ import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -28,7 +25,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.smlab.santaspotter.AddSantaActivity;
 import com.smlab.santaspotter.ImagePickerActivity;
 import com.smlab.santaspotter.R;
-
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 

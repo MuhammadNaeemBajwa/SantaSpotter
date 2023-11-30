@@ -193,19 +193,20 @@ public class AddSantaActivity extends BaseActivity {
 //                  Nov 29, 2023    -   On touch of sticker then dialog permission dialog show .
 //                  After dismiss the dialog, 0.5sec delay  the moved towards the edit activity
 
-                    binding.stickerView.setStickerTouchListener(() -> {
-                        showCustomDialog();
+//                    binding.stickerView.setStickerTouchListener(() -> {
+//                        showCustomDialog();
+                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
+                    String combinedImagePath = saveBitmapToFile(combinedBitmap);
+                    nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
+                    nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
 
-                        new Handler().postDelayed(() -> {
-                            Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
-                            String combinedImagePath = saveBitmapToFile(combinedBitmap);
-                            nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
-                            nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
+                    startActivity(nextActivityIntent);
 
-                            startActivity(nextActivityIntent);
+//                    });
+//                            startActivity(nextActivityIntent);
                             finish();
-                        }, 500);
-                    });
+//                        }, 500);
+//                    });
 
                 } else {
                     // Handle result from the camera without a sticker
