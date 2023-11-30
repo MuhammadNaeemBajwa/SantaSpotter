@@ -142,17 +142,16 @@ public class BaseActivity extends AppCompatActivity {
     public void loadProfile(Context context, String url, ImageView imageView) {
         Log.d(TAG, "Image cache path: " + url);
 
-        Glide.with(context).load(url).into(imageView);
-        imageView.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));
+        if (imageView != null) {
+            Glide.with(context).load(url).into(imageView);
+            imageView.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));
+        } else {
+            // Handle the case where the ImageView is null
+        }
+
     }
 
-//    public void loadProfile(Context context, String url, ImageView imageView) {
-//        Log.d(TAG, "Image cache path: " + url);
-//
-//        // Remove the circleCrop transformation
-//        Glide.with(context).load(url).into(imageView);
-//        imageView.setColorFilter(ContextCompat.getColor(this, android.R.color.transparent));
-//    }
+
 
 
 }

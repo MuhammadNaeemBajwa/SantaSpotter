@@ -73,6 +73,28 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_description"
             tools:ignore="MissingConstraints" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/unLock"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:background="@drawable/button_bg"
+            android:drawableStart="@drawable/baseline_lock_open_24"
+            android:fontFamily="@font/poppins_regular"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_12sdp"
+            android:text="@string/unlock"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/mediumTextSize"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textView_description"
+            app:layout_constraintStart_toStartOf="@+id/textView_description"
+            app:layout_constraintTop_toBottomOf="@+id/textView_description"
+            tools:ignore="MissingConstraints"
+            android:drawableTint="@color/white"/>
+
         <ImageView
             android:id="@+id/select_santa_sticker"
             android:layout_width="@dimen/_150sdp"

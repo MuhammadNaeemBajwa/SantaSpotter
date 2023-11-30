@@ -9,16 +9,18 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import java.io.IOException;
 public class UploadPhoto extends BaseActivity {
-    Button btnCamera, btnGallery;
+    ConstraintLayout btnCamera;
+    Button btnGallery;
     String encodedImageData = "";
     Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
-        getSupportActionBar().hide();
 
         initialize();
         setIds();
@@ -50,10 +52,11 @@ public class UploadPhoto extends BaseActivity {
         Log.d(TAG, "onActivityResult: ");
         if (requestCode == AppConstants.REQUEST_CODE_For_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
-                uri = data.getParcelableExtra("path");
+                uri = data.getParcelableExtra("imagePath");
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                     encodedImageData = getEncoded64ImageStringFromBitmap(bitmap);
+
                     Log.d(TAG, "onActivityResult: encodedImageData: " + encodedImageData);
                 } catch (IOException e) {
                     Log.d(TAG, "onActivityResult: IOException: " + e.getMessage());

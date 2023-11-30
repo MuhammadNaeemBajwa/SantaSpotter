@@ -6,12 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cardViewSanta"
+        android:id="@+id/unlockSanta"
         android:layout_width="@dimen/_80sdp"
         android:layout_height="@dimen/_110sdp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
+        android:visibility="gone"
         android:layout_marginBottom="4dp"
         android:background="@drawable/background_round_santa_sticker"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +22,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/firstSantaSticker"
+            android:id="@+id/unlockSantaSticker"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_gravity="center"
@@ -32,16 +33,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lockSanta"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_110sdp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/background_round_santa_sticker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/lockSantaSticker"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/santa3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/lockIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/locked"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/firstSantaSticker"
-            app:layout_constraintEnd_toEndOf="@+id/firstSantaSticker"
-            app:layout_constraintStart_toStartOf="@+id/firstSantaSticker"
-            app:layout_constraintTop_toTopOf="@+id/firstSantaSticker" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
