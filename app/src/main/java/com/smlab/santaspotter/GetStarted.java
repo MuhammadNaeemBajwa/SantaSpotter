@@ -43,7 +43,7 @@ public class GetStarted extends AppCompatActivity {
         urlTextView = findViewById(R.id.url_textView);
         policyUrlTextView = findViewById(R.id.policy_textView);
 
-        // for URL to go website
+        // Abubakr Nov 29, 2023 For  URL to go website-->
         SpannableString spannableString = new SpannableString("https://www.copperfield.com");
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
@@ -62,7 +62,7 @@ public class GetStarted extends AppCompatActivity {
         // Set the link text color
         urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
 
-        // for URL to go website
+        // Abubakr Nov 29, 2023 For  URL to go website-->
         SpannableString spannableString1 = new SpannableString("Privacy Policy");
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
@@ -82,16 +82,15 @@ public class GetStarted extends AppCompatActivity {
         policyUrlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
 
 
-
         button_spot_him.setOnClickListener(view -> {
             Intent intent = new Intent(GetStarted.this, UploadPhoto.class);
             startActivity(intent);
             finish();
         });
 
+        // Abubakr Nov 29, 2023 For Get Started Screen Zoom-in and bottom Animations-->
         zoom_in = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
-
         constraintLayout2.setAnimation(bottomAnim);
 
         // Define the scale animation
@@ -104,7 +103,7 @@ public class GetStarted extends AppCompatActivity {
                 Animation.RELATIVE_TO_SELF, 0.5f  // Pivot point Y (center)
         );
 
-        scaleAnimation.setDuration(1200); // Set the duration in milliseconds
+        scaleAnimation.setDuration(800); // Set the duration in milliseconds
         scaleAnimation.setInterpolator(new DecelerateInterpolator()); // Set an interpolator for smoothness
 
         scaleAnimation.setAnimationListener(new Animation.AnimationListener() {

@@ -25,6 +25,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,7 +50,9 @@ public class AddSantaActivity extends AppCompatActivity {
     Uri uri;
     private ActivityAddSantaBinding binding;
     Dialog dialogCode;
+    Animation reverseAnimation;
 
+    ImageView ellipseImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +63,23 @@ public class AddSantaActivity extends AppCompatActivity {
         setIds();
         imageSet();
         setListener();
+//        reverseAnimation();
     }
+
+//    private void reverseAnimation() {
+//        // Load the reverse of your animation
+//        reverseAnimation = AnimationUtils.loadAnimation(this, R.anim.reverse_ellipse_animation);
+//
+//        // Apply the reverse animation to your view
+//        ellipseImageView.setAnimation(reverseAnimation);
+//
+//        // Start the reverse animation
+//        reverseAnimation.start();
+//    }
 
     private void setIds() {
         stickerView = findViewById(R.id.stickerView);
+//        ellipseImageView = findViewById(R.id.reverseEllipse);
     }
 
     private void imageSet() {
@@ -217,6 +234,7 @@ public class AddSantaActivity extends AppCompatActivity {
                             nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
 
                             startActivity(nextActivityIntent);
+                            finish();
                         }, 500);
                     });
 

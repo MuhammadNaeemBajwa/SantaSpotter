@@ -15,6 +15,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +36,8 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     Dialog dialogCode;
     private ActivitySelectSantaBinding binding;
     private ImageView selectedSantaSticker;
+    Animation ellipseAnim, reverseAnimation;
+    ImageView ellipseImageView;
 
 
     @Override
@@ -43,24 +48,37 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         setIds();
         initialized();
         setUpRecyclerView();
+        animation();
 
+    }
+
+    // Abubakr Nov 30, 2023 For Santa Sticker Bottom Animation-->
+    private void animation() {
+        ellipseAnim = AnimationUtils.loadAnimation(this, R.anim.ellipseanimation);
+        ellipseImageView.setAnimation(ellipseAnim);
     }
 
 
     private void setIds() {
         includePickMe = findViewById(R.id.pick_me_include);
         recyclerView = findViewById(R.id.recyclerView2);
+        ellipseImageView = findViewById(R.id.santaEllipse);
 //        Nov 28, 2023  -   For now the dialog isn't be showed on click of pickMeButton
 //        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
-        includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
+        includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> {
+            onBackPressed();
+//            Animation animation = AnimationUtils.loadAnimation(this,R.anim.reverse_ellipse_animation);
+//            ellipseImageView.startAnimation(animation);
+        });
+
         selectedSantaSticker = binding.pickMeInclude.selectSantaSticker;
 
     }
-
     private void initialized() {
         selectSantaList = new ArrayList<>();
     }
 
+    // Abubakr Nov 28, 2023 For Recycler View Static Data-->
     private void setUpRecyclerView() {
         selectSantaList.add(new SelectSantaModel(R.drawable.santa1, false, R.drawable.background_selected_santa));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa2, false, R.drawable.background_selected_santa));
@@ -104,11 +122,27 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         });
-
     }
+
+    // Abubakr Nov 30, 2023 For Dialog BackScreen DimLight-->
+    private void dimBackground() {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.dimAmount = 0.5f; // Adjust the dim amount as per your preference (0.0f to 1.0f)
+        layoutParams.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        getWindow().setAttributes(layoutParams);
+    }
+
+    private void clearBackgroundDim() {
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.dimAmount = 0.0f; // Reset the dim amount to 0 to restore original brightness
+        layoutParams.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        getWindow().setAttributes(layoutParams);
+    }
+
+    // Abubakr Nov 28, 2023 For Dialog Code Submit-->
     private void showCodeDialog() {
 
-        dialogCode = new Dialog(SelectSanta.this, R.style.dialog);
+        dialogCode = new Dialog(SelectSanta.this, R.style.CustomDialog);
         dialogCode.setContentView(R.layout.unlock_popup_dialog);
         ImageView close;
         Button submit;
@@ -129,16 +163,19 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
             }
         });
         dontHaveCode.setOnClickListener(view -> showAccessCodeDialog());
+        dimBackground(); // Call this method before dialog.show()
         dialogCode.show();
 
     }
 
+    // Abubakr Nov 28, 2023 For Dialog Access Code-->
     private void showAccessCodeDialog() {
-        Dialog dialog = new Dialog(SelectSanta.this, R.style.dialog);
+        Dialog dialog = new Dialog(SelectSanta.this, R.style.CustomDialog);
         dialog.setContentView(R.layout.access_code_dialog);
         ImageView close;
         close = dialog.findViewById(R.id.imageView_cross);
         close.setOnClickListener(view -> dialog.dismiss());
+        dimBackground(); // Call this method before dialog.show()
         dialog.show();
         dialogCode.dismiss();
 
