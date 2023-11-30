@@ -1,29 +1,50 @@
 package com.smlab.santaspotter;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.ahmedadeltito.photoeditorsdk.BrushDrawingView;
+import com.ahmedadeltito.photoeditorsdk.OnPhotoEditorSDKListener;
+import com.ahmedadeltito.photoeditorsdk.PhotoEditorSDK;
+import com.ahmedadeltito.photoeditorsdk.ViewType;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
-public class AddSantaActivity extends AppCompatActivity {
-
-    ImageView imgReceivedFromUploadPhoto, share;
-    TextView backgroundTitle;
+public class AddSantaActivity extends AppCompatActivity implements EraserFragment.Listener {
+    private static final String TAG = "AddSantaActivity";
+    RelativeLayout parentImageRelativeLayout, deleteRelativeLayout;
+    BrushDrawingView brushDrawingView;
+    ImageView imgReceivedFromUploadPhoto, share, photoEditImageView, resultBitmap;
+    TextView backgroundTitle, textView_santa;
+    FrameLayout container;
     Button btnCaptureImage, btnGalleryImage, btnSantaCap;
     StickerView stickerView;
+    ConstraintLayout photo_editor_sdk_layout;
+
+    PhotoEditorSDK photoEditorSDK;
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
 
@@ -35,11 +56,49 @@ public class AddSantaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_santa);
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         setIds();
         imageSet();
         setListener();
+        photoEditor();
+    }
+
+    private void photoEditor() {
+        photoEditorSDK = new PhotoEditorSDK.PhotoEditorSDKBuilder(this)
+                .parentView(parentImageRelativeLayout) // add parent image view
+                .childView(photoEditImageView) // add the desired image view
+                .deleteView(deleteRelativeLayout) // add the deleted view that will appear during the movement of the views
+                .brushDrawingView(brushDrawingView) // add the brush drawing view that is responsible for drawing on the image view
+                .buildPhotoEditorSDK(); // build photo editor sdk
+        photoEditorSDK.drawBitmap(getBitmap());
+        photoEditorSDK.setOnPhotoEditorSDKListener(new OnPhotoEditorSDKListener() {
+            @Override
+            public void onEditTextChangeListener(String text, int colorCode) {
+
+            }
+
+            @Override
+            public void onAddViewListener(ViewType viewType, int numberOfAddedViews) {
+
+            }
+
+            @Override
+            public void onRemoveViewListener(int numberOfAddedViews) {
+
+            }
+
+            @Override
+            public void onStartViewChangeListener(ViewType viewType) {
+
+            }
+
+            @Override
+            public void onStopViewChangeListener(ViewType viewType) {
+
+            }
+        });
+        photo_editor_sdk_layout.setVisibility(View.GONE);
     }
 
     private void setIds() {
@@ -49,7 +108,19 @@ public class AddSantaActivity extends AppCompatActivity {
         btnSantaCap = findViewById(R.id.santa_cap_button);
         share = findViewById(R.id.shareIcon);
         backgroundTitle = findViewById(R.id.textView_background);
+        textView_santa = findViewById(R.id.textView_santa);
         stickerView = findViewById(R.id.stickerView);
+        photo_editor_sdk_layout = findViewById(R.id.photo_editor_sdk_layout);
+        parentImageRelativeLayout = findViewById(R.id.parent_image_rl);
+        deleteRelativeLayout = findViewById(R.id.delete_rl);
+        photoEditImageView = findViewById(R.id.photo_edit_iv);
+        brushDrawingView = findViewById(R.id.drawingView);
+        container = findViewById(R.id.container);
+        resultBitmap = findViewById(R.id.resultBitmap);
+    }
+
+    private Bitmap getBitmap() {
+        return drawableToBitmap(ResourcesCompat.getDrawable(getResources(), R.drawable.santa_sticker_1, null));
     }
 
     private void imageSet() {
@@ -89,24 +160,45 @@ public class AddSantaActivity extends AppCompatActivity {
             startActivityForResult(galleryIntent, PICK_REQUEST);
         });
 
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Handle the share button click
-                shareImage();
-            }
+        share.setOnClickListener(view -> {
+            shareImage();
         });
-        backgroundTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stickerView.setVisibility(View.VISIBLE);
-                // Add a sample sticker (you need to implement sticker adding logic)
-                Drawable stickerDrawable = getResources().getDrawable(R.drawable.santa_sticker_1);
-                stickerView.addSticker(stickerDrawable);
-            }
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, new EraserFragment(this))
+                .commit();
+
+        backgroundTitle.setOnClickListener(view -> {
+            container.setVisibility(View.VISIBLE);
+            resultBitmap.setVisibility(View.GONE);
+//            photo_editor_sdk_layout.setVisibility(View.VISIBLE);
+//            photoEditorSDK.setBrushDrawingMode(true);
+        });
+        textView_santa.setOnClickListener(view -> {
+            container.setVisibility(View.GONE);
+            resultBitmap.setVisibility(View.GONE);
+//            photoEditorSDK.brushEraser();
         });
     }
 
+    public static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    private Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
 
     private void shareImage() {
         // Replace "Your image content URI" with the actual URI of your image
@@ -134,4 +226,24 @@ public class AddSantaActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 4455) {
+            byte[] receivedBytes = data.getByteArrayExtra("bitmapBytesExtra");
+            stickerView.addSticker(getBitmapFromBytes(receivedBytes));
+        }
+    }
+
+    public static Bitmap getBitmapFromBytes(byte[] byteArray) {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    }
+
+    @Override
+    public void onSaveBitmap(Bitmap bitmap) {
+        Log.d(TAG, "onSaveBitmap: ");
+        container.setVisibility(View.GONE);
+        resultBitmap.setVisibility(View.VISIBLE);
+        resultBitmap.setImageBitmap(bitmap);
+    }
 }

@@ -1,7 +1,6 @@
 package com.smlab.santaspotter;
 
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,21 +9,17 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
 public class StickerView extends View {
 
     private Bitmap backgroundImage;
-    private float initialAngle = 180f;
-    private PointF pivotPoint = new PointF();
     private Bitmap sticker;
     private boolean isStickerFlipped = false; // Flag to track the flip state
     private Bitmap removeIcon; // Cross icon for sticker removal
@@ -58,9 +53,9 @@ public class StickerView extends View {
         invalidate();
     }
 
-    public void addSticker(Drawable stickerDrawable) {
-        this.sticker = drawableToBitmap(stickerDrawable);
-        if (sticker != null) {
+    public void addSticker(Bitmap stickerDrawable) {
+        this.sticker = stickerDrawable;
+        if (stickerDrawable != null) {
             Log.d("StickerView", "Sticker added successfully");
             invalidate();
         } else {
@@ -123,7 +118,7 @@ public class StickerView extends View {
             // Apply brightness filter
             Paint brightnessPaint = new Paint(paint);
             ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.set(new float[] {
+            colorMatrix.set(new float[]{
                     1, 0, 0, 0, stickerBrightness - 55,
                     0, 1, 0, 0, stickerBrightness - 55,
                     0, 0, 1, 0, stickerBrightness - 55,
@@ -131,12 +126,13 @@ public class StickerView extends View {
             });
             brightnessPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
 
-            canvas.drawBitmap(sticker, stickerMatrix, brightnessPaint);
+            canvas.drawBitmap(sticker, stickerMatrix, null); // if sticker brightness is high so type paint null and sticker correctly display
 
             // ...
         }
 
     }
+
     private void drawCancelButton(Canvas canvas) {
         if (sticker != null) {
             float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
@@ -251,7 +247,6 @@ public class StickerView extends View {
             float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
             float stickerX = points[0];
             float stickerY = points[1];
-
             // Check if the touch coordinates are within the cancel button area
             return x >= (stickerX - CANCEL_BUTTON_SIZE) && x <= (stickerX + CANCEL_BUTTON_SIZE) &&
                     y >= (stickerY - CANCEL_BUTTON_SIZE) && y <= (stickerY + CANCEL_BUTTON_SIZE);
@@ -270,10 +265,12 @@ public class StickerView extends View {
         float y = event.getY(0) - event.getY(1);
         return (float) Math.sqrt(x * x + y * y);
     }
+
     public void removeSticker() {
         clearSticker(); // This method clears the sticker
         invalidate();
     }
+
     public void flipSticker() {
         if (sticker != null) {
             // Get the current center coordinates of the sticker
@@ -296,7 +293,5 @@ public class StickerView extends View {
         stickerMatrix.mapPoints(points);
         return points;
     }
-
-
 
 }
