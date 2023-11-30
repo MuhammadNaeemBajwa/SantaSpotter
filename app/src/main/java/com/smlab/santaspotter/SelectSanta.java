@@ -107,7 +107,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList, this);
+        adapter = new SelectSantaAdapter(this,SelectSanta.this, selectSantaList, this);
         recyclerView.setAdapter(adapter);
     }
     @Override
