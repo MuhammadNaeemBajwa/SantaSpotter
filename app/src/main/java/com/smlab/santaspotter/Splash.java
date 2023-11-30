@@ -13,24 +13,44 @@ import com.smlab.santaspotter.databinding.ActivitySplashBinding;
 public class Splash extends AppCompatActivity {
 
     private ActivitySplashBinding binding;
+    private boolean userClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+//        new Handler().postDelayed(() -> {
+//            Intent intent = new Intent(Splash.this, GetStarted.class);
+//            startActivity(intent);
+//            finish();
+//        },3000);
+//
+//
+//        binding.viewTouch.setOnClickListener(view -> startActivity(new Intent(Splash.this,GetStarted.class)));
+
+
+        // Post delayed action
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(Splash.this, GetStarted.class);
-            startActivity(intent);
-            finish();
-        },3000);
-
-
-        binding.viewTouch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Splash.this,UploadPhoto.class));
+            // Check if the user has already clicked
+            if (!userClicked) {
+                moveToNextActivity();
             }
+        }, 3000);
+
+        // Handle click on the splash screen view
+        binding.viewTouch.setOnClickListener(view -> {
+            userClicked = true;
+            moveToNextActivity();
         });
     }
+
+    // Method to move to the next activity
+    private void moveToNextActivity() {
+        Intent intent = new Intent(Splash.this, GetStarted.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
