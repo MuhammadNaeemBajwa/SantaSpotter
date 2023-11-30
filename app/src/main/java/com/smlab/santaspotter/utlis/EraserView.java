@@ -1,9 +1,8 @@
-package com.smlab.santaspotter;
+package com.smlab.santaspotter.utlis;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -16,7 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PaintView extends View implements View.OnTouchListener {
+public class EraserView extends View implements View.OnTouchListener {
 
     private static final String TAG = "PaintView";
     Bitmap bitmap;
@@ -33,7 +32,7 @@ public class PaintView extends View implements View.OnTouchListener {
     RectF rectF;
 
 
-    public PaintView(Context context, AttributeSet attrs) {
+    public EraserView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -70,10 +69,6 @@ public class PaintView extends View implements View.OnTouchListener {
         paint.setStrokeWidth(40);
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
     public Bitmap getResultingBitmap() {
         // Create a new Bitmap to hold the result
         Bitmap resultBitmap = Bitmap.createBitmap(transparent.getWidth(), transparent.getHeight(), Bitmap.Config.ARGB_8888);
@@ -88,27 +83,6 @@ public class PaintView extends View implements View.OnTouchListener {
         resultCanvas.drawPath(drawPath, paint);
 
         return resultBitmap;
-    }
-
-
-    public void resetView() {
-        drawPath.reset();
-        bitmap = null;
-        transparent = null;
-        invalidate();
-    }
-
-    private Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable == null) {
-            return null;
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
     }
 
     public void setBrushSize(float size) {

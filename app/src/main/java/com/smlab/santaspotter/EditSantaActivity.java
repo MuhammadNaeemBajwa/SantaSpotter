@@ -1,85 +1,57 @@
 package com.smlab.santaspotter;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.smlab.santaspotter.databinding.ActivityMainBinding;
-import com.smlab.santaspotter.filter.ColorFilterGenerator;
+import com.smlab.santaspotter.fragments.EraserFragment;
+import com.smlab.santaspotter.fragments.EraserVM;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-public class EditSantaActivity extends AppCompatActivity {
+public class EditSantaActivity extends AppCompatActivity implements EraserFragment.Listener {
     private ActivityMainBinding binding;
-    private int brightnessProgress = 0;
-    private int temperatureProgress = 0;
+    Bitmap bitmap;
+    Bitmap combinedBitmap;
+    EraserVM eraserVM;
 
-    Drawable selectedStickerDrawable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        getIntentData();
+        initialize();
         setListener();
-        receivedImage();
     }
 
-    private void receivedImage() {
-//        Intent intent = getIntent();
-//        Bitmap combinedBitmap = intent.getParcelableExtra("combinedBitmap");
-//        int selectedStickerResId = intent.getIntExtra("selectedStickerDrawable", -1);
-//        if (combinedBitmap != null) {
-//            // Set the combined image to the ImageView in the next activity
-//            binding.imgReceived.setImageBitmap(combinedBitmap);
-//
-//            // Add the selected sticker to the StickerView (if needed)
-//            if (selectedStickerResId != -1) {
-//                 selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
-//                binding.stickerView.addSticker(selectedStickerDrawable);
-//            }
-//
-//        }
+    private void initialize() {
+        eraserVM = new ViewModelProvider(this).get(EraserVM.class);
+        getSupportFragmentManager().beginTransaction().add(R.id.eraserContainer, new EraserFragment(this, bitmap)).commit();
+        setData();
+    }
 
+    private void setData() {
+        binding.stickerView.addSticker(bitmap);
+        binding.imgReceived.setImageBitmap(combinedBitmap);
+    }
+
+    private void getIntentData() {
         Intent intent = getIntent();
         String combinedImagePath = intent.getStringExtra("combinedImagePath");
         int selectedStickerResId = intent.getIntExtra("selectedStickerDrawable", -1);
-
+        if (selectedStickerResId != -1) {
+            bitmap = BitmapFactory.decodeResource(getResources(), selectedStickerResId);
+        }
         if (combinedImagePath != null) {
-            // Load the combined image from the file
-            Bitmap combinedBitmap = BitmapFactory.decodeFile(combinedImagePath);
-
-            // Set the combined image to the ImageView in the next activity
-            binding.imgReceived.setImageBitmap(combinedBitmap);
-
-            // Add the selected sticker to the StickerView (if needed)
-            if (selectedStickerResId != -1) {
-                Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
-                binding.stickerView.addSticker(selectedStickerDrawable);
-            }
+            combinedBitmap = BitmapFactory.decodeFile(combinedImagePath);
         }
 
     }
@@ -93,29 +65,19 @@ public class EditSantaActivity extends AppCompatActivity {
         binding.includeSantaStickers.constraintImageBrithness.setOnClickListener(view -> {
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
-//            updateBrightnessColorFilter(binding.includeSantaStickers.seekBarBrightness.getProgress());
-
             binding.includeSantaStickers.titleEditSanta.setText(R.string.brightness);
             binding.includeSantaStickers.titleEditSanta.setTextColor(Color.RED);
             binding.includeSantaStickers.titleEditSanta.setTextSize(12);
-//            binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
             seekBarBrightnessListener();
 //
         });
 
         binding.includeSantaStickers.constraintImageTemprature.setOnClickListener(view -> {
-
             binding.includeSantaStickers.titleEditSanta.setText(R.string.brightness);
             binding.includeSantaStickers.titleEditSanta.setTextColor(Color.RED);
             binding.includeSantaStickers.titleEditSanta.setTextSize(12);
-
-
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.GONE);
-//            updateTemperatureColorFilter(binding.includeSantaStickers.seekBarTemperature.getProgress());
-//            binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
             seekBarTemperatureListener();
 
         });
@@ -127,16 +89,20 @@ public class EditSantaActivity extends AppCompatActivity {
 ////             saveImageWithStickers();
 //            }
 //        });
+
+        binding.includeSantaStickers.constriantImageEraser.setOnClickListener(view -> {
+            binding.eraserContainer.setVisibility(View.VISIBLE);
+            binding.stickerView.setVisibility(View.GONE);
+            binding.includeSantaStickers.seekBarEraser.setVisibility(View.VISIBLE);
+            seekBarEraserListener();
+        });
     }
 
-    private void seekBarBrightnessListener(){
+    private void seekBarBrightnessListener() {
         binding.includeSantaStickers.seekBarBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-//                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
-                brightnessProgress = progress;
-//                updateBrightnessColorFilter(progress);
                 int updateProgress = progress - 100;
                 binding.stickerView.setStickerBrightness(updateProgress);
 //                binding.stickerView.updateBrightnessColorFilter(selectedStickerDrawable,updateProgress);
@@ -174,15 +140,11 @@ public class EditSantaActivity extends AppCompatActivity {
         });
     }
 
-    private void seekBarTemperatureListener(){
+    private void seekBarTemperatureListener() {
         binding.includeSantaStickers.seekBarTemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-//                Nov 27, 2023  -   Both Brightness and Temperature Color Filter is perfectly fine.
-                temperatureProgress = progress;
-//                updateTemperatureColorFilter(progress);
                 int updateProgress = progress - 100;
 //                binding.stickerView.setStickerTemperature(updateProgress);
                 binding.stickerView.setStickerBrightness(updateProgress);
@@ -216,6 +178,34 @@ public class EditSantaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void seekBarEraserListener() {
+        binding.includeSantaStickers.seekBarEraser.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                eraserVM.getEraserSize().setValue((float) progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onSaveBitmap(Bitmap bitmap) {
+        binding.eraserContainer.setVisibility(View.GONE);
+        binding.stickerView.setVisibility(View.VISIBLE);
+        binding.stickerView.addSticker(bitmap);
     }
 
 //    private void updateBrightnessColorFilter(int progress) {

@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -18,6 +19,7 @@ import android.provider.MediaStore;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
 import com.smlab.santaspotter.filter.BaseActivity;
@@ -64,7 +66,8 @@ public class AddSantaActivity extends BaseActivity {
         Bitmap receivedBitmap = getIntent().getParcelableExtra("imageBitmap");
         if (receivedBitmap != null) {
             binding.imgReceived.setImageBitmap(receivedBitmap);
-        } else {}
+        } else {
+        }
     }
 
     //  Nov 29, 2023  -   This method will show your dialog.
@@ -183,12 +186,11 @@ public class AddSantaActivity extends BaseActivity {
                 int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
 
                 if (selectedStickerResId != -1) {
-                    Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
                     Bitmap combinedBitmap = Bitmap.createBitmap(existingImage.getWidth(), existingImage.getHeight(), existingImage.getConfig());
                     Canvas canvas = new Canvas(combinedBitmap);
                     canvas.drawBitmap(existingImage, new Matrix(), null);
                     // Add the selected sticker to the StickerView
-                    binding.stickerView.addSticker(selectedStickerDrawable);
+                    binding.stickerView.addSticker(BitmapFactory.decodeResource(getResources(), selectedStickerResId));
 
 //                  Nov 29, 2023    -   On touch of sticker then dialog permission dialog show .
 //                  After dismiss the dialog, 0.5sec delay  the moved towards the edit activity
@@ -219,8 +221,7 @@ public class AddSantaActivity extends BaseActivity {
                 int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
                 if (selectedStickerResId != -1) {
                     // Add the selected sticker to the StickerView
-                    Drawable selectedStickerDrawable = getResources().getDrawable(selectedStickerResId);
-                    binding.stickerView.addSticker(selectedStickerDrawable);
+                    binding.stickerView.addSticker(BitmapFactory.decodeResource(getResources(), selectedStickerResId));
                 }
             }
         }
@@ -253,6 +254,7 @@ public class AddSantaActivity extends BaseActivity {
             return null;
         }
     }
+
     // Save the bitmap to a file and return the file path
     private String saveBitmapToFileUpdate(Bitmap bitmap) {
         String filename = "combined_image_" + System.currentTimeMillis() + ".jpg";
@@ -279,6 +281,7 @@ public class AddSantaActivity extends BaseActivity {
             return null;
         }
     }
+
     // Insert the image into the Media Provider (Gallery)
     private void insertImageIntoGallery(String imagePath) {
         ContentValues values = new ContentValues();
@@ -301,6 +304,7 @@ public class AddSantaActivity extends BaseActivity {
             Toast.makeText(this, "Error saving image", Toast.LENGTH_SHORT).show();
         }
     }
+
     // Call this method when you want to save the image
     private void saveImageWithStickers() {
         // Get the combined image from the ImageView
@@ -339,7 +343,7 @@ public class AddSantaActivity extends BaseActivity {
         }
     }
 
-//    Nov 27, 2023  -   This share Image function is used for the share the image for any platform.
+    //    Nov 27, 2023  -   This share Image function is used for the share the image for any platform.
 //      Nov 28, 2023 -  For now the share image got an error and error so I commented
     private void shareImage() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);

@@ -46,6 +46,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <SeekBar
+            android:id="@+id/seek_bar_eraser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="@color/red_text_color"
+            android:thumbTint="@color/red_text_color"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/editSantaConstraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/titleEditSanta"
             android:layout_width="wrap_content"
