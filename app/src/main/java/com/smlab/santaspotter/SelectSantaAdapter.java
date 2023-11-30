@@ -1,7 +1,9 @@
 package com.smlab.santaspotter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
     ArrayList<SelectSantaModel> selectSantaModelArrayList;
     private int selectedItem = RecyclerView.NO_POSITION;
     private OnItemClickListener onItemClickListener;
+    private Context context;
 
 
     public SelectSantaAdapter(SelectSanta selectSanta, ArrayList<SelectSantaModel> selectSantaModelArrayList,  OnItemClickListener listener) {
@@ -42,6 +45,16 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
         SelectSantaModel item = selectSantaModelArrayList.get(position);
         holder.santaSticker.setImageResource(item.getSantaSticker());
 
+        if (item.isLocked()){
+            holder.lockIcon.setVisibility(View.VISIBLE);
+            holder.santaSticker.setEnabled(false);
+        } else {
+            holder.lockIcon.setVisibility(View.GONE);
+            holder.santaSticker.setEnabled(true);
+
+//            holder.santaSticker.setColorFilter(ContextCompat.getColor(selectSanta,R.color.sticker_color), PorterDuff.Mode.SRC_IN);
+        }
+
         if (selectedItem == position) {
             holder.santaCardView.setBackground(ContextCompat.getDrawable(selectSanta,R.drawable.background_selected_santa));
         } else {
@@ -62,11 +75,12 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
 
 
     public class viewholder extends RecyclerView.ViewHolder {
-        ImageView santaSticker;
+        ImageView santaSticker, lockIcon;
         ConstraintLayout santaCardView;
         public viewholder(@NonNull View itemView) {
             super(itemView);
             santaSticker = itemView.findViewById(R.id.firstSantaSticker);
+            lockIcon = itemView.findViewById(R.id.lockIcon);
             santaCardView = itemView.findViewById(R.id.cardViewSanta);
         }
 

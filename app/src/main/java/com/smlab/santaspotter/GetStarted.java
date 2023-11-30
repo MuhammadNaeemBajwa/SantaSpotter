@@ -63,7 +63,7 @@ public class GetStarted extends AppCompatActivity {
         urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
 
         // for URL to go website
-        SpannableString spannableString1 = new SpannableString("https://www.copperfield.com/privacy-policy/");
+        SpannableString spannableString1 = new SpannableString("Privacy Policy");
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
@@ -79,7 +79,7 @@ public class GetStarted extends AppCompatActivity {
         policyUrlTextView.setText(spannableString1);
         policyUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
         // Set the link text color
-        urlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
+        policyUrlTextView.setLinkTextColor(getResources().getColor(R.color.red_text_color));
 
 
 
