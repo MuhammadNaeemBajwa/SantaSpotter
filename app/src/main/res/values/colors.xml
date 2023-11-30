@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#91050F</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,8 +8,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dailog_code_textcolor">#7E7E7E</color>
     <color name="dialog_view_color">#FC2F48</color>
     <color name="red_text_color">#FC2F48</color>
-    santa_app
+    <color name="sticker_color">#50FFFFFF</color>
+    <color name="select_santa_background">#FFB2BC</color>
+    <color name="unselect_santa_background">#F5F4F7</color>
 </resources>

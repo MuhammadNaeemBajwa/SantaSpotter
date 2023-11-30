@@ -20,19 +20,23 @@
             android:src="@drawable/get_started_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:fontFamily="@font/poppins_bold"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="44dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="@string/santa_claus_is_ncoming_to_town"
             android:textColor="@color/black"
             android:textSize="@dimen/xXLargeTextSize"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/getStarted_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/getStarted_logo"
             tools:ignore="MissingConstraints" />
@@ -46,7 +50,6 @@
             android:text="@string/now_you_can_spot_him_in_action"
             android:textColor="@color/black"
             android:textSize="@dimen/mediumTextSize"
-            app:layout_constraintEnd_toEndOf="@+id/text_title"
             app:layout_constraintStart_toStartOf="@+id/text_title"
             app:layout_constraintTop_toBottomOf="@+id/text_title"
             tools:ignore="MissingConstraints" />
@@ -55,7 +58,7 @@
             android:id="@+id/button_spot_him"
             android:layout_width="@dimen/_135sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/button_bg"
             android:fontFamily="@font/poppins_regular"
             android:padding="@dimen/_6sdp"
@@ -70,21 +73,21 @@
             android:id="@+id/url_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_medium"
             android:padding="@dimen/_4sdp"
             android:text="@string/https_www_copperfield_com"
             android:textColor="#FC2F48"
-            android:textSize="@dimen/xSmallTextSize"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/button_spot_him"
-            app:layout_constraintStart_toStartOf="@+id/button_spot_him" />
+            android:textSize="@dimen/smallTextSize"
+            app:layout_constraintStart_toStartOf="@+id/button_spot_him"
+            app:layout_constraintTop_toBottomOf="@+id/button_spot_him" />
 
         <TextView
             android:id="@+id/policy_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="@dimen/_18sdp"
             android:fontFamily="@font/poppins_medium"
             android:padding="@dimen/_4sdp"
             android:text="@string/privacy_policy"
@@ -94,7 +97,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/url_textView"
             app:layout_constraintVertical_bias="0.0" />
-
 
         <ImageView
             android:id="@+id/getStarted_logo"
@@ -108,7 +110,5 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

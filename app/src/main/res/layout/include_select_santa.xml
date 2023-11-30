@@ -33,7 +33,7 @@
             android:text="@string/classic_santa"
             android:textColor="@color/white"
             android:textSize="@dimen/bigTextSize"
-            app:layout_constraintEnd_toStartOf="@+id/select_santa_logo"
+            app:layout_constraintEnd_toStartOf="@+id/select_santa_sticker"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/back_arrow"
             tools:ignore="MissingConstraints" />
@@ -74,11 +74,13 @@
             tools:ignore="MissingConstraints" />
 
         <ImageView
-            android:id="@+id/select_santa_logo"
+            android:id="@+id/select_santa_sticker"
             android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_250sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/_12sdp"
-            android:src="@drawable/select_santa"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/santa3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
