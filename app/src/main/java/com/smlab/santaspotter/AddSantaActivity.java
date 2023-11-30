@@ -203,6 +203,7 @@ public class AddSantaActivity extends BaseActivity {
                             nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
 
                             startActivity(nextActivityIntent);
+                            finish();
                         }, 500);
                     });
 
