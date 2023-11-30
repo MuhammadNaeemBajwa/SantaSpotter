@@ -4,6 +4,13 @@
     <string name="take_a_photo">Take a photo</string>
     <string name="upload_a_photo">Upload a photo</string>
     <string name="background">Background</string>
+    <string name="share">Share</string>
+
+    <string name="brightness">Brightness</string>
+    <string name="temperature">Temperature</string>
+    <string name="eraser">Eraser</string>
+
+    <string name="please_enter_a_valid_code">Please enter a valid code.</string>
     <string name="santa">Santa</string>
     <string name="santa_claus_is_ncoming_to_town">Santa Claus is\ncoming to town...</string>
     <string name="now_you_can_spot_him_in_action">Now you can spot him in action!</string>
@@ -27,6 +34,8 @@
     <string name="classic_santa">Classic Santa</string>
     <string name="he_will_always_finish_nhis_milk_and_cookies">He will always finish\n his milk and cookies.</string>
     <string name="pick_me">Pick Me</string>
+    <string name="edit_your_santa">Edit Your Santa</string>
+    <string name="tap_on_your_santa_to_edit_nuse_pinch_and_drag_gestures_nto_move_scale_and_rotate">Tap on your Santa to edit.\nUse pinch and drag gestures\nto move, scale, and rotate.</string>
 
     <string name="dialog_permission_title">Grant Permissions</string>
     <string name="dialog_permission_message">This app needs permission to use this feature. You can grant them in app settings.</string>

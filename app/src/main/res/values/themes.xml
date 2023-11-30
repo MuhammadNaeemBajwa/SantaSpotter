@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SantaSpotter" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.SantaSpotter" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -21,4 +21,30 @@
         <item name="windowMinWidthMajor">80%</item>
         <item name="windowActionBar">false</item>
     </style>
+
+<!--    // Nov 29,2023 For Captured Image Rounded-->
+    <style name="roundimageview" parent="">
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomLeft">@dimen/_30sdp</item>
+        <item name="cornerSizeBottomRight">@dimen/_30sdp</item>
+
+    </style>
+
+<!--    <style name="styleSeekBar" parent="@android:style/Widget.SeekBar">-->
+<!--        <item name="android:padding">0dp</item>-->
+<!--        <item name="android:background"></item>-->
+<!--        <item name="android:progressDrawable"></item>-->
+<!--        <item name="android:minHeight">29dp</item>-->
+<!--        <item name="android:maxHeight">29dp</item>-->
+<!--        <item name="android:layout_marginLeft">10dp</item>-->
+<!--        <item name="android:layout_marginRight">10dp</item>-->
+<!--        <item name="android:layout_marginTop">10dp</item>-->
+<!--        <item name="android:layout_marginBottom">10dp</item>-->
+<!--        <item name="android:scaleType">fitXY</item>-->
+<!--    </style>-->
 </resources>
