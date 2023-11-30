@@ -250,7 +250,6 @@ package com.smlab.santaspotter;
 //}
 
 
-
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.animation.ObjectAnimator;
@@ -287,7 +286,7 @@ public class StickerView extends View {
     private Matrix removeIconMatrix;
 //    private int stickerBrightness = 128;
 
-//    Nov 29, 2023  -   Give the value 55 so make sure sticker origin color not changed
+    //    Nov 29, 2023  -   Give the value 55 so make sure sticker origin color not changed
     private int stickerBrightness = 55;
     private Matrix stickerMatrix;
     private Paint paint;
@@ -331,8 +330,8 @@ public class StickerView extends View {
         invalidate();
     }
 
-    public void addSticker(Drawable stickerDrawable) {
-        this.sticker = drawableToBitmap(stickerDrawable);
+    public void addSticker(Bitmap sticker) {
+        this.sticker = sticker;
         if (sticker != null) {
             Log.d("StickerView", "Sticker added successfully");
             invalidate();
@@ -345,19 +344,6 @@ public class StickerView extends View {
     public void clearSticker() {
         this.sticker = null;
         invalidate();
-    }
-
-    private Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable == null) {
-            return null;
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
     }
 
     // Add a method to set brightness
@@ -373,11 +359,12 @@ public class StickerView extends View {
         if (temperature != stickerTemperature) {
             this.stickerTemperature = temperature;
 //            invalidate();
-        postInvalidate();
+            postInvalidate();
         }
     }
 
     private boolean isBrightnessMode = true;
+
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
@@ -405,10 +392,10 @@ public class StickerView extends View {
 
         if (sticker != null) {
             // Apply brightness filter
-            if (isBrightnessMode){
+            if (isBrightnessMode) {
                 Paint brightnessPaint = new Paint(paint);
                 ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.set(new float[] {
+                colorMatrix.set(new float[]{
                         1, 0, 0, 0, stickerBrightness - 55,
                         0, 1, 0, 0, stickerBrightness - 55,
                         0, 0, 1, 0, stickerBrightness - 55,
@@ -422,15 +409,14 @@ public class StickerView extends View {
 
                 canvas.drawBitmap(sticker, stickerMatrix, brightnessPaint);
 //            canvas.drawBitmap(sticker, stickerMatrix, null);
-            }
-            else {
+            } else {
                 Paint temperaturePaint = new Paint(paint);
                 ColorMatrix colorMatrix1 = new ColorMatrix();
 
                 float rScale = 1.0f + (stickerBrightness / 100.0f);  // Adjust the temperature factor
-                Log.d(TAG, "onDraw: Temperature: " +rScale);
-                Log.d(TAG, "onDraw: Temperature:stickerTemperature: " +stickerTemperature);
-                colorMatrix1.set(new float[] {
+                Log.d(TAG, "onDraw: Temperature: " + rScale);
+                Log.d(TAG, "onDraw: Temperature:stickerTemperature: " + stickerTemperature);
+                colorMatrix1.set(new float[]{
                         rScale, 0, 0, 0, 0,
                         0, 1, 0, 0, 0,
                         0, 0, 1, 0, 0,
@@ -473,7 +459,6 @@ public class StickerView extends View {
 //            canvas.drawBitmap(sticker, stickerMatrix, filterPaint);
 //        }
     }
-
 
 
     private void drawCancelButton(Canvas canvas) {
@@ -623,12 +608,14 @@ public class StickerView extends View {
     private float getDistance(MotionEvent event) {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x *x + y * y);
+        return (float) Math.sqrt(x * x + y * y);
     }
+
     public void removeSticker() {
         clearSticker(); // This method clears the sticker
         invalidate();
     }
+
     public void flipSticker() {
         if (sticker != null) {
             // Get the current center coordinates of the sticker

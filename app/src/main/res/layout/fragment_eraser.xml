@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.EraserFragment">
+
+    <com.smlab.santaspotter.utlis.EraserView
+        android:id="@+id/eraserView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <TextView
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/rounded_border_text_view"
+        android:drawablePadding="@dimen/_5sdp"
+        android:fontFamily="sans-serif-black"
+        android:paddingHorizontal="@dimen/_10sdp"
+        android:paddingVertical="@dimen/_5sdp"
+        android:text="@string/save"
+        android:textColor="@color/red_text_color"
+        android:textSize="@dimen/_12sdp"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_save"
+        app:drawableTint="@color/red_text_color" />
+
+</FrameLayout>

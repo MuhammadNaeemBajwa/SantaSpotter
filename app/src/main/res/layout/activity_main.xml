@@ -32,17 +32,21 @@
             android:id="@+id/stickerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/changeBrigtnessTemperature"
+        <FrameLayout
+            android:id="@+id/eraserContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/stickerView"
-            app:layout_constraintEnd_toEndOf="@+id/stickerView"
-            app:layout_constraintStart_toStartOf="@+id/stickerView"
-            app:layout_constraintTop_toTopOf="@+id/stickerView" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
