@@ -194,7 +194,7 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int updateProgress = progress - 100;
 //                binding.stickerView.setStickerTemperature(updateProgress);
-                binding.stickerView.setStickerBrightness(updateProgress);
+                binding.stickerView.setStickerTemperature(updateProgress);
                 binding.includeSantaStickers.imgTemperature.setVisibility(View.GONE);
                 binding.includeSantaStickers.textTemperatureValue.setText("" + updateProgress + "%");
                 binding.includeSantaStickers.constraintTemperatureValue.setVisibility(View.VISIBLE);
