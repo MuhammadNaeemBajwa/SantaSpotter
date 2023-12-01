@@ -8,6 +8,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,23 +63,19 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
 
             holder.santaSticker.setImageResource(item.getStickerImageResource());
             holder.lockIcon.setVisibility(View.VISIBLE);
+            holder.lockColor.setVisibility(View.VISIBLE);
 
-            if (selectedItem == position) {
-                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_selected_santa));
-            } else {
-                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_round_santa_sticker));
-            }
         } else {
-
+            Log.d("TAG", "onBindViewHolder: "+item.getStickerImageResource());
             holder.santaSticker.setImageResource(item.getStickerImageResource());
             holder.lockIcon.setVisibility(View.GONE);
+            holder.lockColor.setVisibility(View.GONE);
 
-            if (selectedItem == position) {
-                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_selected_santa));
-            } else {
-                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_round_santa_sticker));
-            }
-
+        }
+        if (selectedItem == position) {
+            holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_selected_santa));
+        } else {
+            holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_round_santa_sticker));
         }
 
         holder.santaSticker.setOnClickListener(v -> {

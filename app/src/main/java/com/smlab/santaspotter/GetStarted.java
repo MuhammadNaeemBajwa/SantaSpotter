@@ -21,7 +21,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class GetStarted extends AppCompatActivity {
+import com.smlab.santaspotter.baseclasses.BaseActivity;
+
+public class GetStarted extends BaseActivity {
 
     Animation zoom_in, bottomAnim;
     ConstraintLayout constraintLayout2;

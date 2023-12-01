@@ -20,13 +20,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.smlab.santaspotter.baseclasses.BaseActivity;
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
 import com.smlab.santaspotter.databinding.ActivitySelectSantaBinding;
 import com.smlab.santaspotter.filter.UnlockStickersDialog;
 
 import java.util.ArrayList;
 
-public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter.OnItemClickListener {
+public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnItemClickListener {
     ConstraintLayout includePickMe;
     RecyclerView recyclerView;
     SelectSantaAdapter adapter;
@@ -34,6 +35,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     private ActivitySelectSantaBinding binding;
     private ImageView selectedSantaSticker;
     private boolean isItemSelectedLocked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,37 +68,39 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
             }
         });
     }
+
     private void setUpRecyclerView() {
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa1));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa1, false, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa2, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa3, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa4, true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa5,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa6,true,R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa7,true,R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa8,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa9,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa10,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa11,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa12,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa13,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa14,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa15,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa16,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa17,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa18,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa19,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa20,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa21,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa22,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa23,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa24,true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa25,true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa5, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa6, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa7, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa8, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa9, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa10, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa11, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa12, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa13, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa14, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa15, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa16, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa17, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa18, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa19, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa20, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa21, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa22, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa23, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa24, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa25, true, R.drawable.background_round_santa_sticker));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(this,SelectSanta.this, selectSantaModelArrayList, this);
+        adapter = new SelectSantaAdapter(this, SelectSanta.this, selectSantaModelArrayList, this);
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void onItemClick(int position) {
         SelectSantaModel selectedSanta = selectSantaModelArrayList.get(position);
@@ -115,7 +119,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         }
 
         binding.pickMeInclude.pickMeButton.setOnClickListener(view -> {
-            int selectedStickerResId = selectedSanta.getSantaSticker();
+            int selectedStickerResId = selectedSanta.getStickerImageResource();
             Intent resultIntent = new Intent();
             resultIntent.putExtra("selectedSticker", selectedStickerResId);
             setResult(Activity.RESULT_OK, resultIntent);
@@ -147,7 +151,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
 
 
     private boolean isValidCode(String enteredCode) {
-        return enteredCode.equals("COPPERFIELD");
+        return enteredCode.equals(getCouponCode());
     }
 
     private void unlockStickers() {
@@ -165,6 +169,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         Log.d(TAG, "unlockStickers: All stickers unlocked - " + allStickersUnlocked);
         updateButtonVisibility(allStickersUnlocked);
     }
+
     private boolean areAllStickersUnlocked() {
         for (SelectSantaModel model : selectSantaModelArrayList) {
             if (model.isLocked()) {

@@ -7,10 +7,11 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.smlab.santaspotter.baseclasses.BaseActivity;
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
 import com.smlab.santaspotter.databinding.ActivitySplashBinding;
 
-public class Splash extends AppCompatActivity {
+public class Splash extends BaseActivity {
 
     private ActivitySplashBinding binding;
     private boolean userClicked = false;

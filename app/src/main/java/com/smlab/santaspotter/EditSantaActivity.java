@@ -6,17 +6,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.icu.text.CompactDecimalFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.smlab.santaspotter.baseclasses.BaseActivity;
 import com.smlab.santaspotter.databinding.ActivityMainBinding;
 import com.smlab.santaspotter.fragments.EraserFragment;
 import com.smlab.santaspotter.fragments.EraserVM;
 
-public class EditSantaActivity extends AppCompatActivity implements EraserFragment.Listener {
+public class EditSantaActivity extends BaseActivity implements EraserFragment.Listener {
+    private static final String TAG = "EditSantaActivity";
     private ActivityMainBinding binding;
     Bitmap bitmap;
     Bitmap combinedBitmap;
@@ -32,9 +35,25 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Log.d(TAG, "onCreate: Coupon Code: " + getCouponCode());
         getIntentData();
         initialize();
         setListener();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        String combinedImagePath = intent.getStringExtra("combinedImagePath");
+        int selectedStickerResId = intent.getIntExtra("selectedStickerDrawable", -1);
+        Log.d(TAG, "getIntentData: " + selectedStickerResId);
+        Log.d(TAG, "getIntentData: " + combinedImagePath);
+        if (selectedStickerResId != -1) {
+            bitmap = BitmapFactory.decodeResource(getResources(), selectedStickerResId);
+        }
+        if (combinedImagePath != null) {
+            combinedBitmap = BitmapFactory.decodeFile(combinedImagePath);
+        }
+
     }
 
     private void initialize() {
@@ -48,26 +67,13 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
         binding.imgReceived.setImageBitmap(combinedBitmap);
 
 
-            binding.stickerView.addSticker(bitmap);
+        binding.stickerView.addSticker(bitmap);
 //            binding.stickerView.setStickerBrightness(currentBrightnessProgress - 100);
 //            binding.stickerView.setStickerTemperature(currentTemperatureProgress - 100);
 //            eraserVM.getEraserSize().setValue((float) currentEraserSizeProgress);
 //            binding.includeSantaStickers.seekBarBrightness.setProgress(currentBrightnessProgress);
 //            binding.includeSantaStickers.seekBarTemperature.setProgress(currentTemperatureProgress);
 //            binding.includeSantaStickers.seekBarEraser.setProgress(currentEraserSizeProgress);
-
-    }
-
-    private void getIntentData() {
-        Intent intent = getIntent();
-        String combinedImagePath = intent.getStringExtra("combinedImagePath");
-        int selectedStickerResId = intent.getIntExtra("selectedStickerDrawable", -1);
-        if (selectedStickerResId != -1) {
-            bitmap = BitmapFactory.decodeResource(getResources(), selectedStickerResId);
-        }
-        if (combinedImagePath != null) {
-            combinedBitmap = BitmapFactory.decodeFile(combinedImagePath);
-        }
 
     }
 
@@ -87,7 +93,6 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             binding.includeSantaStickers.selectedItemTitle.setVisibility(View.VISIBLE);
 
             binding.includeSantaStickers.selectedItemTitle.setText(R.string.brightness);
-
 
 
             seekBarBrightnessListener();
@@ -280,7 +285,7 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
     }
 
 
-    private void onSavedButton(){
+    private void onSavedButton() {
 //        currentBrightnessProgress = binding.includeSantaStickers.seekBarBrightness.getProgress();
 //        currentTemperatureProgress = binding.includeSantaStickers.seekBarTemperature.getProgress();
 //        currentEraserSizeProgress = binding.includeSantaStickers.seekBarEraser.getProgress();
