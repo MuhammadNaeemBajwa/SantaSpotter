@@ -3,18 +3,31 @@ package com.smlab.santaspotter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.icu.text.CompactDecimalFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.smlab.santaspotter.databinding.ActivityMainBinding;
 import com.smlab.santaspotter.fragments.EraserFragment;
 import com.smlab.santaspotter.fragments.EraserVM;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Stack;
 
 public class EditSantaActivity extends AppCompatActivity implements EraserFragment.Listener {
     private ActivityMainBinding binding;
@@ -22,16 +35,16 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
     Bitmap combinedBitmap;
     EraserVM eraserVM;
 
-//    private int currentBrightnessProgress = 50;
-//    private int currentTemperatureProgress = 50;
-//    private int currentEraserSizeProgress = 50;
+    Bitmap rootViewBitmap;
 
+    private boolean isImageSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         getIntentData();
         initialize();
         setListener();
@@ -46,15 +59,6 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
     private void setData() {
         binding.stickerView.addSticker(bitmap);
         binding.imgReceived.setImageBitmap(combinedBitmap);
-
-
-            binding.stickerView.addSticker(bitmap);
-//            binding.stickerView.setStickerBrightness(currentBrightnessProgress - 100);
-//            binding.stickerView.setStickerTemperature(currentTemperatureProgress - 100);
-//            eraserVM.getEraserSize().setValue((float) currentEraserSizeProgress);
-//            binding.includeSantaStickers.seekBarBrightness.setProgress(currentBrightnessProgress);
-//            binding.includeSantaStickers.seekBarTemperature.setProgress(currentTemperatureProgress);
-//            binding.includeSantaStickers.seekBarEraser.setProgress(currentEraserSizeProgress);
 
     }
 
@@ -77,6 +81,14 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             binding.stickerView.flipSticker();
         });
 
+        binding.includeSantaStickers.btnUndo.setOnClickListener(view -> {
+            shareImage();
+        });
+
+        binding.includeSantaStickers.constraintImageSave.setOnClickListener(view -> {
+            saveImageIntoGallery();
+        });
+
         binding.includeSantaStickers.constraintImageBrithness.setOnClickListener(view -> {
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
@@ -87,7 +99,6 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             binding.includeSantaStickers.selectedItemTitle.setVisibility(View.VISIBLE);
 
             binding.includeSantaStickers.selectedItemTitle.setText(R.string.brightness);
-
 
 
             seekBarBrightnessListener();
@@ -107,16 +118,6 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
             binding.includeSantaStickers.selectedItemTitle.setText(R.string.temperature);
             seekBarTemperatureListener();
 
-        });
-
-
-        binding.includeSantaStickers.constraintImageSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                onSavedButton();
-
-            }
         });
 
         binding.includeSantaStickers.constriantImageEraser.setOnClickListener(view -> {
@@ -185,7 +186,76 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
 
             }
         });
+
     }
+
+
+    private void saveImageIntoGallery() {
+//  Dec 1, 2023 -   Convert the root layout (binding.getRoot()) into a Bitmap
+        if (rootViewBitmap!=null){
+            rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
+            // Save the Bitmap to the gallery
+            MediaStore.Images.Media.insertImage(
+                    getContentResolver(),
+                    rootViewBitmap,
+                    "Santa Image",
+                    "Hey! Your Santa Is Here."
+            );
+        }
+
+    }
+
+    private Bitmap getBitmapFromView(View view) {
+        // Create a Bitmap with the same dimensions as the view
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        // Create a Canvas with the Bitmap
+        Canvas canvas = new Canvas(bitmap);
+        // Draw the view onto the Canvas
+        view.draw(canvas);
+        return bitmap;
+    }
+
+    private void shareImage() {
+        if (rootViewBitmap!=null){
+            rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
+            // Save the Bitmap to a temporary file
+            File tempFile = saveBitmapToFile(rootViewBitmap);
+
+            // Create an Intent to share the image using FileProvider
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+
+            Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", tempFile);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
+
+            startActivity(Intent.createChooser(shareIntent, "Share Image"));
+        }
+
+    }
+
+
+    private File saveBitmapToFile(Bitmap bitmap) {
+        try {
+            // Create a temporary file
+            File tempFile = File.createTempFile("santa_image", ".png", getCacheDir());
+
+            // Write the bitmap to the file
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+
+            return tempFile;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
     private void seekBarTemperatureListener() {
         binding.includeSantaStickers.seekBarTemperature.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -279,51 +349,4 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
         binding.stickerView.addSticker(bitmap);
     }
 
-
-    private void onSavedButton(){
-//        currentBrightnessProgress = binding.includeSantaStickers.seekBarBrightness.getProgress();
-//        currentTemperatureProgress = binding.includeSantaStickers.seekBarTemperature.getProgress();
-//        currentEraserSizeProgress = binding.includeSantaStickers.seekBarEraser.getProgress();
-
-        // Switch back to sticker mode
-        binding.eraserContainer.setVisibility(View.GONE);
-        binding.stickerView.setVisibility(View.VISIBLE);
-        binding.stickerView.addSticker(bitmap);
-
-        setData();
-    }
-//    private void updateBrightnessColorFilter(int progress) {
-//        // Convert progress to a float value in the range [0.0, 2.0]
-//        float brightnessFactor = (float) (progress + 100) / 100.0f;
-//        Log.d(TAG, "updateBrightnessColorFilter: progress: " + progress);
-//        Log.d(TAG, "updateBrightnessColorFilter: " + brightnessFactor);
-//        // Adjust brightness using ColorMatrix
-//        ColorMatrix colorMatrix = new ColorMatrix();
-//        colorMatrix.set(new float[]{
-//                brightnessFactor, 0, 0, 0, 0,
-//                0, brightnessFactor, 0, 0, 0,
-//                0, 0, brightnessFactor, 0, 0,
-//                0, 0, 0, 1, 0
-//        });
-//
-//        // Apply the ColorMatrix to the ColorFilter
-//        ColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix);
-//
-//        // Apply the ColorFilter to the ImageView
-////        binding.santaSticker.setColorFilter(colorFilter);
-//    }
-//    private void updateTemperatureColorFilter(int progress) {
-//
-////        Nov 27, 2023  -   Temperature functionality is perfectly fine
-//        ColorFilter temperatureFilter = ColorFilterGenerator.adjustTemperatureUpdate(progress);
-//        // Apply the ColorFilter to your ImageView or any other view
-////        binding.santaSticker.setColorFilter(temperatureFilter);
-//    }
-
-    //    private void updateBrightnessColorFilter(int progress) {
-////        Nov 27, 2023  -   Brightness functionality is perfectly working.
-//        binding.santaSticker.setColorFilter(
-//                ColorFilterGenerator.adjustBrightness(progress)
-//        );
-//    }
 }

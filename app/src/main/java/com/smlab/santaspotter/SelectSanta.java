@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -74,6 +75,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectedSantaSticker = binding.pickMeInclude.selectSantaSticker;
 
     }
+
     private void initialized() {
         selectSantaList = new ArrayList<>();
     }
@@ -84,12 +86,12 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectSantaList.add(new SelectSantaModel(R.drawable.santa2, false, R.drawable.background_selected_santa));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa3, true, R.color.sticker_color));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa4, true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa5,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa6,true,R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa7,true,R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa8,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa9,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa10,true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa5, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa6, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa7, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa8, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa9, true, R.drawable.background_round_santa_sticker));
+        selectSantaList.add(new SelectSantaModel(R.drawable.santa10, true, R.drawable.background_round_santa_sticker));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa11));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa12));
         selectSantaList.add(new SelectSantaModel(R.drawable.santa13));
@@ -107,9 +109,10 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(this,SelectSanta.this, selectSantaList, this);
+        adapter = new SelectSantaAdapter(this, SelectSanta.this, selectSantaList, this);
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void onItemClick(int position) {
         SelectSantaModel selectedSanta = selectSantaList.get(position);
@@ -145,7 +148,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         dialogCode = new Dialog(SelectSanta.this, R.style.CustomDialog);
         dialogCode.setContentView(R.layout.unlock_popup_dialog);
         ImageView close;
-        Button submit;
+        ConstraintLayout submit;
         TextView dontHaveCode, errorMessage;
         EditText enterCode;
         submit = dialogCode.findViewById(R.id.submit_button);
@@ -153,6 +156,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         close = dialogCode.findViewById(R.id.imageView_cross);
         dontHaveCode = dialogCode.findViewById(R.id.dont_have_code_textView);
         enterCode = dialogCode.findViewById(R.id.editText_enterCode);
+
 
         close.setOnClickListener(view -> dialogCode.dismiss());
 
@@ -173,9 +177,12 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         Dialog dialog = new Dialog(SelectSanta.this, R.style.CustomDialog);
         dialog.setContentView(R.layout.access_code_dialog);
         ImageView close;
+        TextView email;
+        email = dialog.findViewById(R.id.textView_email);
+        email.setOnClickListener(view -> openEmail());
         close = dialog.findViewById(R.id.imageView_cross);
         close.setOnClickListener(view -> dialog.dismiss());
-        dimBackground(); // Call this method before dialog.show()
+        dimBackground();
         dialog.show();
         dialogCode.dismiss();
 
@@ -187,6 +194,17 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
                 return i;
             }
         }
-        return -1; // Return -1 if the sticker is not found in the list
+        return -1;
     }
+
+    private void openEmail() {
+        String[] TO_EMAIL = {"santa@copperfield.com", "a@gmail.com"};
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, TO_EMAIL);
+        intent.putExtra(Intent.EXTRA_EMAIL, "");
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(intent, ""));
+    }
+
 }

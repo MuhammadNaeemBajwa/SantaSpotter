@@ -341,6 +341,7 @@ public class StickerView extends View {
     }
 
 
+
     public void clearSticker() {
         this.sticker = null;
         invalidate();
@@ -631,6 +632,17 @@ public class StickerView extends View {
 
             invalidate();
         }
+    }
+
+    public Bitmap createBitmap() {
+        // Create a bitmap with the same size as the view
+        Bitmap bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        // Draw the view onto the canvas
+        draw(canvas);
+
+        return bitmap;
     }
 
     private float[] getStickerCenter() {
