@@ -37,7 +37,6 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
 
     Bitmap rootViewBitmap;
 
-    private boolean isImageSaved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +191,6 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
 
     private void saveImageIntoGallery() {
 //  Dec 1, 2023 -   Convert the root layout (binding.getRoot()) into a Bitmap
-        if (rootViewBitmap!=null){
             rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
             // Save the Bitmap to the gallery
             MediaStore.Images.Media.insertImage(
@@ -201,7 +199,7 @@ public class EditSantaActivity extends AppCompatActivity implements EraserFragme
                     "Santa Image",
                     "Hey! Your Santa Is Here."
             );
-        }
+
 
     }
 
