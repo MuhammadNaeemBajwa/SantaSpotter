@@ -15,6 +15,7 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.karumi.dexter.Dexter;
@@ -22,14 +23,13 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.smlab.santaspotter.filter.BaseActivity;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.util.List;
 
 
-public class ImagePickerActivity extends BaseActivity {
+public class ImagePickerActivity extends AppCompatActivity {
 
     private static final String TAG = ImagePickerActivity.class.getSimpleName();
     public static final String INTENT_IMAGE_PICKER_OPTION = "image_picker_option";

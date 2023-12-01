@@ -13,14 +13,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.smlab.santaspotter.baseclasses.BaseActivity;
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
-import com.smlab.santaspotter.filter.BaseActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;

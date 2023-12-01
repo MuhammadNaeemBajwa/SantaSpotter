@@ -1,7 +1,5 @@
 package com.smlab.santaspotter;
-
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
+import static android.content.ContentValues.TAG;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.smlab.santaspotter.filter.AppConstants;
-import com.smlab.santaspotter.filter.BaseActivity;
+import com.smlab.santaspotter.baseclasses.BaseActivity;
 
 import java.io.IOException;
-
 public class UploadPhoto extends BaseActivity {
     ConstraintLayout btnCamera, btnGallery;
     private static final int CAMERA_REQUEST = 52;

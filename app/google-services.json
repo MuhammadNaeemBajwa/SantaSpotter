@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "337224122983",
+    "project_id": "copperfield-d9df6",
+    "storage_bucket": "copperfield-d9df6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337224122983:android:72093ef689aebb2cd20ac2",
+        "android_client_info": {
+          "package_name": "com.smlab.santaspotter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0LD2_7mv0EqBAXZfXO-dKtISQErKvF_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
