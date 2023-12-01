@@ -52,28 +52,36 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
         SelectSantaModel item = selectSantaModelArrayList.get(position);
         holder.santaSticker.setImageResource(item.getSantaSticker());
 
+
         if (item.isLocked()) {
+
             ColorMatrix colorMatrix = new ColorMatrix();
             colorMatrix.setSaturation(0);
             ColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix);
-            holder.lockedSanta.setVisibility(View.VISIBLE);
-            holder.santaStickerLocked.setColorFilter(colorFilter);
-            if (item.getSantaSticker() != 0)
-                holder.santaStickerLocked.setImageResource(item.getSantaSticker());
-            holder.santaSticker.setEnabled(false);
+            holder.santaSticker.setColorFilter(colorFilter);
+
+            holder.santaSticker.setImageResource(item.getStickerImageResource());
+            holder.lockIcon.setVisibility(View.VISIBLE);
+
+            if (selectedItem == position) {
+                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_selected_santa));
+            } else {
+                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_round_santa_sticker));
+            }
         } else {
-            holder.lockedSanta.setVisibility(View.GONE);
-            holder.santaSticker.setEnabled(true);
+
+            holder.santaSticker.setImageResource(item.getStickerImageResource());
+            holder.lockIcon.setVisibility(View.GONE);
+
+            if (selectedItem == position) {
+                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_selected_santa));
+            } else {
+                holder.santaSticker.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_round_santa_sticker));
+            }
 
         }
 
-        if (selectedItem == position) {
-            holder.santaCardView.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_selected_santa));
-        } else {
-            holder.santaCardView.setBackground(ContextCompat.getDrawable(selectSanta, R.drawable.background_round_santa_sticker));
-        }
-
-        holder.santaCardView.setOnClickListener(v -> {
+        holder.santaSticker.setOnClickListener(v -> {
             selectedItem = position;
             notifyDataSetChanged();
             onItemClickListener.onItemClick(position);
@@ -87,17 +95,15 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
 
 
     public class viewholder extends RecyclerView.ViewHolder {
-        ImageView santaSticker, santaStickerLocked;
-        ConstraintLayout santaCardView;
-        FrameLayout lockedSanta;
+        ImageView santaSticker, lockIcon, lockColor;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
             //comment
-            santaSticker = itemView.findViewById(R.id.firstSantaSticker);
-            santaStickerLocked = itemView.findViewById(R.id.firstSantaStickerLocked);
-            santaCardView = itemView.findViewById(R.id.cardViewSanta);
-            lockedSanta = itemView.findViewById(R.id.lockedSanta);
+            santaSticker = itemView.findViewById(R.id.santaSticker);
+            lockIcon = itemView.findViewById(R.id.lockIcon);
+            lockColor = itemView.findViewById(R.id.lockColor);
+
         }
 
 

@@ -94,7 +94,7 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa25,true, R.drawable.background_round_santa_sticker));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaModelArrayList, this);
+        adapter = new SelectSantaAdapter(this,SelectSanta.this, selectSantaModelArrayList, this);
         recyclerView.setAdapter(adapter);
     }
     @Override
