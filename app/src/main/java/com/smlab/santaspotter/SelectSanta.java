@@ -55,23 +55,29 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
     // Abubakr Nov 30, 2023 For Santa Sticker Bottom Animation-->
     private void animation() {
         ellipseAnim = AnimationUtils.loadAnimation(this, R.anim.ellipseanimation);
-        ellipseImageView.setAnimation(ellipseAnim);
+        ImageView animationImageView = findViewById(R.id.animationImageView);
+
+        // Set the animation on the ImageView within the FrameLayout
+        animationImageView.setAnimation(ellipseAnim);
+
+        // Start the animation
+        ellipseAnim.start();
+
+//        ellipseImageView.setAnimation(ellipseAnim);
     }
 
 
     private void setIds() {
         includePickMe = findViewById(R.id.pick_me_include);
         recyclerView = findViewById(R.id.recyclerView2);
-        ellipseImageView = findViewById(R.id.santaEllipse);
+//        ellipseImageView = findViewById(R.id.santaEllipse);
 //        Nov 28, 2023  -   For now the dialog isn't be showed on click of pickMeButton
 //        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
         includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> {
             onBackPressed();
-//            Animation animation = AnimationUtils.loadAnimation(this,R.anim.reverse_ellipse_animation);
-//            ellipseImageView.startAnimation(animation);
         });
 
-        selectedSantaSticker = binding.pickMeInclude.selectSantaSticker;
+        selectedSantaSticker = binding.selectSantaSticker;
 
     }
     private void initialized() {

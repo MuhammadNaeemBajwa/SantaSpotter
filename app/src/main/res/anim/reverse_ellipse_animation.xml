@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Reverse Scale Animation -->
-    <scale
-        android:duration="1200"
-        android:fromXScale="1.0"
-        android:fromYScale="1.0"
-        android:pivotX="0%"
-        android:pivotY="-1000%"
-        android:toXScale="0.0"
-        android:toYScale="200%" />
+<!--<set xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    &lt;!&ndash; Reverse Scale Animation &ndash;&gt;-->
+<!--    <scale-->
+<!--        android:duration="1200"-->
+<!--        android:fromXScale="1.0"-->
+<!--        android:fromYScale="1.0"-->
+<!--        android:pivotX="0%"-->
+<!--        android:pivotY="-1000%"-->
+<!--        android:toXScale="0.0"-->
+<!--        android:toYScale="200%" />-->
 
-    <!-- Fade-out Animation -->
+<!--    &lt;!&ndash; Fade-out Animation &ndash;&gt;-->
+<!--    <alpha-->
+<!--        android:duration="1050"-->
+<!--        android:fromAlpha="0.4"-->
+<!--        android:toAlpha="0.0" />-->
+<!--</set>-->
+
+
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="1300"
+        android:fromXDelta="0%p"
+        android:fromYDelta="0%p"
+        android:toXDelta="-50%p"
+        android:toYDelta="100%p" />
+
     <alpha
-        android:duration="1200"
-        android:fromAlpha="1.0"
-        android:toAlpha="0.0" />
+        android:duration="1100"
+        android:fromAlpha="0.8"
+        android:toAlpha="-1.0" />
 </set>

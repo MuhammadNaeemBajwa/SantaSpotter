@@ -15,6 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -48,7 +51,14 @@ public class AddSantaActivity extends BaseActivity {
         setIds();
         imageSet();
         setListener();
+//        startReverseAnimation();
     }
+
+//    private void startReverseAnimation() {
+//        Animation reverseAnimation = AnimationUtils.loadAnimation(this, R.anim.reverse_ellipse_animation);
+//        ImageView reverseEllipse = findViewById(R.id.reverseEllipse);
+//        reverseEllipse.startAnimation(reverseAnimation);
+//    }
 
     private void setIds() {
         stickerView = findViewById(R.id.stickerView);
