@@ -93,6 +93,7 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<SelectSantaAdapter.
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
+            //comment
             santaSticker = itemView.findViewById(R.id.firstSantaSticker);
             santaStickerLocked = itemView.findViewById(R.id.firstSantaStickerLocked);
             santaCardView = itemView.findViewById(R.id.cardViewSanta);
