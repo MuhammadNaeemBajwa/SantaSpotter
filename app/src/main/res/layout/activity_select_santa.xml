@@ -41,6 +41,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pick_me_include"
         tools:ignore="MissingConstraints"
-        tools:listitem="@layout/select_santa_item_view" />
+        tools:listitem="@layout/santa_item_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
