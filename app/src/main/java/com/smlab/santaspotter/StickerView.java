@@ -348,6 +348,7 @@ public class StickerView extends View {
 
     // Add a method to set brightness
     public void setStickerBrightness(int brightness) {
+        isBrightnessMode = true;
         if (brightness != stickerBrightness) {
             this.stickerBrightness = brightness;
 //            invalidate();
@@ -356,6 +357,7 @@ public class StickerView extends View {
     }
 
     public void setStickerTemperature(int temperature) {
+        isBrightnessMode = false;
         if (temperature != stickerTemperature) {
             this.stickerTemperature = temperature;
 //            invalidate();
@@ -413,7 +415,7 @@ public class StickerView extends View {
                 Paint temperaturePaint = new Paint(paint);
                 ColorMatrix colorMatrix1 = new ColorMatrix();
 
-                float rScale = 1.0f + (stickerBrightness / 100.0f);  // Adjust the temperature factor
+                float rScale = 1.0f + (stickerTemperature / 100.0f);  // Adjust the temperature factor
                 Log.d(TAG, "onDraw: Temperature: " + rScale);
                 Log.d(TAG, "onDraw: Temperature:stickerTemperature: " + stickerTemperature);
                 colorMatrix1.set(new float[]{
