@@ -102,16 +102,10 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
             binding.includeSantaStickers.seekBarBrightness.setVisibility(View.VISIBLE);
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
             binding.includeSantaStickers.seekBarEraser.setVisibility(View.GONE);
-
             binding.includeSantaStickers.titleEditSanta.setVisibility(View.GONE);
-
             binding.includeSantaStickers.selectedItemTitle.setVisibility(View.VISIBLE);
-
             binding.includeSantaStickers.selectedItemTitle.setText(R.string.brightness);
-
-
             seekBarBrightnessListener();
-//
         });
 
         binding.includeSantaStickers.constraintImageTemprature.setOnClickListener(view -> {
@@ -200,7 +194,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
 
 
     private void saveImageIntoGallery() {
-//  Dec 1, 2023 -   Convert the root layout (binding.getRoot()) into a Bitmap
+//  , 2023 -   Convert the root layout (binding.getRoot()) into a Bitmap
             rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
             // Save the Bitmap to the gallery
             MediaStore.Images.Media.insertImage(
