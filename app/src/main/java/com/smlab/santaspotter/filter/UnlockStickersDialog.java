@@ -14,11 +14,9 @@ import androidx.annotation.NonNull;
 import com.smlab.santaspotter.R;
 
 public class UnlockStickersDialog extends Dialog {
-
     private EditText editTextEnterCode;
     private TextView errorMessageTextView;
     private OnUnlockListener onUnlockListener;
-
     public UnlockStickersDialog(@NonNull Context context) {
         super(context);
     }
@@ -47,9 +45,6 @@ public class UnlockStickersDialog extends Dialog {
             }
         });
     }
-
-
-
     public void setOnUnlockListener(OnUnlockListener listener) {
         this.onUnlockListener = listener;
     }
