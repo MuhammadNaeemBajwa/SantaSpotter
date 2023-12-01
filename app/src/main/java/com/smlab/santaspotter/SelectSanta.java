@@ -3,7 +3,9 @@ package com.smlab.santaspotter;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
     private ActivitySelectSantaBinding binding;
     private ImageView selectedSantaSticker;
     private boolean isItemSelectedLocked = false;
+    SelectSantaModel selectedSanta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         setListener();
         setUpRecyclerView();
         animation();
+
+        loadStickerUnlockedState();
     }
 
     private void animation() {
@@ -76,6 +81,14 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         binding.pickMeInclude.unLock.setOnClickListener(view -> {
 
         });
+
+        binding.pickMeInclude.pickMeButton.setOnClickListener(view -> {
+            int selectedStickerResId = selectedSanta.getStickerImageResource();
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("selectedSticker", selectedStickerResId);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        });
     }
 
     private void setUpRecyclerView() {
@@ -108,11 +121,14 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new SelectSantaAdapter(this, SelectSanta.this, selectSantaModelArrayList, this);
         recyclerView.setAdapter(adapter);
+
+//        Dec 02, 2023  -   we need to select the first item by default
+        selectedSanta = selectSantaModelArrayList.get(0);
     }
 
     @Override
     public void onItemClick(int position) {
-        SelectSantaModel selectedSanta = selectSantaModelArrayList.get(position);
+        selectedSanta = selectSantaModelArrayList.get(position);
         selectedSantaSticker.setImageResource(selectedSanta.getSantaSticker());
 
         isItemSelectedLocked = selectedSanta.isLocked();
@@ -126,14 +142,6 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
             binding.pickMeInclude.pickMeButton.setVisibility(View.VISIBLE);
             binding.pickMeInclude.unLock.setVisibility(View.GONE);
         }
-
-        binding.pickMeInclude.pickMeButton.setOnClickListener(view -> {
-            int selectedStickerResId = selectedSanta.getStickerImageResource();
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("selectedSticker", selectedStickerResId);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-        });
 
         binding.pickMeInclude.unLock.setOnClickListener(view -> {
             if (isItemSelectedLocked) {
@@ -164,7 +172,6 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
 
     private void unlockStickers() {
         Log.d(TAG, "unlockStickers: Unlocking stickers");
-
         for (SelectSantaModel model : selectSantaModelArrayList) {
             if (model.isLocked()) {
                 Log.d(TAG, "unlockStickers: Sticker - " + model.getSantaSticker() + ", Locked - " + model.isLocked());
@@ -173,6 +180,7 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
             }
             adapter.notifyDataSetChanged();
         }
+        saveStickerUnlockedState();
         boolean allStickersUnlocked = areAllStickersUnlocked();
         Log.d(TAG, "unlockStickers: All stickers unlocked - " + allStickersUnlocked);
         updateButtonVisibility(allStickersUnlocked);
@@ -198,4 +206,24 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
     }
 
 
+    private void saveStickerUnlockedState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("StickerPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        for (int i = 1; i < selectSantaModelArrayList.size(); i++) {
+            SelectSantaModel model = selectSantaModelArrayList.get(i);
+            editor.putBoolean("6D:23:59:10:1E:2E:71:A5:04:7B:BC:60:23:AB:47:CE:11:98:50:EB" + i, !model.isLocked());
+        }
+
+        editor.apply();
+    }
+
+
+    private void loadStickerUnlockedState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("StickerPrefs", Context.MODE_PRIVATE);
+        for (int i = 1; i < selectSantaModelArrayList.size(); i++) {
+            boolean isUnlocked = sharedPreferences.getBoolean("6D:23:59:10:1E:2E:71:A5:04:7B:BC:60:23:AB:47:CE:11:98:50:EB" + i, false);
+            selectSantaModelArrayList.get(i).setLocked(!isUnlocked);
+        }
+    }
 }

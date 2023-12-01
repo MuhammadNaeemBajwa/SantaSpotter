@@ -46,6 +46,7 @@ public class EraserFragment extends Fragment {
         btnSave.setOnClickListener(view1 -> {
             listener.onSaveBitmap(eraserView.getResultingBitmap());
             bitmap = eraserView.getResultingBitmap();
+
         });
         viewModel = new ViewModelProvider(requireActivity()).get(EraserVM.class);
         viewModel.getEraserSize().observe(getViewLifecycleOwner(), size -> eraserView.setBrushSize(size));
