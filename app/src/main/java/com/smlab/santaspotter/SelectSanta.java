@@ -2,27 +2,22 @@ package com.smlab.santaspotter;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.smlab.santaspotter.baseclasses.BaseActivity;
-import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
 import com.smlab.santaspotter.databinding.ActivitySelectSantaBinding;
 import com.smlab.santaspotter.filter.UnlockStickersDialog;
 
@@ -47,6 +42,21 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         initialized();
         setListener();
         setUpRecyclerView();
+        animation();
+    }
+
+    private void animation() {
+        // Abubakr Nov 30, 2023 For Santa Sticker Bottom Animation-->
+        Animation ellipseAnim = AnimationUtils.loadAnimation(this, R.anim.ellipseanimation);
+        ImageView animationImageView = findViewById(R.id.animationImageView);
+
+        // Set the animation on the ImageView within the FrameLayout
+        animationImageView.setAnimation(ellipseAnim);
+
+        // Start the animation
+        ellipseAnim.start();
+
+//        ellipseImageView.setAnimation(ellipseAnim);
     }
 
     private void setIds() {
@@ -54,7 +64,7 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         includePickMe = findViewById(R.id.pick_me_include);
         recyclerView = findViewById(R.id.recyclerView2);
         includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
-        selectedSantaSticker = binding.pickMeInclude.selectSantaSticker;
+        selectedSantaSticker = binding.selectSantaSticker;
     }
 
     private void initialized() {
@@ -63,18 +73,16 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
     }
 
     private void setListener() {
-        binding.pickMeInclude.unLock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
+        binding.pickMeInclude.unLock.setOnClickListener(view -> {
+
         });
     }
 
     private void setUpRecyclerView() {
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa1, false, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa4, false, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa1, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa2, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa3, true, R.drawable.background_round_santa_sticker));
-        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa4, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa5, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa6, true, R.drawable.background_round_santa_sticker));
         selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa7, true, R.drawable.background_round_santa_sticker));
@@ -136,15 +144,14 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
 
     private void showUnlockStickersDialog() {
         UnlockStickersDialog unlockStickersDialog = new UnlockStickersDialog(this);
-        unlockStickersDialog.setOnUnlockListener(new UnlockStickersDialog.OnUnlockListener() {
-            @Override
-            public void onUnlock(String enteredCode) {
-                if (isValidCode(enteredCode)) {
-                    unlockStickers();
-                    unlockStickersDialog.dismiss();
-                } else {
-                    unlockStickersDialog.showError(getString(R.string.please_enter_a_valid_code));
-                }
+        unlockStickersDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        unlockStickersDialog.setOnUnlockListener(enteredCode -> {
+            if (isValidCode(enteredCode)) {
+                unlockStickers();
+                unlockStickersDialog.dismiss();
+            } else {
+                unlockStickersDialog.showError(getString(R.string.please_enter_a_valid_code));
             }
         });
         unlockStickersDialog.show();
@@ -190,14 +197,5 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         }
     }
 
-    private void openEmail() {
-        String[] TO_EMAIL = {"santa@copperfield.com", "a@gmail.com"};
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, TO_EMAIL);
-        intent.putExtra(Intent.EXTRA_EMAIL, "");
-        intent.putExtra(Intent.EXTRA_TEXT, "");
-        startActivity(Intent.createChooser(intent, ""));
-    }
 
 }

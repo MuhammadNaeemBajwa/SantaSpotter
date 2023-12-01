@@ -57,7 +57,7 @@ public class UploadPhoto extends BaseActivity {
             galleryIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
             galleryIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
             galleryIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-            startActivityForResult(galleryIntent, AppConstants.REQUEST_CODE_For_IMAGE);
+//            startActivityForResult(galleryIntent, AppConstants.REQUEST_CODE_For_IMAGE);
 
             startActivityForResult(galleryIntent, PICK_REQUEST);
 //            pickImage(UploadPhoto.this);

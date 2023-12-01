@@ -464,6 +464,43 @@ public class StickerView extends View {
     }
 
 
+//    private void drawCancelButton(Canvas canvas) {
+//        if (sticker != null) {
+//            float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
+//            float x = points[0];
+//            float y = points[1];
+//
+//            // Draw cancel button in white color
+//            Paint cancelButtonPaint = new Paint();
+//            cancelButtonPaint.setColor(Color.RED);
+//            cancelButtonPaint.setStyle(Paint.Style.FILL);
+//
+//            // Reduce the size of the cancel button
+//            float cancelButtonSize = CANCEL_BUTTON_SIZE / 2;
+//
+//            // Draw cancel button as a white circle
+//            canvas.drawCircle(x, y, cancelButtonSize, cancelButtonPaint);
+//
+//            // Reduce the size of the cross icon
+//            float crossSize = cancelButtonSize * 0.4f;
+//
+//            // Draw a black cross inside the white circle
+//            Paint crossPaint = new Paint();
+//            crossPaint.setColor(Color.WHITE);
+//            crossPaint.setStrokeWidth(3); // Adjust the stroke width as needed
+//
+//            // Calculate cross coordinates
+//            float startX = x - crossSize;
+//            float startY = y - crossSize;
+//            float endX = x + crossSize;
+//            float endY = y + crossSize;
+//
+//            // Draw the cross
+//            canvas.drawLine(startX, startY, endX, endY, crossPaint);
+//            canvas.drawLine(startX, endY, endX, startY, crossPaint);
+//        }
+//    }
+
     private void drawCancelButton(Canvas canvas) {
         if (sticker != null) {
             float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
@@ -478,8 +515,12 @@ public class StickerView extends View {
             // Reduce the size of the cancel button
             float cancelButtonSize = CANCEL_BUTTON_SIZE / 2;
 
+            // Adjust the position of the cancel button to make it closer to the sticker
+            float adjustedX = x - cancelButtonSize * 2.5f;
+            float adjustedY = y + cancelButtonSize * 1.5f;
+
             // Draw cancel button as a white circle
-            canvas.drawCircle(x, y, cancelButtonSize, cancelButtonPaint);
+            canvas.drawCircle(adjustedX, adjustedY, cancelButtonSize, cancelButtonPaint);
 
             // Reduce the size of the cross icon
             float crossSize = cancelButtonSize * 0.4f;
@@ -490,17 +531,16 @@ public class StickerView extends View {
             crossPaint.setStrokeWidth(3); // Adjust the stroke width as needed
 
             // Calculate cross coordinates
-            float startX = x - crossSize;
-            float startY = y - crossSize;
-            float endX = x + crossSize;
-            float endY = y + crossSize;
+            float startX = adjustedX - crossSize;
+            float startY = adjustedY - crossSize;
+            float endX = adjustedX + crossSize;
+            float endY = adjustedY + crossSize;
 
             // Draw the cross
             canvas.drawLine(startX, startY, endX, endY, crossPaint);
             canvas.drawLine(startX, endY, endX, startY, crossPaint);
         }
     }
-
     private float[] getStickerTopRight() {
         float[] points = {sticker.getWidth(), 0};
         stickerMatrix.mapPoints(points);

@@ -85,8 +85,13 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
             binding.stickerView.flipSticker();
         });
 
-        binding.includeSantaStickers.btnUndo.setOnClickListener(view -> {
+        binding.constraintShare.setOnClickListener(view -> {
             shareImage();
+        });
+
+        binding.imageBack.setOnClickListener(view -> {
+            startActivity(new Intent(EditSantaActivity.this, UploadPhoto.class));
+            finish();
         });
 
         binding.includeSantaStickers.constraintImageSave.setOnClickListener(view -> {
@@ -219,7 +224,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
     }
 
     private void shareImage() {
-        if (rootViewBitmap!=null){
+//        if (rootViewBitmap!=null){
             rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
             // Save the Bitmap to a temporary file
             File tempFile = saveBitmapToFile(rootViewBitmap);
@@ -235,7 +240,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
             shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
 
             startActivity(Intent.createChooser(shareIntent, "Share Image"));
-        }
+//        }
 
     }
 
