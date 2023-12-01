@@ -32,22 +32,8 @@ public class UploadPhoto extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
 
-        initialize();
         setIds();
         setListener();
-    }
-
-    private void initialize() {
-
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
-        } else {
-            // Permission already granted, launch camera intent
-
-
-        }
-
     }
 
     private void setIds() {
@@ -79,18 +65,25 @@ public class UploadPhoto extends BaseActivity {
     }
 
     private void launchCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // setting aspect ratio
-        cameraIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+        } else {
+            // Permission already granted, launch camera intent
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // setting aspect ratio
+            cameraIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+            cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+            cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
 
-        // setting maximum bitmap width and height
-        cameraIntent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
-        cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
-        cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
+            // setting maximum bitmap width and height
+            cameraIntent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
+            cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
+            cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
 
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        }
+
     }
 
     //    Nov 30, 2023 -    For now avoiding the conflict.

@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -188,4 +189,15 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
             binding.pickMeInclude.unLock.setVisibility(View.VISIBLE);
         }
     }
+
+    private void openEmail() {
+        String[] TO_EMAIL = {"santa@copperfield.com", "a@gmail.com"};
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, TO_EMAIL);
+        intent.putExtra(Intent.EXTRA_EMAIL, "");
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(intent, ""));
+    }
+
 }
