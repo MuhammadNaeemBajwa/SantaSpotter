@@ -124,7 +124,6 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
         });
 
         binding.includeSantaStickers.constriantImageEraser.setOnClickListener(view -> {
-
             binding.includeSantaStickers.selectedItemTitle.setText(R.string.eraser);
 
             binding.includeSantaStickers.seekBarTemperature.setVisibility(View.GONE);
