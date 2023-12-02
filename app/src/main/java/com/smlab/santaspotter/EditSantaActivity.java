@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -69,6 +70,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
 
     private void initialize() {
         eraserVM = new ViewModelProvider(this).get(EraserVM.class);
+        binding.constraintShare.setVisibility(View.GONE);
         getSupportFragmentManager().beginTransaction().add(R.id.eraserContainer, new EraserFragment(this, bitmap)).commit();
         setData();
     }
@@ -76,10 +78,17 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
     private void setData() {
         binding.stickerView.addSticker(bitmap);
         binding.imgReceived.setImageBitmap(combinedBitmap);
-
     }
 
     private void setListener() {
+
+        binding.justHideMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.justHideMe.setVisibility(View.GONE);
+                binding.demoLayout.setVisibility(View.GONE);
+            }
+        });
 
         binding.includeSantaStickers.constriantImageFlip.setOnClickListener(view -> {
             binding.stickerView.flipSticker();
@@ -194,16 +203,25 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
 
     private void saveImageIntoGallery() {
 //  , 2023 -   Convert the root layout (binding.getRoot()) into a Bitmap
-            rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
-            // Save the Bitmap to the gallery
-            MediaStore.Images.Media.insertImage(
-                    getContentResolver(),
-                    rootViewBitmap,
-                    "Santa Image",
-                    "Hey! Your Santa Is Here."
-            );
+        rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
+        // Save the Bitmap to the gallery
+        MediaStore.Images.Media.insertImage(
+                getContentResolver(),
+                rootViewBitmap,
+                "Santa Image",
+                "Hey! Your Santa Is Here."
+        );
 
+//        Dec 02, 2023  -   After image saved in gallery, we should go back to upload photo screen and clear all previous screens
+        Toast.makeText(this, "Image saved in gallery.", Toast.LENGTH_SHORT).show();
+        openSelectionActivity();
+    }
 
+    void openSelectionActivity() {
+        Intent intent = new Intent(this, UploadPhoto.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private Bitmap getBitmapFromView(View view) {
@@ -218,21 +236,21 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
 
     private void shareImage() {
 //        if (rootViewBitmap!=null){
-            rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
-            // Save the Bitmap to a temporary file
-            File tempFile = saveBitmapToFile(rootViewBitmap);
+        rootViewBitmap = getBitmapFromView(binding.constraintLayout2);
+        // Save the Bitmap to a temporary file
+        File tempFile = saveBitmapToFile(rootViewBitmap);
 
-            // Create an Intent to share the image using FileProvider
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/*");
+        // Create an Intent to share the image using FileProvider
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
 
-            Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", tempFile);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", tempFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this image from Santa App!");
 
-            startActivity(Intent.createChooser(shareIntent, "Share Image"));
+        startActivity(Intent.createChooser(shareIntent, "Share Image"));
 //        }
 
     }
@@ -255,7 +273,6 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
             return null;
         }
     }
-
 
 
     private void seekBarTemperatureListener() {
@@ -348,6 +365,8 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
         binding.eraserContainer.setVisibility(View.GONE);
         binding.stickerView.setVisibility(View.VISIBLE);
         binding.stickerView.addSticker(bitmap);
+
+        binding.constraintShare.setVisibility(View.VISIBLE);
     }
 
 }

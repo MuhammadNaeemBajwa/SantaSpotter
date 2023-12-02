@@ -15,12 +15,8 @@
     <string name="santa_claus_is_ncoming_to_town">Santa Claus is\ncoming to town...</string>
     <string name="now_you_can_spot_him_in_action">Now you can spot him in action!</string>
     <string name="spot_him_now">Spot Him Now!</string>
-    <string name="https_www_copperfield_com">
-        <u>https://www.copperfield.com</u>
-    </string>
-    <string name="privacy_policy">
-        <u>Privacy Policy</u>
-    </string>
+    <string name="https_www_copperfield_com"><u>https://www.copperfield.com</u></string>
+    <string name="privacy_policy"><u>Privacy Policy</u></string>
     <string name="brought_to_your_by_copperfield_nthe_nation_s_leading_supplier_of_nchimney_and_hearth_products">Brought to your by Copperfield.\nThe Nation’s Leading Supplier of\nChimney and Hearth Products.</string>
     <string name="enter_code">Enter Code</string>
     <string name="don_t_have_a_code">Don’t have a code?</string>

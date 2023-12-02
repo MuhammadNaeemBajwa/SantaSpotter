@@ -84,10 +84,10 @@ open class BaseActivity : AppCompatActivity() {
                     showImagePickerOptions(activity)
                     //                        }
 
-//                        if (report.isAnyPermissionPermanentlyDenied()) {
-//                            Log.d(TAG, "onPermissionsChecked: fail: "+(report.isAnyPermissionPermanentlyDenied()));
-//                            showSettingsDialog(activity);
-//                        }
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            Log.d(TAG, "onPermissionsChecked: fail: "+(report.isAnyPermissionPermanentlyDenied()));
+                            showSettingsDialog(activity);
+                        }
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
