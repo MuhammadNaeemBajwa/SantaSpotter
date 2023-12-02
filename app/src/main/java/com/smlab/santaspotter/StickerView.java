@@ -27,7 +27,6 @@ import com.smlab.santaspotter.filter.ColorFilterGenerator;
 public class StickerView extends View {
 
     private Bitmap backgroundImage;
-    private float initialAngle = 180f;
     private PointF pivotPoint = new PointF();
     private Bitmap sticker;
     private boolean isStickerFlipped = false; // Flag to track the flip state
@@ -48,6 +47,9 @@ public class StickerView extends View {
     private static final int CANCEL_BUTTON_SIZE = 40;
     float stickerTemperature = 20;
     private float lastRotation = 180f;
+
+    private OnStickerRemoveListener stickerRemoveListener;
+
 
     public StickerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -182,72 +184,8 @@ public class StickerView extends View {
         }
 
 
-//        if (sticker != null) {
-//            Paint filterPaint = new Paint(paint);
-//            ColorMatrix colorMatrix = new ColorMatrix();
-//
-//            if (isBrightnessMode) {
-//                // Apply brightness filter
-//                colorMatrix.set(new float[]{
-//                        1, 0, 0, 0, stickerBrightness - 55,
-//                        0, 1, 0, 0, stickerBrightness - 55,
-//                        0, 0, 1, 0, stickerBrightness - 55,
-//                        0, 0, 0, 1, 0
-//                });
-//            } else {
-//                // Apply temperature filter
-//                float rScale = 1.0f + (stickerTemperature / 100.0f);
-//                Log.d("Temperature", "rScale: " + rScale);
-//                colorMatrix.set(new float[]{
-//                        rScale, 0, 0, 0, 0,
-//                        0, 1, 0, 0, 0,
-//                        0, 0, 1, 0, 0,
-//                        0, 0, 0, 1, 0
-//                });
-//            }
-//
-//            filterPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-//            canvas.drawBitmap(sticker, stickerMatrix, filterPaint);
-//        }
     }
 
-
-//    private void drawCancelButton(Canvas canvas) {
-//        if (sticker != null) {
-//            float[] points = getStickerTopRight(); // Use the top-right corner of the sticker
-//            float x = points[0];
-//            float y = points[1];
-//
-//            // Draw cancel button in white color
-//            Paint cancelButtonPaint = new Paint();
-//            cancelButtonPaint.setColor(Color.RED);
-//            cancelButtonPaint.setStyle(Paint.Style.FILL);
-//
-//            // Reduce the size of the cancel button
-//            float cancelButtonSize = CANCEL_BUTTON_SIZE / 2;
-//
-//            // Draw cancel button as a white circle
-//            canvas.drawCircle(x, y, cancelButtonSize, cancelButtonPaint);
-//
-//            // Reduce the size of the cross icon
-//            float crossSize = cancelButtonSize * 0.4f;
-//
-//            // Draw a black cross inside the white circle
-//            Paint crossPaint = new Paint();
-//            crossPaint.setColor(Color.WHITE);
-//            crossPaint.setStrokeWidth(3); // Adjust the stroke width as needed
-//
-//            // Calculate cross coordinates
-//            float startX = x - crossSize;
-//            float startY = y - crossSize;
-//            float endX = x + crossSize;
-//            float endY = y + crossSize;
-//
-//            // Draw the cross
-//            canvas.drawLine(startX, startY, endX, endY, crossPaint);
-//            canvas.drawLine(startX, endY, endX, startY, crossPaint);
-//        }
-//    }
 
     private void drawCancelButton(Canvas canvas) {
         if (sticker != null) {
@@ -310,6 +248,7 @@ public class StickerView extends View {
 
             case MotionEvent.ACTION_POINTER_DOWN:
                 oldDist = getDistance(event);
+                lastRotation = getRotation(event);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -317,21 +256,21 @@ public class StickerView extends View {
                     float newDist = getDistance(event);
                     float scale = newDist / oldDist;
 
-                    //rotation
-//                    float rotation = getRotation(event);
-//                    float deltaRotation = rotation - lastRotation;
-//                    stickerMatrix.postRotate(deltaRotation, lastTouchX, lastTouchY);
-
+                    // Scale
                     stickerMatrix.postScale(scale, scale, lastTouchX, lastTouchY);
+
+                    // Rotation
+                    float newRotation = getRotation(event);
+                    float deltaRotation = newRotation - lastRotation;
+                    stickerMatrix.postRotate(deltaRotation, lastTouchX, lastTouchY);
+
                     oldDist = newDist;
-
-                    float deltaX = x - lastTouchX;
-                    float deltaY = y - lastTouchY;
-                    stickerMatrix.postTranslate(deltaX, deltaY);
-
+                    lastRotation = newRotation;
                 } else if (activePointerId != INVALID_POINTER_ID) {
                     float deltaX = x - lastTouchX;
                     float deltaY = y - lastTouchY;
+
+                    // Translation
                     stickerMatrix.postTranslate(deltaX, deltaY);
                 }
 
@@ -341,7 +280,6 @@ public class StickerView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-
                 // Check if the touch event is within the cancel button area
                 if (isTouchInsideCancelButton(x, y)) {
                     removeSticker();
@@ -352,6 +290,7 @@ public class StickerView extends View {
                 }
                 activePointerId = INVALID_POINTER_ID;
                 break;
+
             case MotionEvent.ACTION_CANCEL:
                 activePointerId = INVALID_POINTER_ID;
                 break;
@@ -369,6 +308,7 @@ public class StickerView extends View {
         }
         return true;
     }
+
 
     private boolean isTouchOnSticker(float x, float y) {
         if (sticker != null) {
@@ -408,10 +348,7 @@ public class StickerView extends View {
         return (float) Math.sqrt(x * x + y * y);
     }
 
-    public void removeSticker() {
-        clearSticker(); // This method clears the sticker
-        invalidate();
-    }
+
 
     public void flipSticker() {
         if (sticker != null) {
@@ -453,5 +390,23 @@ public class StickerView extends View {
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
+
+    public interface OnStickerRemoveListener {
+        void onStickerRemoved();
+    }
+    public void setStickerRemoveListener(OnStickerRemoveListener listener) {
+        this.stickerRemoveListener = listener;
+    }
+
+    public void removeSticker() {
+        if (stickerRemoveListener != null) {
+            stickerRemoveListener.onStickerRemoved();
+        }
+        clearSticker();
+        invalidate();
+    }
+
+
+
 
 }

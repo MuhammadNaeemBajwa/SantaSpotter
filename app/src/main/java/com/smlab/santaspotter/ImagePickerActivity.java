@@ -46,7 +46,7 @@ public class ImagePickerActivity extends AppCompatActivity {
 
     private boolean lockAspectRatio = false, setBitmapMaxWidthHeight = false;
     private int ASPECT_RATIO_X = 16, ASPECT_RATIO_Y = 9, bitmapMaxWidth = 1000, bitmapMaxHeight = 1000;
-    private int IMAGE_COMPRESSION = 80;
+    private int IMAGE_COMPRESSION = 200;
     public static String fileName;
 
     public interface PickerOptionListener {
@@ -118,7 +118,9 @@ public class ImagePickerActivity extends AppCompatActivity {
                         Log.d(TAG, "takeCameraImage: 1:  "+ (report.areAllPermissionsGranted()));
                         fileName = System.currentTimeMillis() + ".jpg";
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
+//                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(getCacheDir(), fileName)));
+
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 //                            }

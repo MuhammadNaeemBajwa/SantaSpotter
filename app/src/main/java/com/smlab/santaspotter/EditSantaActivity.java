@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Stack;
 
-public class EditSantaActivity extends BaseActivity implements EraserFragment.Listener {
+public class EditSantaActivity extends BaseActivity implements EraserFragment.Listener , StickerView.OnStickerRemoveListener {
     private static final String TAG = "EditSantaActivity";
     private ActivityMainBinding binding;
     Bitmap bitmap;
@@ -40,6 +40,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
     EraserVM eraserVM;
 
     Bitmap rootViewBitmap;
+    StickerView stickerView;
 
 
     @Override
@@ -51,6 +52,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
         getIntentData();
         initialize();
         setListener();
+
     }
 
     private void getIntentData() {
@@ -369,4 +371,8 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
         binding.constraintShare.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onStickerRemoved() {
+        finish();
+    }
 }
