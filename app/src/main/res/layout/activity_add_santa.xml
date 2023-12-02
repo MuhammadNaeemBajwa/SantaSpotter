@@ -205,7 +205,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <ImageView
         android:id="@+id/imageBack"
         android:layout_width="40dp"
