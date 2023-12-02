@@ -195,6 +195,7 @@ public class AddSantaActivity extends BaseActivity {
 
 //                    binding.stickerView.setStickerTouchListener(() -> {
 //                        showCustomDialog();
+
                     Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
                     String combinedImagePath = saveBitmapToFile(combinedBitmap);
                     nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);

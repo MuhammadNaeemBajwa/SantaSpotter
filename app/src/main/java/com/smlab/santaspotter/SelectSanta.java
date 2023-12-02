@@ -196,6 +196,4 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
             binding.pickMeInclude.unLock.setVisibility(View.VISIBLE);
         }
     }
-
-
 }
