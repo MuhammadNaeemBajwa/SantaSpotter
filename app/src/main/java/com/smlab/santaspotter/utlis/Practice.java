@@ -37,7 +37,7 @@ public class Practice extends AppCompatActivity {
                 try {
                     File imageFile = File.createTempFile(fileName, ".jpg", storageDir);
                     currentPhotoPath = imageFile.getAbsolutePath();
-                    uri = FileProvider.getUriForFile(Practice.this, "com.smlab.santaspotter.fileprovider", imageFile);
+                    uri = FileProvider.getUriForFile(Practice.this, "com.smlab.santaspotter.FileProvider", imageFile);
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(cameraIntent, 100);

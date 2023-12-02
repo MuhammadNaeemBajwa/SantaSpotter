@@ -139,6 +139,11 @@ public class SelectSantaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
+    public void setSelectedItem(int position) {
+        selectedItem = position;
+    }
+
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }

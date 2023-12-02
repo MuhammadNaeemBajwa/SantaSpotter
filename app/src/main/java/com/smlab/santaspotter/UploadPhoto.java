@@ -86,7 +86,7 @@ public class UploadPhoto extends BaseActivity {
             try {
                 File imageFile = File.createTempFile(fileName, ".jpg", storageDir);
                 currentPhotoPath = imageFile.getAbsolutePath();
-                uri = FileProvider.getUriForFile(UploadPhoto.this, "com.smlab.santaspotter.fileprovider", imageFile);
+                uri = FileProvider.getUriForFile(UploadPhoto.this, "com.smlab.santaspotter.FileProvider", imageFile);
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
@@ -98,17 +98,20 @@ public class UploadPhoto extends BaseActivity {
         }
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Log.d(TAG, "onActivityResult: when capture image: data: "+data);
+//            Bitmap img = (Bitmap) data.getExtras().get("data");
 //            Bitmap img = (Bitmap) data.getExtras().get("data");
 //            if (img != null) {
-            Intent iNext = new Intent(UploadPhoto.this, AddSantaActivity.class);
-            iNext.putExtra("capturedImage", currentPhotoPath);
+                Intent iNext = new Intent(UploadPhoto.this, AddSantaActivity.class);
+                iNext.putExtra("capturedImage", currentPhotoPath);
 //                iNext.putExtra("imageBitmap", img);
-            startActivity(iNext);
+                startActivity(iNext);
 //            }
         } else if (requestCode == PICK_REQUEST && data != null) {
             // Get the selected image URI from the gallery

@@ -124,6 +124,15 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
 
 //        Dec 02, 2023  -   we need to select the first item by default
         selectedSanta = selectSantaModelArrayList.get(0);
+
+        // Select the first item by default
+        selectedSanta = selectSantaModelArrayList.get(0);
+        int firstItemPosition = 0;
+        adapter.setSelectedItem(firstItemPosition);
+        adapter.notifyItemChanged(firstItemPosition);
+
+        // Update UI based on the selected item
+        updateUIForSelectedItem(selectedSanta);
     }
 
     @Override
@@ -204,6 +213,21 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         }
     }
 
+    private void updateUIForSelectedItem(SelectSantaModel selectSantaModel) {
+        selectedSantaSticker.setImageResource(selectSantaModel.getSantaSticker());
+
+        isItemSelectedLocked = selectSantaModel.isLocked();
+
+        if (isItemSelectedLocked) {
+            selectedSantaSticker.setImageResource(selectSantaModel.getStickerImageResource());
+            binding.pickMeInclude.pickMeButton.setVisibility(View.GONE);
+            binding.pickMeInclude.unLock.setVisibility(View.VISIBLE);
+        } else {
+            selectedSantaSticker.setImageResource(selectSantaModel.getStickerImageResource());
+            binding.pickMeInclude.pickMeButton.setVisibility(View.VISIBLE);
+            binding.pickMeInclude.unLock.setVisibility(View.GONE);
+        }
+    }
 
     private void saveStickerUnlockedState() {
         SharedPreferences sharedPreferences = getSharedPreferences("StickerPrefs", Context.MODE_PRIVATE);

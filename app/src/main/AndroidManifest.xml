@@ -71,7 +71,9 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- <provider -->
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- <provider -->
         <!-- android:name=".filter.ExternalFileProvider" -->
         <!-- android:authorities="${applicationId}.provider" -->
         <!-- android:exported="false" -->
@@ -82,13 +84,15 @@
         <!-- </provider> -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.smlab.santaspotter.fileprovider"
+            android:authorities="com.smlab.santaspotter.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
     </application>
 
 </manifest>
