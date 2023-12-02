@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Stack;
 
-public class EditSantaActivity extends BaseActivity implements EraserFragment.Listener , StickerView.OnStickerRemoveListener {
+public class EditSantaActivity extends BaseActivity implements EraserFragment.Listener, StickerView.OnStickerRemoveListener {
     private static final String TAG = "EditSantaActivity";
     private ActivityMainBinding binding;
     Bitmap bitmap;
@@ -154,6 +154,15 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
 //            binding.includeSantaStickers.titleEditSanta.setTextSize(14);
 
             seekBarEraserListener();
+        });
+
+        binding.stickerView.setStickerRemoveListener(new StickerView.OnStickerRemoveListener() {
+            @Override
+            public void onStickerRemoved() {
+                // Handle sticker removal here
+                Toast.makeText(EditSantaActivity.this, "Sticker removed so discarded changes.", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            }
         });
     }
 

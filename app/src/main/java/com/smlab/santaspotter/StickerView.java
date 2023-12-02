@@ -1,4 +1,5 @@
 package com.smlab.santaspotter;
+
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.animation.ObjectAnimator;
@@ -44,7 +45,7 @@ public class StickerView extends View {
 
     private float lastTouchX;
     private float lastTouchY;
-    private static final int CANCEL_BUTTON_SIZE = 40;
+    private static final int CANCEL_BUTTON_SIZE = 100;
     float stickerTemperature = 20;
     private float lastRotation = 180f;
 
@@ -89,7 +90,6 @@ public class StickerView extends View {
             Log.e("StickerView", "Failed to convert drawable to bitmap");
         }
     }
-
 
 
     public void clearSticker() {
@@ -227,6 +227,7 @@ public class StickerView extends View {
             canvas.drawLine(startX, endY, endX, startY, crossPaint);
         }
     }
+
     private float[] getStickerTopRight() {
         float[] points = {sticker.getWidth(), 0};
         stickerMatrix.mapPoints(points);
@@ -349,7 +350,6 @@ public class StickerView extends View {
     }
 
 
-
     public void flipSticker() {
         if (sticker != null) {
             // Get the current center coordinates of the sticker
@@ -394,6 +394,7 @@ public class StickerView extends View {
     public interface OnStickerRemoveListener {
         void onStickerRemoved();
     }
+
     public void setStickerRemoveListener(OnStickerRemoveListener listener) {
         this.stickerRemoveListener = listener;
     }
@@ -405,7 +406,6 @@ public class StickerView extends View {
         clearSticker();
         invalidate();
     }
-
 
 
 
