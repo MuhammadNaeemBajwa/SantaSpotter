@@ -38,7 +38,6 @@ public class GetStarted extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_started);
 
-
         img_santa = findViewById(R.id.getStarted_logo);
         button_spot_him = findViewById(R.id.button_spot_him);
         constraintLayout2 = findViewById(R.id.started_constraint_2);

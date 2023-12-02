@@ -30,36 +30,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginBottom="12dp"
             android:fontFamily="@font/poppins_regular"
             android:text="@string/santa_claus_is_ncoming_to_town"
             android:textColor="@color/black"
             android:textSize="@dimen/xXLargeTextSize"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toTopOf="@+id/text_title_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.669"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/text_title_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/poppins_regular"
             android:text="@string/now_you_can_spot_him_in_action"
             android:textColor="@color/black"
             android:textSize="@dimen/mediumTextSize"
+            app:layout_constraintBottom_toTopOf="@+id/button_spot_him"
             app:layout_constraintStart_toStartOf="@+id/text_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_title"
             tools:ignore="MissingConstraints" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_spot_him"
             android:layout_width="@dimen/_135sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/button_bg"
             android:fontFamily="@font/poppins_regular"
             android:padding="@dimen/_6sdp"
@@ -67,22 +65,21 @@
             android:textColor="@color/white"
             android:textSize="@dimen/smallTextSize"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_title_1"
-            app:layout_constraintTop_toBottomOf="@+id/text_title_1" />
+            app:layout_constraintBottom_toTopOf="@+id/url_textView"
+            app:layout_constraintStart_toStartOf="@+id/text_title_1" />
 
         <TextView
             android:id="@+id/url_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
             android:fontFamily="@font/poppins_medium"
             android:padding="@dimen/_4sdp"
             android:text="@string/https_www_copperfield_com"
             android:textColor="#FC2F48"
             android:textSize="@dimen/smallTextSize"
-            app:layout_constraintStart_toStartOf="@+id/button_spot_him"
-            app:layout_constraintTop_toBottomOf="@+id/button_spot_him" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/button_spot_him" />
 
         <TextView
             android:id="@+id/policy_textView"
@@ -99,17 +96,6 @@
             app:layout_constraintTop_toTopOf="@+id/url_textView"
             app:layout_constraintVertical_bias="0.0" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/getStarted_logo"-->
-<!--            android:layout_width="@dimen/_100sdp"-->
-<!--            android:layout_height="@dimen/_100sdp"-->
-<!--            android:layout_marginBottom="@dimen/_24sdp"-->
-<!--            android:src="@drawable/santa_img"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            tools:ignore="MissingConstraints" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
