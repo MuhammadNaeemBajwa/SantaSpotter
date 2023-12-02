@@ -66,7 +66,7 @@ open class BaseActivity : AppCompatActivity() {
     fun getEncoded64ImageStringFromBitmap(bitmap: Bitmap): String? {
         Log.d(ContentValues.TAG, "photoSelection: getEncoded64ImageStringFromBitmap: ")
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 200, stream)
         val byteFormat = stream.toByteArray()
         // get the base 64 string
         return Base64.encodeToString(byteFormat, Base64.NO_WRAP)
