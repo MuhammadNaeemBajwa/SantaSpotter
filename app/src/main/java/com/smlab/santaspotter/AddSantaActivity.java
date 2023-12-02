@@ -64,12 +64,19 @@ public class AddSantaActivity extends BaseActivity {
         stickerView = findViewById(R.id.stickerView);
     }
 
+    String captureImagePath;
     private void imageSet() {
         Intent intent = getIntent();
         uri = intent.getParcelableExtra("img");
+//        Dec 02, 2023  -   (U) The image change from bitmap to file
+        captureImagePath = intent.getStringExtra("capturedImage");
+        if (captureImagePath!=null){
+            Bitmap img = BitmapFactory.decodeFile(captureImagePath);
+            binding.imgReceived.setImageBitmap(img);
+        }
+
         Log.d(TAG, "imageSet: uri: setImageUr: 63: " + uri);
         if (uri != null) {
-//
 //                Nov 02, 2023  -   The image does not fit so using picasso fit function
 //            binding.imgReceived.setImageURI(uri);
             Picasso.get()
@@ -78,20 +85,10 @@ public class AddSantaActivity extends BaseActivity {
                     .fit()
                     .into(binding.imgReceived);
         }
-//        Log.d(TAG, "imageSet: uri: setImageUr: 63: " + uri);
-//        binding.imgReceived.setImageURI(uri);
-//        if (isImageFromGallery(intent)) {
-//        }
-////       04/09/2023 Use the receivedBitmap as needed in your CompanyName activity
-//        Bitmap receivedBitmap = getIntent().getParcelableExtra("imageBitmap");
-//        Log.d(TAG, "imageSet: receivedBitmap: 69: " + receivedBitmap);
-//        if (receivedBitmap != null) {
-//            binding.imgReceived.setImageBitmap(receivedBitmap);
-//        } else {
-//        }
 
 
-//       04/09/2023 Use the receivedBitmap as needed in your CompanyName activity
+//        Dec 02 2023 - Foe now commmited for a test
+
         Bitmap receivedBitmap = getIntent().getParcelableExtra("imageBitmap");
         Log.d(TAG, "imageSet: receivedBitmap: 69: " + receivedBitmap);
         if (receivedBitmap != null) {

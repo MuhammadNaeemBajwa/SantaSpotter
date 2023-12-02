@@ -1,11 +1,14 @@
 package com.smlab.santaspotter;
+
 import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -15,10 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.smlab.santaspotter.baseclasses.BaseActivity;
 
+import java.io.File;
 import java.io.IOException;
+
 public class UploadPhoto extends BaseActivity {
     ConstraintLayout btnCamera, btnGallery;
     private static final int CAMERA_REQUEST = 52;
@@ -64,42 +70,46 @@ public class UploadPhoto extends BaseActivity {
         });
     }
 
+    String currentPhotoPath;
+
     private void launchCamera() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted, request it
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
         } else {
             // Permission already granted, launch camera intent
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // setting aspect ratio
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
 
-            // setting maximum bitmap width and height
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
-            cameraIntent.putExtra(ImagePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
 
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//  Dec 02, 2023    -   (U) Make a path for save the captured Image
+            String fileName = "photo";
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File imageFile = File.createTempFile(fileName, ".jpg", storageDir);
+                currentPhotoPath = imageFile.getAbsolutePath();
+                uri = FileProvider.getUriForFile(UploadPhoto.this, "com.smlab.santaspotter.fileprovider", imageFile);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
     }
-
-    //    Nov 30, 2023 -    For now avoiding the conflict.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK && data != null) {
-            Bitmap img = (Bitmap) data.getExtras().get("data");
-            if (img != null) {
-
-                Intent iNext = new Intent(UploadPhoto.this, AddSantaActivity.class);
-                iNext.putExtra("imageBitmap", img);
-
-                startActivity(iNext);
-            }
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+//            Bitmap img = (Bitmap) data.getExtras().get("data");
+//            if (img != null) {
+            Intent iNext = new Intent(UploadPhoto.this, AddSantaActivity.class);
+            iNext.putExtra("capturedImage", currentPhotoPath);
+//                iNext.putExtra("imageBitmap", img);
+            startActivity(iNext);
+//            }
         } else if (requestCode == PICK_REQUEST && data != null) {
             // Get the selected image URI from the gallery
             Uri selectedImageUri = data.getData();
@@ -141,7 +151,6 @@ public class UploadPhoto extends BaseActivity {
             }
         }
     }
-
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

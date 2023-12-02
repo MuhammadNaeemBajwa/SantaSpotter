@@ -175,7 +175,6 @@ public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnIt
         for (SelectSantaModel model : selectSantaModelArrayList) {
             if (model.isLocked()) {
                 Log.d(TAG, "unlockStickers: Sticker - " + model.getSantaSticker() + ", Locked - " + model.isLocked());
-
                 model.setLocked(false);
             }
             adapter.notifyDataSetChanged();
