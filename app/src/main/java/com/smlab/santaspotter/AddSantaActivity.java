@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,12 +17,15 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.smlab.santaspotter.baseclasses.BaseActivity;
@@ -50,6 +54,7 @@ public class AddSantaActivity extends BaseActivity {
 
     String encodedImageData = "";
 
+    private static final int CAMERA_PERMISSION_REQUEST = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +76,23 @@ public class AddSantaActivity extends BaseActivity {
 
     private void imageSet() {
         Intent intent = getIntent();
-//        uri = intent.getParcelableExtra("img");
+        uri = intent.getParcelableExtra("img");
 //        Dec 02, 2023  -   (U) The image change from bitmap to file
         captureImagePath = intent.getStringExtra("capturedImage");
         if (captureImagePath != null) {
-            getImageOrientation(captureImagePath);
+            setImageOrientationWithProperOrientation(captureImagePath);
         }
 
+        if (uri != null) {
+//
+//                Nov 02, 2023  -   The image does not fit so using picasso fit function
+//            binding.imgReceived.setImageURI(uri);
+            Picasso.get()
+                    .load(uri)
+                    .rotate(getImageOrientation(uri))
+                    .fit()
+                    .into(binding.imgReceived);
+        }
 
 //        Dec 02 2023 - Foe now commmited for a test
         Bitmap receivedBitmap = getIntent().getParcelableExtra("imageBitmap");
@@ -173,6 +188,7 @@ public class AddSantaActivity extends BaseActivity {
         binding.btnCapturedImage.setOnClickListener(v -> {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//            launchCamera();
         });
 
         binding.constraintUploadGallery.setOnClickListener(v -> {
@@ -196,68 +212,11 @@ public class AddSantaActivity extends BaseActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                // Get the existing image from the binding
-                Log.d(TAG, "onActivityResult: getDrawable: 187: ");
-                Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
+                previousCode(requestCode, resultCode, data);
+//                if (captureImagePath != null) {
+//                    setImageOrientationWithProperOrientation(captureImagePath);
+//                }
 
-                int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
-
-                if (selectedStickerResId != -1) {
-                    Bitmap combinedBitmap = Bitmap.createBitmap(existingImage.getWidth(), existingImage.getHeight(), existingImage.getConfig());
-                    Canvas canvas = new Canvas(combinedBitmap);
-                    canvas.drawBitmap(existingImage, new Matrix(), null);
-                    // Add the selected sticker to the StickerView
-                    binding.stickerView.addSticker(BitmapFactory.decodeResource(getResources(), selectedStickerResId));
-
-//                  Nov 29, 2023    -   On touch of sticker then dialog permission dialog show .
-//                  After dismiss the dialog, 0.5sec delay  the moved towards the edit activity
-
-//                    binding.stickerView.setStickerTouchListener(() -> {
-//                        showCustomDialog();
-
-                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
-//                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, AddSantaActivity.class);
-                    String combinedImagePath = saveBitmapToFile(combinedBitmap);
-                    nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
-                    nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
-
-                    startActivity(nextActivityIntent);
-
-//                    });
-//                            startActivity(nextActivityIntent);
-                    finish();
-//                        }, 500);
-//                    });
-
-                } else {
-                    // Handle result from the camera without a sticker
-                    Log.d(TAG, "onActivityResult: setImageBitmap: 220: ");
-//                    binding.imgReceived.setImageBitmap(photo);
-
-                    if (photo != null) {
-//            binding.imgReceived.setImageBitmap(receivedBitmap);
-
-                        File file = new File(getCacheDir(), "image.png");
-                        try {
-                            FileOutputStream fos = new FileOutputStream(file);
-                            photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                            fos.flush();
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-//
-//                Nov 02, 2023  -   The image does not fit so using picasso fit function
-                        Picasso.get()
-//                    .load(receivedBitmap)
-                                .load(file)
-                                .fit() // or .centerCrop() depending on your requirement
-                                .into(binding.imgReceived);
-                    }
-
-
-                }
             } else if (requestCode == PICK_REQUEST) {
                 // Handle result from gallery
                 Uri selectedImageUri = data.getData();
@@ -422,7 +381,7 @@ public class AddSantaActivity extends BaseActivity {
 //        }
 //    }
 
-    private void getImageOrientation(String imagePath) {
+    private void setImageOrientationWithProperOrientation(String imagePath) {
 //        captureImagePath = intent.getStringExtra("capturedImage");
         if (imagePath != null) {
             Bitmap img = BitmapFactory.decodeFile(imagePath);
@@ -455,6 +414,99 @@ public class AddSantaActivity extends BaseActivity {
                     .fit()
                     .into(binding.imgReceived);
         }
+    }
+
+    void previousCode(int requestCode, int resultCode, @Nullable Intent data) {
+
+        Bitmap photo = (Bitmap) data.getExtras().get("data");
+        // Get the existing image from the binding
+        Log.d(TAG, "onActivityResult: getDrawable: 187: ");
+        Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
+
+        int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
+
+        if (selectedStickerResId != -1) {
+            Bitmap combinedBitmap = Bitmap.createBitmap(existingImage.getWidth(), existingImage.getHeight(), existingImage.getConfig());
+            Canvas canvas = new Canvas(combinedBitmap);
+            canvas.drawBitmap(existingImage, new Matrix(), null);
+            // Add the selected sticker to the StickerView
+            binding.stickerView.addSticker(BitmapFactory.decodeResource(getResources(), selectedStickerResId));
+
+//                  Nov 29, 2023    -   On touch of sticker then dialog permission dialog show .
+//                  After dismiss the dialog, 0.5sec delay  the moved towards the edit activity
+
+//                    binding.stickerView.setStickerTouchListener(() -> {
+//                        showCustomDialog();
+
+            Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
+//                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, AddSantaActivity.class);
+            String combinedImagePath = saveBitmapToFile(combinedBitmap);
+            nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
+            nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
+
+            startActivity(nextActivityIntent);
+
+//                    });
+//                            startActivity(nextActivityIntent);
+            finish();
+//                        }, 500);
+//                    });
+
+        } else {
+            // Handle result from the camera without a sticker
+            Log.d(TAG, "onActivityResult: setImageBitmap: 220: ");
+//                    binding.imgReceived.setImageBitmap(photo);
+
+            if (photo != null) {
+//            binding.imgReceived.setImageBitmap(receivedBitmap);
+
+                File file = new File(getCacheDir(), "image.png");
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//
+//                Nov 02, 2023  -   The image does not fit so using picasso fit function
+                Picasso.get()
+//                    .load(receivedBitmap)
+                        .load(file)
+                        .fit() // or .centerCrop() depending on your requirement
+                        .into(binding.imgReceived);
+            }
+
+
+        }
+    }
+    String currentPhotoPath;
+    private void launchCamera() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+        } else {
+            // Permission already granted, launch camera intent
+
+
+//  Dec 02, 2023    -   (U) Make a path for save the captured Image
+            String fileName = "photo";
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File imageFile = File.createTempFile(fileName, ".jpg", storageDir);
+                currentPhotoPath = imageFile.getAbsolutePath();
+                uri = FileProvider.getUriForFile(AddSantaActivity.this, "com.smlab.santaspotter.FileProvider", imageFile);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
     }
 
 
