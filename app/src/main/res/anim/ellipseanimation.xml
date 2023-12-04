@@ -1,19 +1,16 @@
+<!--    Dec 01, 2023    -   This comment because changes occur from feature-layout side -->
 <!--<?xml version="1.0" encoding="utf-8"?>-->
 <!--<set xmlns:android="http://schemas.android.com/apk/res/android">-->
 <!--    <translate-->
-<!--        android:duration="1200"-->
-<!--        android:fromXDelta="-200%p"-->
+<!--        android:duration="1000"-->
 <!--        android:fromYDelta="100%p"-->
-<!--        android:toYDelta="0%p"-->
-<!--        android:toXDelta="0%p"-->
-<!--        />-->
+<!--        android:toYDelta="0%p" />-->
 
 <!--    <alpha-->
-<!--        android:duration="1050"-->
+<!--        android:duration="950"-->
 <!--        android:fromAlpha="0.0"-->
-<!--        android:toAlpha="0.3" />-->
+<!--        android:toAlpha="0.1" />-->
 <!--</set>-->
-
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <translate
         android:duration="1200"

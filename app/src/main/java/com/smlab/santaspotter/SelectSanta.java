@@ -2,59 +2,57 @@ package com.smlab.santaspotter;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.smlab.santaspotter.baseclasses.BaseActivity;
 import com.smlab.santaspotter.databinding.ActivitySelectSantaBinding;
+import com.smlab.santaspotter.filter.UnlockStickersDialog;
 
 import java.util.ArrayList;
 
-public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter.OnItemClickListener {
+public class SelectSanta extends BaseActivity implements SelectSantaAdapter.OnItemClickListener {
     ConstraintLayout includePickMe;
     RecyclerView recyclerView;
     SelectSantaAdapter adapter;
-    ArrayList<SelectSantaModel> selectSantaList;
-    Dialog dialogCode;
+    ArrayList<SelectSantaModel> selectSantaModelArrayList;
     private ActivitySelectSantaBinding binding;
     private ImageView selectedSantaSticker;
-    Animation ellipseAnim, reverseAnimation;
-    ImageView ellipseImageView;
-
+    private boolean isItemSelectedLocked = false;
+    SelectSantaModel selectedSanta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySelectSantaBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         setIds();
         initialized();
+        setListener();
         setUpRecyclerView();
         animation();
 
+        loadStickerUnlockedState();
     }
 
-    // Abubakr Nov 30, 2023 For Santa Sticker Bottom Animation-->
     private void animation() {
-        ellipseAnim = AnimationUtils.loadAnimation(this, R.anim.ellipseanimation);
+        // Abubakr Nov 30, 2023 For Santa Sticker Bottom Animation-->
+        Animation ellipseAnim = AnimationUtils.loadAnimation(this, R.anim.ellipseanimation);
         ImageView animationImageView = findViewById(R.id.animationImageView);
 
         // Set the animation on the ImageView within the FrameLayout
@@ -66,63 +64,26 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
 //        ellipseImageView.setAnimation(ellipseAnim);
     }
 
-
     private void setIds() {
+        Log.d(TAG, "setIds: ");
         includePickMe = findViewById(R.id.pick_me_include);
         recyclerView = findViewById(R.id.recyclerView2);
-//        ellipseImageView = findViewById(R.id.santaEllipse);
-//        Nov 28, 2023  -   For now the dialog isn't be showed on click of pickMeButton
-//        includePickMe.findViewById(R.id.pick_me_button).setOnClickListener(view -> showCodeDialog());
-        includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> {
-            onBackPressed();
+        includePickMe.findViewById(R.id.back_arrow).setOnClickListener(view -> onBackPressed());
+        selectedSantaSticker = binding.selectSantaSticker;
+    }
+
+    private void initialized() {
+        selectSantaModelArrayList = new ArrayList<>();
+        binding.pickMeInclude.unLock.setVisibility(View.GONE);
+    }
+
+    private void setListener() {
+        binding.pickMeInclude.unLock.setOnClickListener(view -> {
+
         });
 
-        selectedSantaSticker = binding.selectSantaSticker;
-
-    }
-    private void initialized() {
-        selectSantaList = new ArrayList<>();
-    }
-
-    // Abubakr Nov 28, 2023 For Recycler View Static Data-->
-    private void setUpRecyclerView() {
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa1, false, R.drawable.background_selected_santa));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa2, false, R.drawable.background_selected_santa));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa3, true, R.color.sticker_color));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa4, true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa5,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa6,true,R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa7,true,R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa8,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa9,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa10,true, R.drawable.background_round_santa_sticker));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa11));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa12));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa13));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa14));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa15));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa16));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa17));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa18));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa19));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa20));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa21));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa22));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa23));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa24));
-        selectSantaList.add(new SelectSantaModel(R.drawable.santa25));
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new SelectSantaAdapter(SelectSanta.this, selectSantaList, this);
-        recyclerView.setAdapter(adapter);
-    }
-    @Override
-    public void onItemClick(int position) {
-        SelectSantaModel selectedSanta = selectSantaList.get(position);
-        selectedSantaSticker.setImageResource(selectedSanta.getSantaSticker());
-
         binding.pickMeInclude.pickMeButton.setOnClickListener(view -> {
-            int selectedStickerResId = selectedSanta.getSantaSticker();
+            int selectedStickerResId = selectedSanta.getStickerImageResource();
             Intent resultIntent = new Intent();
             resultIntent.putExtra("selectedSticker", selectedStickerResId);
             setResult(Activity.RESULT_OK, resultIntent);
@@ -130,69 +91,138 @@ public class SelectSanta extends AppCompatActivity implements SelectSantaAdapter
         });
     }
 
-    // Abubakr Nov 30, 2023 For Dialog BackScreen DimLight-->
-    private void dimBackground() {
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.dimAmount = 0.5f; // Adjust the dim amount as per your preference (0.0f to 1.0f)
-        layoutParams.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        getWindow().setAttributes(layoutParams);
+    private void setUpRecyclerView() {
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa4, false, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa1, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa2, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa3, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa5, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa6, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa7, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa8, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa9, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa10, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa11, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa12, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa13, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa14, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa15, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa16, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa17, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa18, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa19, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa20, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa21, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa22, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa23, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa24, true, R.drawable.background_round_santa_sticker));
+        selectSantaModelArrayList.add(new SelectSantaModel(R.drawable.santa25, true, R.drawable.background_round_santa_sticker));
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        adapter = new SelectSantaAdapter(this, SelectSanta.this, selectSantaModelArrayList, this);
+        recyclerView.setAdapter(adapter);
+
+//        Dec 02, 2023  -   we need to select the first item by default
+        selectedSanta = selectSantaModelArrayList.get(0);
     }
 
-    private void clearBackgroundDim() {
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.dimAmount = 0.0f; // Reset the dim amount to 0 to restore original brightness
-        layoutParams.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        getWindow().setAttributes(layoutParams);
-    }
+    @Override
+    public void onItemClick(int position) {
+        selectedSanta = selectSantaModelArrayList.get(position);
+        selectedSantaSticker.setImageResource(selectedSanta.getSantaSticker());
 
-    // Abubakr Nov 28, 2023 For Dialog Code Submit-->
-    private void showCodeDialog() {
+        isItemSelectedLocked = selectedSanta.isLocked();
 
-        dialogCode = new Dialog(SelectSanta.this, R.style.CustomDialog);
-        dialogCode.setContentView(R.layout.unlock_popup_dialog);
-        ImageView close;
-        Button submit;
-        TextView dontHaveCode, errorMessage;
-        EditText enterCode;
-        submit = dialogCode.findViewById(R.id.submit_button);
-        errorMessage = dialogCode.findViewById(R.id.error_message);
-        close = dialogCode.findViewById(R.id.imageView_cross);
-        dontHaveCode = dialogCode.findViewById(R.id.dont_have_code_textView);
-        enterCode = dialogCode.findViewById(R.id.editText_enterCode);
+        if (isItemSelectedLocked) {
+            selectedSantaSticker.setImageResource(selectedSanta.getStickerImageResource());
+            binding.pickMeInclude.pickMeButton.setVisibility(View.GONE);
+            binding.pickMeInclude.unLock.setVisibility(View.VISIBLE);
+        } else {
+            selectedSantaSticker.setImageResource(selectedSanta.getStickerImageResource());
+            binding.pickMeInclude.pickMeButton.setVisibility(View.VISIBLE);
+            binding.pickMeInclude.unLock.setVisibility(View.GONE);
+        }
 
-        close.setOnClickListener(view -> dialogCode.dismiss());
-
-        String enterCodeValue = enterCode.getText().toString();
-        submit.setOnClickListener(view -> {
-            if (enterCodeValue.isEmpty() || enterCodeValue.isBlank() || enterCodeValue == null) {
-                errorMessage.setVisibility(View.VISIBLE);
+        binding.pickMeInclude.unLock.setOnClickListener(view -> {
+            if (isItemSelectedLocked) {
+                showUnlockStickersDialog();
             }
         });
-        dontHaveCode.setOnClickListener(view -> showAccessCodeDialog());
-        dimBackground(); // Call this method before dialog.show()
-        dialogCode.show();
-
     }
 
-    // Abubakr Nov 28, 2023 For Dialog Access Code-->
-    private void showAccessCodeDialog() {
-        Dialog dialog = new Dialog(SelectSanta.this, R.style.CustomDialog);
-        dialog.setContentView(R.layout.access_code_dialog);
-        ImageView close;
-        close = dialog.findViewById(R.id.imageView_cross);
-        close.setOnClickListener(view -> dialog.dismiss());
-        dimBackground(); // Call this method before dialog.show()
-        dialog.show();
-        dialogCode.dismiss();
+    private void showUnlockStickersDialog() {
+        UnlockStickersDialog unlockStickersDialog = new UnlockStickersDialog(this);
+        unlockStickersDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        unlockStickersDialog.setOnUnlockListener(enteredCode -> {
+            if (isValidCode(enteredCode)) {
+                unlockStickers();
+                unlockStickersDialog.dismiss();
+            } else {
+                unlockStickersDialog.showError(getString(R.string.please_enter_a_valid_code));
+            }
+        });
+        unlockStickersDialog.show();
     }
 
-    private int findStickerPosition(int selectedStickerResId) {
-        for (int i = 0; i < selectSantaList.size(); i++) {
-            if (selectSantaList.get(i).getSantaSticker() == selectedStickerResId) {
-                return i;
+
+    private boolean isValidCode(String enteredCode) {
+        return enteredCode.equals(getCouponCode());
+    }
+
+    private void unlockStickers() {
+        Log.d(TAG, "unlockStickers: Unlocking stickers");
+        for (SelectSantaModel model : selectSantaModelArrayList) {
+            if (model.isLocked()) {
+                Log.d(TAG, "unlockStickers: Sticker - " + model.getSantaSticker() + ", Locked - " + model.isLocked());
+                model.setLocked(false);
+            }
+            adapter.notifyDataSetChanged();
+        }
+        saveStickerUnlockedState();
+        boolean allStickersUnlocked = areAllStickersUnlocked();
+        Log.d(TAG, "unlockStickers: All stickers unlocked - " + allStickersUnlocked);
+        updateButtonVisibility(allStickersUnlocked);
+    }
+
+    private boolean areAllStickersUnlocked() {
+        for (SelectSantaModel model : selectSantaModelArrayList) {
+            if (model.isLocked()) {
+                return false; // At least one sticker is still locked
             }
         }
-        return -1; // Return -1 if the sticker is not found in the list
+        return true; // All stickers are unlocked
+    }
+
+    private void updateButtonVisibility(boolean allStickersUnlocked) {
+        if (allStickersUnlocked) {
+            binding.pickMeInclude.pickMeButton.setVisibility(View.VISIBLE);
+            binding.pickMeInclude.unLock.setVisibility(View.GONE);
+        } else {
+            binding.pickMeInclude.pickMeButton.setVisibility(View.GONE);
+            binding.pickMeInclude.unLock.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    private void saveStickerUnlockedState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("StickerPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        for (int i = 1; i < selectSantaModelArrayList.size(); i++) {
+            SelectSantaModel model = selectSantaModelArrayList.get(i);
+            editor.putBoolean("6D:23:59:10:1E:2E:71:A5:04:7B:BC:60:23:AB:47:CE:11:98:50:EB" + i, !model.isLocked());
+        }
+
+        editor.apply();
+    }
+
+
+    private void loadStickerUnlockedState() {
+        SharedPreferences sharedPreferences = getSharedPreferences("StickerPrefs", Context.MODE_PRIVATE);
+        for (int i = 1; i < selectSantaModelArrayList.size(); i++) {
+            boolean isUnlocked = sharedPreferences.getBoolean("6D:23:59:10:1E:2E:71:A5:04:7B:BC:60:23:AB:47:CE:11:98:50:EB" + i, false);
+            selectSantaModelArrayList.get(i).setLocked(!isUnlocked);
+        }
     }
 }

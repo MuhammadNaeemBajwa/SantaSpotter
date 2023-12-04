@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".SelectSanta">
+
 
     <include
         android:id="@+id/pick_me_include"
@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pick_me_include"
         tools:ignore="MissingConstraints"
-        tools:listitem="@layout/select_santa_item_view" />
+        tools:listitem="@layout/santa_item_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/animationLayout"
@@ -77,4 +77,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

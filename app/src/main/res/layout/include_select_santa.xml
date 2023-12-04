@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/select_santa_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -29,13 +27,13 @@
             android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="@dimen/_40sdp"
             android:fontFamily="@font/poppins_regular"
-            android:textStyle="bold"
             android:text="@string/classic_santa"
             android:textColor="@color/white"
             android:textSize="@dimen/bigTextSize"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/back_arrow"
             app:layout_constraintTop_toBottomOf="@+id/back_arrow"
             tools:ignore="MissingConstraints" />
@@ -44,7 +42,7 @@
             android:id="@+id/textView_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/_2sdp"
             android:fontFamily="@font/poppins_regular"
             android:gravity="center"
             android:text="@string/he_will_always_finish_nhis_milk_and_cookies"
@@ -99,29 +97,98 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/select_santa_sticker"-->
-        <!--            android:layout_width="@dimen/_150sdp"-->
-        <!--            android:layout_height="@dimen/_200sdp"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            android:layout_marginEnd="@dimen/_12sdp"-->
-        <!--            android:layout_marginBottom="16dp"-->
-        <!--            android:src="@drawable/santa12"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            tools:ignore="MissingConstraints" />-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/unLock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="46dp"
+            android:visibility="gone"
+            android:background="@drawable/button_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView_description"
+            app:layout_constraintStart_toStartOf="@+id/textView_description"
+            app:layout_constraintTop_toBottomOf="@+id/textView_description">
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/santaEllipse"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="48dp"-->
-        <!--            android:layout_marginBottom="12dp"-->
-        <!--            android:src="@drawable/ellipse_7"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            tools:ignore="MissingConstraints" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingTop="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_6sdp"
+                android:text="@string/unlock"
+                android:textColor="@color/white"
+                android:textSize="@dimen/mediumTextSize"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/baseline_lock_open_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"
+                app:tint="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/unLock"-->
+<!--            android:layout_width="@dimen/_90sdp"-->
+<!--            android:layout_height="@dimen/_30sdp"-->
+<!--            android:layout_marginTop="@dimen/_24sdp"-->
+<!--            android:layout_marginBottom="38dp"-->
+<!--            android:background="@drawable/button_bg"-->
+<!--            android:drawableStart="@drawable/baseline_lock_open_24"-->
+<!--            android:drawableTint="@color/white"-->
+<!--            android:fontFamily="@font/poppins_regular"-->
+<!--            android:paddingStart="@dimen/_12sdp"-->
+<!--            android:paddingEnd="@dimen/_12sdp"-->
+<!--            android:text="@string/unlock"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/mediumTextSize"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/textView_description"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/textView_description"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView_description"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--   Dec 01, 2023 -    select_santa_sticker image view for now is moved into activity layout    -->
+<!--        <ImageView-->
+<!--            android:id="@+id/select_santa_sticker"-->
+<!--            android:layout_width="@dimen/_150sdp"-->
+<!--            android:layout_height="@dimen/_200sdp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginEnd="@dimen/_12sdp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:src="@drawable/santa12"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            tools:ignore="MissingConstraints" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/santaEllipse"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="48dp"-->
+<!--            android:layout_marginBottom="12dp"-->
+<!--            android:src="@drawable/ellipse_7"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            tools:ignore="MissingConstraints" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

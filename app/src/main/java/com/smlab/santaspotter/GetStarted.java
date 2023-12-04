@@ -21,7 +21,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class GetStarted extends AppCompatActivity {
+import com.smlab.santaspotter.baseclasses.BaseActivity;
+
+public class GetStarted extends BaseActivity {
 
     Animation zoom_in, bottomAnim;
     ConstraintLayout constraintLayout2;
@@ -35,7 +37,6 @@ public class GetStarted extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_started);
-
 
         img_santa = findViewById(R.id.getStarted_logo);
         button_spot_him = findViewById(R.id.button_spot_him);
