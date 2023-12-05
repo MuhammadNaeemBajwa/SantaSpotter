@@ -1,9 +1,13 @@
 package com.smlab.santaspotter;
 
+import static android.content.ContentValues.TAG;
+
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,12 +19,16 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.smlab.santaspotter.baseclasses.BaseActivity;
 import com.smlab.santaspotter.databinding.ActivityAddSantaBinding;
@@ -65,12 +73,13 @@ public class AddSantaActivity extends BaseActivity {
     }
 
     String captureImagePath;
+
     private void imageSet() {
         Intent intent = getIntent();
         uri = intent.getParcelableExtra("img");
 //        Dec 02, 2023  -   (U) The image change from bitmap to file
         captureImagePath = intent.getStringExtra("capturedImage");
-        if (captureImagePath!=null){
+        if (captureImagePath != null) {
             Bitmap img = BitmapFactory.decodeFile(captureImagePath);
             binding.imgReceived.setImageBitmap(img);
         }
@@ -154,19 +163,45 @@ public class AddSantaActivity extends BaseActivity {
             onBackPressed();
         });
         binding.btnCapturedImage.setOnClickListener(v -> {
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            lunchCamera();
         });
 
         binding.constraintUploadGallery.setOnClickListener(v -> {
+
             Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            galleryIntent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+            galleryIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+            galleryIntent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
             startActivityForResult(galleryIntent, PICK_REQUEST);
+
+//            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(galleryIntent, PICK_REQUEST);
         });
         binding.constraintShare.setOnClickListener(view -> {
             shareImage();
         });
 
 
+    }
+
+    String currentPhotoPath;
+
+    private void lunchCamera() {
+//  Dec 02, 2023    -   (U) Make a path for save the captured Image
+        String fileName = "photo";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        try {
+            File imageFile = File.createTempFile(fileName, ".jpg", storageDir);
+            currentPhotoPath = imageFile.getAbsolutePath();
+            uri = FileProvider.getUriForFile(AddSantaActivity.this, "com.smlab.santaspotter.fileprovider", imageFile);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean isImageFromGallery(Intent intent) {
@@ -241,13 +276,53 @@ public class AddSantaActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                // Get the existing image from the binding
-                Log.d(TAG, "onActivityResult: getDrawable: 187: ");
+
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Intent iNext = new Intent(AddSantaActivity.this, AddSantaActivity.class);
+            grantUriPermission("com.smlab.santaspotter", uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            iNext.putExtra("capturedImage", currentPhotoPath);
+            startActivity(iNext);
+            finish();
+        } else if (requestCode == PICK_REQUEST && data != null) {
+            // Get the selected image URI from the gallery
+            Uri selectedImageUri = data.getData();
+
+
+            // Grant permission to access the selected image URI
+            grantUriPermission("com.smlab.santaspotter", selectedImageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            // Start AddSantaActivity and pass the image URI, also indicate it's from the gallery
+            Intent intent = new Intent(AddSantaActivity.this, AddSantaActivity.class);
+            intent.putExtra("img", selectedImageUri);
+            intent.putExtra(ImagePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
+            intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
+            intent.putExtra(ImagePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
+            startActivityForResult(intent, AppConstants.REQUEST_CODE_For_IMAGE);
+            intent.putExtra("fromGallery", true);
+            startActivity(intent);
+            finish();
+        } else if (requestCode == AppConstants.REQUEST_CODE_For_IMAGE && resultCode == Activity.RESULT_OK) {
+            uri = data.getParcelableExtra("imagePath");
+            if (uri != null) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    encodedImageData = getEncoded64ImageStringFromBitmap(bitmap);
+                    Log.d(TAG, "onActivityResult: encodedImageData: " + encodedImageData);
+                } catch (IOException e) {
+                    Log.d(TAG, "onActivityResult: IOException: " + e.getMessage());
+                }
+            }
+        }
+
+//
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == CAMERA_REQUEST || requestCode == SELECT_SANTA_REQUEST) {
+//                Bitmap photo = (Bitmap) data.getExtras().get("data");
+//                // Get the existing image from the binding
+//                Log.d(TAG, "onActivityResult: getDrawable: 187: ");
                 Bitmap existingImage = ((BitmapDrawable) binding.imgReceived.getDrawable()).getBitmap();
 
+        if (data != null) {
                 int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
 
                 if (selectedStickerResId != -1) {
@@ -264,68 +339,68 @@ public class AddSantaActivity extends BaseActivity {
 //                        showCustomDialog();
 
                     Intent nextActivityIntent = new Intent(AddSantaActivity.this, EditSantaActivity.class);
-//                    Intent nextActivityIntent = new Intent(AddSantaActivity.this, AddSantaActivity.class);
                     String combinedImagePath = saveBitmapToFile(combinedBitmap);
                     nextActivityIntent.putExtra("combinedImagePath", combinedImagePath);
                     nextActivityIntent.putExtra("selectedStickerDrawable", selectedStickerResId);
-
                     startActivity(nextActivityIntent);
-
-//                    });
-//                            startActivity(nextActivityIntent);
                     finish();
-//                        }, 500);
-//                    });
-
-                } else {
-                    // Handle result from the camera without a sticker
-                    Log.d(TAG, "onActivityResult: setImageBitmap: 220: ");
-//                    binding.imgReceived.setImageBitmap(photo);
-
-                    if (photo != null) {
-//            binding.imgReceived.setImageBitmap(receivedBitmap);
-
-                        File file = new File(getCacheDir(), "image.png");
-                        try {
-                            FileOutputStream fos = new FileOutputStream(file);
-                            photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                            fos.flush();
-                            fos.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                }
+////                        }, 500);
+////                    });
 //
-//                Nov 02, 2023  -   The image does not fit so using picasso fit function
-                        Picasso.get()
-//                    .load(receivedBitmap)
-                                .load(file)
-                                .fit() // or .centerCrop() depending on your requirement
-                                .into(binding.imgReceived);
-                    }
-
-
                 }
-            } else if (requestCode == PICK_REQUEST) {
-                // Handle result from gallery
-                Uri selectedImageUri = data.getData();
-
-                // Set the selected image from the gallery as the background
-                Log.d(TAG, "onActivityResult: setImageUri: 228: ");
-//                Nov 02, 2023  -   The image does not fit so using picasso fit function
-//                binding.imgReceived.setImageURI(selectedImageUri);
-                Picasso.get()
-                        .load(selectedImageUri)
-                        .rotate(getImageOrientation(selectedImageUri))
-                        .fit()
-                        .into(binding.imgReceived);
-
-                int selectedStickerResId = data.getIntExtra("selectedSticker", -1);
-                if (selectedStickerResId != -1) {
-                    // Add the selected sticker to the StickerView
-                    binding.stickerView.addSticker(BitmapFactory.decodeResource(getResources(), selectedStickerResId));
-                }
-            }
-        }
+//                else {
+//                    // Handle result from the camera without a sticker
+//                    Log.d(TAG, "onActivityResult: setImageBitmap: 220: ");
+////                    binding.imgReceived.setImageBitmap(photo);
+//
+//                    if (photo != null) {
+////            binding.imgReceived.setImageBitmap(receivedBitmap);
+//
+//                        File file = new File(getCacheDir(), "image.png");
+//                        try {
+//                            FileOutputStream fos = new FileOutputStream(file);
+//                            photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//                            fos.flush();
+//                            fos.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+////
+////                Nov 02, 2023  -   The image does not fit so using picasso fit function
+//                        Picasso.get()
+////                    .load(receivedBitmap)
+//                                .load(file)
+//                                .fit() // or .centerCrop() depending on your requirement
+//                                .into(binding.imgReceived);
+//                    }
+//
+//
+//                }
+//            } else if (requestCode == PICK_REQUEST) {
+//                // Handle result from gallery
+//                Uri selectedImageUri = data.getData();
+//
+//                // Set the selected image from the gallery as the background
+//                Log.d(TAG, "onActivityResult: setImageUri: 228: ");
+////                Nov 02, 2023  -   The image does not fit so using picasso fit function
+////                binding.imgReceived.setImageURI(selectedImageUri);
+//                Picasso.get()
+//                        .load(selectedImageUri)
+//                        .rotate(getImageOrientation(selectedImageUri))
+//                        .fit()
+//                        .into(binding.imgReceived);
+//
+//        else if (data != null) {
+//                    selectedStickerResId = data.getIntExtra("selectedSticker", -1);
+//            if (selectedStickerResId != -1) {
+//                // Add the selected sticker to the StickerView
+//                binding.stickerView.addSticker(BitmapFactory.decodeResource(getResources(), selectedStickerResId));
+//            }
+//
+//        }
+//            }
+//        }
     }
 
 

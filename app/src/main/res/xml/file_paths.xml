@@ -4,4 +4,8 @@
         name="external_files"
         path="Android/data/com.smlab.santaspotter/files/Pictures" />
 
+    <cache-path
+        name="cache"
+        path="."/>
+
 </paths>

@@ -244,7 +244,7 @@ public class EditSantaActivity extends BaseActivity implements EraserFragment.Li
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/*");
 
-        Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", tempFile);
+        Uri contentUri = FileProvider.getUriForFile(this, "com.smlab.santaspotter.fileprovider", tempFile);
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
